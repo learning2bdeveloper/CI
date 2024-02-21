@@ -1,0 +1,99 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization</title>    
+ 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="<?=base_url('assets/css/table.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/css/modal.css')?>">
+
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-light justify-content-center fs-3 mb-10" style="background-color: black;">Organizations</nav>
+
+    <div class="container">
+        <div class="text-center mb-4">
+            <h3>Add New Organization</h3>
+            <p class="text-muted">Compete the form below to add a new organization</p>
+        </div>
+
+        <div class="container d-flex justify-content-center">
+            <form method="post" style="width: 50vw; min-width:300px;" id="form_save">
+            <div class="row">
+                <div class="col">
+                <label class="form-label" for="organization_name">Organization Name:</label>
+                <input type="text" class="form-control" name="organization_name" id="organization_name"> <br>
+
+                <label class="form-label" for="address">Address</label>
+                <input class="form-control" type="text" name="address" id="address"> <br>
+
+                <label class="form-label" for="email">Email</label> 
+                <input type="email" class="form-control" name="email" id="email"> <br> 
+
+                <label class="form-label" for="contact_person">Contact Person</label>
+                <input type="text" class="form-control" name="contact_person" id="contact_person"> <br>
+
+                <label class="form-label" for="contact_number">Contact #</label>
+                <input type="number" class="form-control" name="contact_number" id="contact_number"> <br>
+
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal" type="button" id="save">Save</button>
+                <button class="btn btn-danger" type="button" id="cancel">Cancel</button>
+                </div>
+            </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <!-- save modal-->
+    <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Are you sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button  id="orgSave" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- <div id="table">
+    <form  method="post" id="form_create">
+        <label for="organization_name">Organization Name</label>
+        <input type="text" name="organization_name" id="organization_name"> <br>
+
+        <label for="address">Address</label>
+        <input type="text" name="address" id="address"> <br>
+
+        <label for="email">Email</label> 
+        <input type="email" name="email" id="email"> <br> 
+
+        <label for="contact_person">Contact Person</label>
+        <input type="text" name="contact_person" id="contact_person"> <br>
+
+        <label for="contact_number">Contact #</label>
+        <input type="number" name="contact_number" id="contact_number"> <br>
+
+        <button type="submit" id="submit">Create</button>
+    </form>
+    </div> -->
+   
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</html>
+<script src="<?=base_url('/assets/javascript/index.js')?>"></script>
