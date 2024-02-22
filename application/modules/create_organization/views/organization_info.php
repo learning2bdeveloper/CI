@@ -1,6 +1,6 @@
 
 
-<h4 class="font-weight-bold">Edit Contact</h4>
+<h4 class="font-weight-bold">Edit Organization</h4>
 						<form>
 							<div class="form-group">
 								<div class="row">
