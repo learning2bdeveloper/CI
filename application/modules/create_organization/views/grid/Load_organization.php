@@ -11,7 +11,7 @@ if(!empty($data)){
                 <td><?=@$value->Address?></td>
                 <td><button id="deletebutton" data-bs-toggle="modal" data-bs-target="#deleteModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-trash3-fill"></i></button></td>
                 <td><button id="editbutton" data-bs-toggle="modal" data-bs-target="#editModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-pencil-fill"></i></button></td>
-
+                <td><button id="infobutton" data-bs-toggle="modal" data-bs-target="#infoModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-info-circle"></i></button></td>
             </tr>
             
         <?php  

@@ -9,11 +9,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
+    <style>
+        /* Custom CSS for search bar */
+        .search-container {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .search-container input[type=text] {
+            padding: 5px;
+            margin-top: none;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            width: 300px; /* Adjust width as needed */
+        }
+
+        .search-container button {
+            float: right;
+            padding: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 
     <nav class="navbar navbar-light justify-content-between fs-3 mb-4" style="background-color: #1E90FF;">
         <span class="mx-auto">Lists of Organizations</span>
+        <div class="search-container">
+      <form action="search.html" method="GET">
+        <input type="text" name="query" placeholder="Search Organizations">
+        <button type="submit">Search</button>
+      </form>
+    </div>
     </nav>
 
    
