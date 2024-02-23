@@ -13,7 +13,7 @@ class Create_organization_service extends MY_Controller
     public function save() {
         $data = array(
         'OrgName' => $this->input->post('organization_name'),
-        'Email' => $this->input->post('email'),
+        'EmailAddress' => $this->input->post('email'),
         'ContactPerson' => $this->input->post('contact_person'),
         'ContactNumber' => $this->input->post('contact_number'),
         'Address' => $this->input->post('address'),

@@ -17,25 +17,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 
-    <nav class="navbar navbar-light justify-content-center fs-3 mb-10" style="background-color: black;">Organizations</nav>
+    <nav class="navbar navbar-light justify-content-center fs-3 mb-10" style="background-color: #1E90FF;">Register your Organization</nav>
 
-    <div class="container">
-        <div class="text-center mb-4">
+    <div class="container" style="max-width: 45vw;">
+        <div class="text-center mb-4" style="background-color: black; color: white; padding: 3px;">
             <h3>Add New Organization</h3>
-            <p class="text-muted">Compete the form below to add a new organization</p>
+            <p class>Complete the form below to add a new organization</p>
         </div>
 
         <div class="container d-flex justify-content-center">
-            <form method="post" style="width: 50vw; min-width:300px;" id="form_save">
+            <form method="post" style="width: 45vw; min-width:300px;" id="form_save">
             <div class="row">
                 <div class="col">
+                  <div class="form-group border p-3">
                 <label class="form-label" for="organization_name">Organization Name:</label>
                 <input type="text" class="form-control" name="organization_name" id="organization_name"> <br>
 
                 <label class="form-label" for="address">Address</label>
                 <input class="form-control" type="text" name="address" id="address"> <br>
 
-                <label class="form-label" for="email">Email</label> 
+                <label class="form-label" for="email">Email Address</label> 
                 <input type="email" class="form-control" name="email" id="email"> <br> 
 
                 <label class="form-label" for="contact_person">Contact Person</label>
