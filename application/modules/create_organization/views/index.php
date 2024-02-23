@@ -40,6 +40,9 @@
 <body>
 
     <nav class="navbar navbar-light justify-content-between fs-3 mb-4" style="background-color: #1E90FF;">
+    <div class="text-center">
+        <button id="btn_dashboard" class="btn btn-secondary mb-1"><--Back to Dashboard</button>
+    </div>
         <span class="mx-auto">Lists of Organizations</span>
         <div class="search-container">
       <form action="search.html" method="GET">
