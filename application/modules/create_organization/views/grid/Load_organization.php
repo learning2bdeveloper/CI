@@ -10,19 +10,10 @@ if(!empty($data)){
                 <td><?=@$value->ContactNumber?></td>
                 <td><?=@$value->Address?></td>
                 <td>
-                    <div class="action-icons">
-                        <div class="action-icon">
-                            <button id="deletebutton" data-bs-toggle="modal" data-bs-target="#deleteModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-trash3-fill"></i></button>
-                        </div>
-                        <div class="action-icon">
-                            <button id="editbutton" data-bs-toggle="modal" data-bs-target="#editModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-pencil-fill"></i></button>
-                        </div>
-                        <div class="action-icon">
-                            <button id="infobutton" data-bs-toggle="modal" data-bs-target="#infoModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-info-circle"></i></button>
-                        </div>
-                    </div>
+                    <button id="deletebutton" data-bs-toggle="modal" data-bs-target="#deleteModal" data-pass-value="<?=$value->OrgID?>">1</button>
+                    <button id="editbutton" data-bs-toggle="modal" data-bs-target="#editModal" data-pass-value="<?=$value->OrgID?>">1</button>
+                    <button id="infobutton" data-bs-toggle="modal" data-bs-target="#infoModal" data-pass-value="<?=$value->OrgID?>">1</button>
                 </td>
-
             </tr>
             
         <?php  
