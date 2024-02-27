@@ -16,12 +16,16 @@ class Create_organization extends MY_Controller
 
     public function index() {
 
-        $this->load->view('index');
+        $this->load->view('homepage');
    
     }
 
     public function create() {
         $this->load->view('creation_org');
+    }
+
+    public function crud() {
+        $this->load->view('orgCrud');
     }
 
     // public function creation_org() {
