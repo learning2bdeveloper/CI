@@ -11,7 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Link Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/toast.css');?>">
+
     <style>
         /* Custom CSS for search bar */
         .search-container {
@@ -99,6 +100,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
+   <!-- Success Toast -->
+
+   <div class="position-fixed bottom-0 end-0 h-2">
+    <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+            <i class="bi bi-hand-thumbs-up-fill"></i> Successfully saved!
+            </div>
+            <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
     <!--
     <div id="table">
     <form  method="post" id="form_create">

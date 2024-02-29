@@ -46,12 +46,25 @@ if(el_table) {
 
 const el_form_save = document.getElementById("form_save");
 const el_modal_btn_save = document.getElementById("orgSave");
+
+
+// Check if toast should be shown
+const shouldShowToast = localStorage.getItem('showToast');
+if (shouldShowToast === 'true') {
+    // Show the toast
+    var el_toast = document.getElementById("liveToast");
+    var myToast = new bootstrap.Toast(el_toast, {delay : 3000});
+    myToast.show();
+
+    // Remove the flag from localStorage to prevent showing the toast again
+    localStorage.removeItem('showToast');
+}
+
 if(el_modal_btn_save) {
 
     el_modal_btn_save.addEventListener("click", async(e) => 
     {
         e.preventDefault();
-
     try 
     {
         let data = new FormData(el_form_save);
@@ -60,12 +73,14 @@ if(el_modal_btn_save) {
             body: data
         });
         const info = await response.text();
-        console.log(response);
 
         if (response.ok) {
             // Handle successful response
             console.log('Form submitted successfully');
+            localStorage.setItem('showToast', 'true');
             window.location.href = "Organization";
+            
+          
             
         } else {
             // Handle error response
