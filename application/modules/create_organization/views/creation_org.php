@@ -98,3 +98,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </html>
 <script src="<?=base_url('/assets/javascript/index.js')?>"></script>
+<script src="<?=base_url('/assets/javascript/changeLocation.js')?>"></script>

@@ -1,13 +1,35 @@
-window.addEventListener("DOMContentLoaded", () => {
+async function deleteOrgData(value) {
+    let confirmation = confirm('Are you sure you want to delete this?');
+    if(confirmation) {
+        try 
+            {
+            let data = new FormData();
+            data.append('id', value);
+            const response = await fetch('create_organization/services/Create_organization_service/delete', {
+                method: 'POST',
+                body: data
+            });
+        
+            if (response.ok) {
+                // Handle successful response
+                console.log('Form submitted successfully');
 
-const el_modal_btn_save = document.getElementById("orgSave");
-const el_modal_btn_delete = document.getElementById("orgDelete");
+                reloadTable();
+                
+            } else {
+                // Handle error response
+                console.error('Error submitting form:', response.statusText);
+            }
+        
+            }catch(error) 
+            {
+            console.error('Error submitting form:', error);
+            }
+    }
+    
+}
 
-const el_form_save = document.getElementById("form_save");
-const el_cancel = document.getElementById("cancel");
-const el_add_new_org = document.getElementById("btn_add_new");
 
-const el_table = document.getElementById("table");
 
 
 const reloadTable = async () => {
@@ -17,10 +39,13 @@ const reloadTable = async () => {
     document.getElementById("table").innerHTML = data;
   }
 
+const el_table = document.getElementById("table");
 if(el_table) {
     reloadTable();
 }
 
+const el_form_save = document.getElementById("form_save");
+const el_modal_btn_save = document.getElementById("orgSave");
 if(el_modal_btn_save) {
 
     el_modal_btn_save.addEventListener("click", async(e) => 
@@ -40,7 +65,7 @@ if(el_modal_btn_save) {
         if (response.ok) {
             // Handle successful response
             console.log('Form submitted successfully');
-            window.location.href = "Dashboard";
+            window.location.href = "Organization";
             
         } else {
             // Handle error response
@@ -56,65 +81,11 @@ if(el_modal_btn_save) {
 
 };
 
-if(el_cancel) {
 
-    el_cancel.addEventListener("click", () => {
-    window.location.href = "Dashboard";
-    });
-}
 
-if(el_add_new_org) {
-
-        el_add_new_org.addEventListener("click", () => { 
-            window.location.href = "Add"; // route
-        })
-     
-}
-
-if(el_modal_btn_delete) {
-
-    el_modal_btn_delete.addEventListener("click", async () => {
-
-        let value = document.getElementById("deletebutton").getAttribute("data-pass-value");
-        console.log(value);
-        try 
-    {
-      let data = new FormData();
-      data.append('id', value);
-      const response = await fetch('create_organization/services/Create_organization_service/delete', {
-          method: 'POST',
-          body: data
-      });
-      const info = await response.text();
-      console.log(response);
-  
-      if (response.ok) {
-          // Handle successful response
-          console.log('Form submitted successfully');
-
-          const deleteModal = document.getElementById("deleteModal");
-          const modal = bootstrap.Modal.getInstance(deleteModal);
-          modal.hide();
-          reloadTable();
-          
-      } else {
-          // Handle error response
-          console.error('Error submitting form:', response.statusText);
-      }
-  
-    }catch(error) 
-    {
-      console.error('Error submitting form:', error);
-    }
-
-    });
-  
-};
  
 // document.getElementById("submit").addEventListener("click", () => {
 
 //     alert(document.getElementById("address").value);
 // });
 
-
-});

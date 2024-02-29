@@ -1,30 +1,29 @@
 <?php 
 if(!empty($data)){
+    $id = 1;
     foreach ($data as $value) { // dapat ang name ka key sng array imo gamiton ND ang whole array gid 'datas[data]';
         ?>
             <tr>
-                <td><?=$value->OrgID?></td>
+                <td><?=$id?></td>
                 <td><?=ucwords(@$value->OrgName)?></td>
                 <td><?=@$value->EmailAddress?></td>
                 <td><?=@$value->ContactPerson?></td>
                 <td><?=@$value->ContactNumber?></td>
                 <td><?=@$value->Address?></td>
                 <td>
-                    <div class="action-icons">
+               
                         <div class="action-icon">
-                            <button id="deletebutton" data-bs-toggle="modal" data-bs-target="#deleteModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-trash3-fill"></i></button>
-                        </div>
-                        <div class="action-icon">
+                            <button onclick="deleteOrgData(<?=$value->OrgID?>)"><i class="bi bi-trash3-fill"></i></button>
+                       
                             <button id="editbutton" data-bs-toggle="modal" data-bs-target="#editModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-pencil-fill"></i></button>
-                        </div>
-                        <div class="action-icon">
+                   
                             <button id="infobutton" data-bs-toggle="modal" data-bs-target="#infoModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-info-circle"></i></button>
-                        </div>
+                   
                     </div>
                 </td>
 
             </tr>
-            
+            <?php $id++;?>
         <?php  
     }        
 }else{
