@@ -66,23 +66,23 @@
                 <div class="modal-body">
                     <!-- Add your form fields for editing here -->
                     <div class="container d-flex justify-content-center">
-            <form method="post" style="width: 45vw; min-width:300px;" id="form_save">
+            <form method="post" style="width: 45vw; min-width:300px;" id="form_edit">
             <div class="row">
                 <div class="col">
-                <label class="form-label" for="organization_name">Organization Name:</label>
-                <input type="text" class="form-control" name="organization_name" id="organization_name" input=""> <br>
+                <label class="form-label" for="edit_organization_name">Organization Name:</label>
+                <input type="text" class="form-control" name="edit_organization_name" id="edit_organization_name" input=""> <br>
 
-                <label class="form-label" for="address">Address</label>
-                <input class="form-control" type="text" name="address" id="address"> <br>
+                <label class="form-label" for="edit_address">Address</label>
+                <input class="form-control" type="text" name="edit_address" id="edit_address"> <br>
 
-                <label class="form-label" for="email">Email Address</label> 
-                <input type="email" class="form-control" name="email" id="email"> <br> 
+                <label class="form-label" for="edit_email">Email Address</label> 
+                <input type="email" class="form-control" name="edit_email" id="edit_email"> <br> 
 
-                <label class="form-label" for="contact_person">Contact Person</label>
-                <input type="text" class="form-control" name="contact_person" id="contact_person"> <br>
+                <label class="form-label" for="edit_contact_person">Contact Person</label>
+                <input type="text" class="form-control" name="edit_contact_person" id="edit_contact_person"> <br>
 
-                <label class="form-label" for="contact_number">Contact #</label>
-                <input type="number" class="form-control" name="contact_number" id="contact_number"> <br>
+                <label class="form-label" for="edit_contact_number">Contact #</label>
+                <input type="number" class="form-control" name="edit_contact_number" id="edit_contact_number"> <br>
                 </div>
             </form>
         </div>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary" id="orgEdit">Save changes</button>
                 </div>
             </div>
         </div>

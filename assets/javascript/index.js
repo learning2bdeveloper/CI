@@ -41,14 +41,35 @@ async function OpenModalUpdateOrgData(value) {
         method: 'POST',
         body: data
     });
-    const info =await response.json();
 
     if (response.ok) {
+        const info = await response.json();
         console.log(info);
         // Handle successful response
         myModal.show();
-     
-        //document.getElementById('organization_name').value = 
+        
+        document.getElementById('edit_organization_name').value = info.data.OrgName;
+        document.getElementById('edit_address').value = info.data.Address;
+        document.getElementById('edit_email').value = info.data.EmailAddress;
+        document.getElementById('edit_contact_person').value = info.data.ContactPerson;
+        document.getElementById('edit_contact_number').value = info.data.ContactNumber;
+        
+        if(document.getElementById("orgEdit")) {
+            document.getElementById("orgEdit").addEventListener("click", async () => {
+                let data = new FormData(document.getElementById('form_edit'));
+                data.append('id', value);
+                const response = await fetch('create_organization/services/Create_organization_service/edit', {
+                    method: 'POST',
+                    body: data
+                });
+                if(response.ok) {
+                    
+                    reloadTable();
+                    myModal.hide();
+                }
+                
+            });
+        }
         
     } else {
         // Handle error response
@@ -62,6 +83,7 @@ async function OpenModalUpdateOrgData(value) {
     // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
     // myModal.show();;
 }
+
 
 
 
