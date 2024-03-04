@@ -17,8 +17,15 @@ class Organization_model extends CI_Model
 
     public function get_organizations_info()
     {
-        $this->db->order_by('OrgID', 'DESC');
+        $this->db->order_by('OrgID', 'DESC');   
         $query = $this->db->get($this->Table->organization)->result();
+        return $query;
+    }
+
+    public function get_single_organization_info($value)
+    {
+        $this->db->where('OrgID', $value);
+        $query = $this->db->get($this->Table->organization)->row();
         return $query;
     }
 }

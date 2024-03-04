@@ -7,6 +7,7 @@ class Create_organization extends MY_Controller
     {
         parent::__construct();
         $this->load->database();
+        $this->load->helpers(array('template/organization_helper', 'message_helper'));
     }
 
 
@@ -42,5 +43,12 @@ class Create_organization extends MY_Controller
         $this->load->model('Organization_model', 'get_org_info');
         $this->datas['data'] = $this->get_org_info->get_organizations_info();
         $this->load->view('create_organization/grid/Load_organization', $this->datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+    }
+   
+    public function get_single_organization_info() 
+    {
+        $this->load->model('Organization_model', 'get_org_info');
+        $datas['data'] = $this->get_org_info->get_single_organization_info($this->input->post('id'));
+        echo json_encode($datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
 }

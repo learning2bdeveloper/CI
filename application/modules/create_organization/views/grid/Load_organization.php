@@ -15,7 +15,7 @@ if(!empty($data)){
                         <div class="action-icon">
                             <button onclick="deleteOrgData(<?=$value->OrgID?>)"><i class="bi bi-trash3-fill"></i></button>
                        
-                            <button id="editbutton" data-bs-toggle="modal" data-bs-target="#editModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-pencil-fill"></i></button>
+                            <button onclick="OpenModalUpdateOrgData(<?=$value->OrgID?>)"><i class="bi bi-pencil-fill"></i></button>
                    
                             <button id="infobutton" data-bs-toggle="modal" data-bs-target="#infoModal" data-pass-value="<?=$value->OrgID?>"><i class="bi bi-info-circle"></i></button>
                    

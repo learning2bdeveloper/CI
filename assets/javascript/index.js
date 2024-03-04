@@ -31,6 +31,40 @@ async function deleteOrgData(value) {
 
 
 
+async function OpenModalUpdateOrgData(value) {
+  const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+    try {
+    let data = new FormData();
+    data.append('id', value);
+
+    const response = await fetch('Create_organization/get_single_organization_info', {
+        method: 'POST',
+        body: data
+    });
+    const info =await response.json();
+
+    if (response.ok) {
+        console.log(info);
+        // Handle successful response
+        myModal.show();
+     
+        //document.getElementById('organization_name').value = 
+        
+    } else {
+        // Handle error response
+        console.error('Error submitting form:', response.statusText);
+    }
+
+    }catch(error) {
+        console.error('Error:', error);
+    }
+
+    // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+    // myModal.show();;
+}
+
+
+
 
 const reloadTable = async () => {
     //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
@@ -48,9 +82,12 @@ const el_form_save = document.getElementById("form_save");
 const el_modal_btn_save = document.getElementById("orgSave");
 
 
+
+
 // Check if toast should be shown
 const shouldShowToast = localStorage.getItem('showToast');
-if (shouldShowToast === 'true') {
+const shouldShowToastdel = localStorage.getItem('showToastdel');
+if (shouldShowToast === 'true' || shouldShowToastdel === 'true') { //not done
     // Show the toast
     var el_toast = document.getElementById("liveToast");
     var myToast = new bootstrap.Toast(el_toast, {delay : 3000});
@@ -59,6 +96,12 @@ if (shouldShowToast === 'true') {
     // Remove the flag from localStorage to prevent showing the toast again
     localStorage.removeItem('showToast');
 }
+
+
+
+
+
+
 
 if(el_modal_btn_save) {
 

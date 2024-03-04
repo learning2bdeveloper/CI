@@ -11,13 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <link rel="stylesheet" href="<?=base_url('assets/css/table.css')?>">
-    <link rel="stylesheet" href="<?=base_url('assets/css/modal.css')?>">
 
     
 </head>
 <body>
-
-    <nav class="navbar navbar-light justify-content-center fs-3 mb-10" style="background-color: #1E90FF;">Register your Organization</nav>
 
     <div class="container" style="max-width: 45vw;">
         <div class="text-center mb-4" style="background-color: black; color: white; padding: 3px;">
