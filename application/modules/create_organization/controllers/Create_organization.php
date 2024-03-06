@@ -52,4 +52,10 @@ class Create_organization extends MY_Controller
         $datas['data'] = $this->get_org_info->get_single_organization_info($this->input->post('id'));
         echo json_encode($datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
+
+    public function search() {
+        $this->load->model('Organization_model', 'get_org_info');
+        $datas['data'] = $this->get_org_info->Search($this->input->post('input'));
+        $this->load->view('grid/Load_organization', $datas);
+    }
 }

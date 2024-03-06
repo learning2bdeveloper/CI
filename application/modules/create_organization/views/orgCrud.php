@@ -11,11 +11,15 @@
 
     <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p>
     <div class="table-responsive mx-auto" style="max-width: 900px;">
-    <div class="row">
-        <div class="col text-start">
-            <button id="btn_add_new" class="btn btn-success mb-1"><i class="bi bi-building-fill-add"></i></button>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <button id="btn_add_new" class="btn btn-success mb-1"><i class="bi bi-building-fill-add"></i></button>
+            </div>
+            <div class="col-md-6 input-group">
+                <input type="text" id="searchInput" class="form-control mb-1 float-md-end" placeholder="Search...">
+                <button id="searchButton" class="btn btn-primary">Search</button>
+            </div>
         </div>
-    </div>
 
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>

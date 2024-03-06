@@ -34,4 +34,17 @@ class Organization_model extends CI_Model
         $query = $this->db->get($this->Table->organization)->row();
         return $query;
     }
+
+    public function Search($value) {
+
+        if($value == " ") {
+            $this->db->order_by('OrgID', 'DESC');
+            $query = $this->db->get($this->Table->organization)->result();
+        }else {
+        $this->db->from($this->Table->organization);
+        $this->db->like('OrgName', $value, 'both');
+        $query = $this->db->get()->result();
+        }
+        return $query;
+    }
 }

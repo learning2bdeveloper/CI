@@ -11,15 +11,46 @@ if (document.readyState !== 'loading') {
 
     const reloadTable = async () => {
         //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
-        const response = await fetch('Create_organization/get_organization_info');
+        const response = await fetch('create_organization/Create_organization/get_organization_info');
         const data = await response.text();
         document.getElementById("table").innerHTML = data;
         console.log("reloadtable()");
         $(document).ready( () => {
-            $('#example').DataTable();
+            $('#example').DataTable({
+                searching: false
+            });
         }); 
       }
     reloadTable();
+
+    // Function to perform search
+async function performSearch() {
+    try {
+        const data = new FormData();
+        data.append('input', document.getElementById("searchInput").value);
+        const response = await fetch('create_organization/Create_organization/search', {
+            method: 'POST',
+            body: data
+        });
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+    } catch (error) {
+        console.warn(error);
+    }
+}
+
+// Event listener for search button click
+document.getElementById("searchButton").addEventListener("click", async () => {
+    await performSearch();
+});
+
+// Event listener for Enter key press
+document.getElementById("searchInput").addEventListener("keypress", async (event) => {
+    if (event.key === 'Enter') {
+        await performSearch();
+    }
+});
+   
 
     async function deleteOrgData(value) {
         console.log("deleteOrgData()");
@@ -52,6 +83,38 @@ if (document.readyState !== 'loading') {
         }
         
     }
+
+    // async function deleteOrgData(value) {
+    //     console.log("deleteOrgData()");
+    //     let confirmation = confirm('Are you sure you want to delete this?');
+    //     if(confirmation) {
+    //         try 
+    //             {
+    //             let data = new FormData();
+    //             data.append('id', value);
+    //             const response = await fetch('create_organization/services/Create_organization_service/delete', {
+    //                 method: 'POST',
+    //                 body: data
+    //             });
+            
+    //             if (response.ok) {
+    //                 // Handle successful response
+    //                 console.log('Form submitted successfully');
+    
+    //                 reloadTable();
+                    
+    //             } else {
+    //                 // Handle error response
+    //                 console.error('Error submitting form:', response.statusText);
+    //             }
+            
+    //             }catch(error) 
+    //             {
+    //             console.error('Error submitting form:', error);
+    //             }
+    //     }
+        
+    // }
 
     
     

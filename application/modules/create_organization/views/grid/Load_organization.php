@@ -14,6 +14,7 @@ if(!empty($data)){
                
                         <div class="action-icon">
                             <button onclick="deleteOrgData(<?=$value->OrgID?>)"><i class="bi bi-trash3-fill"></i></button>
+                        
                        
                             <button onclick="OpenModalUpdateOrgData(<?=$value->OrgID?>)"><i class="bi bi-pencil-fill"></i></button>
                    
@@ -25,7 +26,7 @@ if(!empty($data)){
             </tr>
             <?php $id++;?>
         <?php  
-    }        
+    }         
 }else{
     ?>
         <tr>
