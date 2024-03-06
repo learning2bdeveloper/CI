@@ -42,11 +42,11 @@ define('DEFAULT_LOGIN_PASSWORD', 'password1234*');
 define('CHAR_SET', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$11<>?!@#$%^&*()~\/.');
 define('USER', '');
 define('SAMPLE', '');
-define('SYSTEM_NAME', 'Printmaxs POS');
+define('SYSTEM_NAME', 'Document Tracking');
 define('SYSTEM_ALT', '');
 define('FOOTER_NAME', '');
 define('FOOTER_YEAR', '');
-define('SYSTEM_MODULE', 'PRINTMAXS POS');
+define('SYSTEM_MODULE', 'DOCUMENT TRACKING');
 define('MB', 1048576);
 $array = array(
     'organization' =>  'tbl_organization',

@@ -62,4 +62,24 @@ class Create_organization_model extends CI_Model
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
     }
+
+    public function edit_method_from_model($data)
+    {
+        try {
+            $this->db->trans_start();
+            $this->db->where('OrgID', $data['OrgID']);
+            $this->db->update($this->Table->organization, $data);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }catch(Exception$msg) {
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
 }
