@@ -6,23 +6,19 @@
         <button id="btn_dashboard" class="btn btn-secondary mb-1"><i class="bi bi-house"></i> Back to Dashboard</button>
     </div>
         <span class="mx-auto">Lists of Organizations</span>
+        
     </nav>
 
-   
+    <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p>
     <div class="table-responsive mx-auto" style="max-width: 900px;">
     <div class="row">
         <div class="col text-start">
             <button id="btn_add_new" class="btn btn-success mb-1"><i class="bi bi-building-fill-add"></i></button>
         </div>
-        <div class="col text-end">
-         
-                <input type="text" name="query" placeholder="Search Organizations" class="form-control me-2">
-          
-        </div>
     </div>
 
-            <table class="table table-sm table-hover text-center">
-                <thead class="table-dark">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Organization Name</th>
@@ -36,19 +32,8 @@
                 <tbody id="table"> <!-- diri ang Load_organization.php ga gwa-->
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            
+            
         </div>
         
 

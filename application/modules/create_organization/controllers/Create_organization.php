@@ -41,8 +41,9 @@ class Create_organization extends MY_Controller
     public function get_organization_info()
     {
         $this->load->model('Organization_model', 'get_org_info');
-        $this->datas['data'] = $this->get_org_info->get_organizations_info();
-        $this->load->view('create_organization/grid/Load_organization', $this->datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        $datas['data'] = $this->get_org_info->get_organizations_info();
+
+        $this->load->view('create_organization/grid/Load_organization', $datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
    
     public function get_single_organization_info() 
