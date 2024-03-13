@@ -39,4 +39,6 @@ class Create_organization_service extends MY_Controller
         var_dump($data);
         $this->create_organization_model->edit_method_from_model($data);
     }
+
+   
 }

@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Organization_model extends CI_Model 
+class Organization_model extends CI_Model
 {
     public $Table;
 
@@ -11,7 +11,7 @@ class Organization_model extends CI_Model
         parent::__construct();
         $this->load->database();
         $this->load->helper('message_helper');
-        
+
         $this->Table = json_decode(TABLE);
     }
 
@@ -33,5 +33,37 @@ class Organization_model extends CI_Model
         $this->db->where('OrgID', $value);
         $query = $this->db->get($this->Table->organization)->row();
         return $query;
+    }
+
+    public function Search($value)
+    {
+
+        if ($value == " ") {
+            $this->db->order_by('OrgID', 'DESC');
+            $query = $this->db->get($this->Table->organization)->result();
+        } else {
+            $this->db->from($this->Table->organization);
+            $this->db->like('OrgName', $value, 'both');
+            $query = $this->db->get()->result();
+        }
+        return $query;
+    }
+
+    public function record_count()
+    {
+        return $this->db->count_all($this->Table->organization);
+    }
+
+    public function fetch_organization($limit, $start)
+    {
+        $this->db->limit($limit, $start);
+        $query = $this->db->get($this->Table->organization);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
     }
 }
