@@ -60,4 +60,5 @@ $route['simple-message'] = 'Create_organization/kandeng';
 $route['Dashboard'] = 'Create_organization/index';
 $route['Add'] = 'Create_organization/create';
 $route['Organization'] = 'Create_organization/crud';
-
+$route['Client'] = 'Create_client/client';
+$route['AddClient'] = 'Create_client/createclient';

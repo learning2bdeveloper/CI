@@ -14,6 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const btn_client =  document.getElementById("btn_client");
+    if(btn_client) {
+        btn_client.addEventListener("click", () => {
+            window.location.href = "Client";
+        });
+    }
+
     const el_cancel = document.getElementById("cancel");
     if(el_cancel) {
 
@@ -22,11 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const el_cancelforms = document.getElementById("cancelform");
+    if(el_cancelforms) {
+
+        el_cancelforms.addEventListener("click", () => {
+        window.location.href = "Client";
+        });
+    }
+
     const el_add_new_org = document.getElementById("btn_add_new");
     if(el_add_new_org) {
 
             el_add_new_org.addEventListener("click", () => { 
                 window.location.href = "Add"; // route
+            })
+        
+    }
+
+    const el_add_new_client = document.getElementById("btn_add_client");
+    if(el_add_new_client) {
+
+            el_add_new_client.addEventListener("click", () => { 
+                window.location.href = "AddClient"; // route
             })
         
     }

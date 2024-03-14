@@ -1,11 +1,13 @@
 <?php organization_header(); ?>
-
+<body>
+    <div class="wrapper">
+    <?php include 'sidebar.php'; ?>
+        <div class="main p-3">
+            <div class="text-center">
+            <?php organization_header(); ?>
 <body>
 
     <nav class="navbar navbar-light justify-content-between fs-3 mb-4" style="background-color: #1E90FF;">
-        <div class="text-center">
-            <button id="btn_dashboard" class="btn btn-secondary mb-1"><i class="bi bi-house"></i> Back to Dashboard</button>
-        </div>
         <span class="mx-auto">Lists of Organizations</span>
 
     </nav>
@@ -130,6 +132,8 @@
         <button type="submit" id="submit">Create</button>
     </form>
     </div>
+    --> 
+<?php organization_footer();?>
     -->
 
 
