@@ -88,13 +88,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $(document).on("click", ".btnUpdate", async function () {
-    // wla ni gin () => kay laen function ka arrow function sa mga elements esp sa "this"
+    // Access data-pass-value attribute of the clicked element
     console.log($(this).data("pass-value"));
-    // gin $(document) kay gin add ang table dynamically kag mas ulihi tapos ang table and this make sure nga makita dyapon ang btnupdate.
+
+    // Create a modal instance
     const myModal = new bootstrap.Modal(document.getElementById("editModal"));
+
     try {
       let data = new FormData();
       data.append("id", $(this).data("pass-value"));
+
+      // Fetch organization information based on the ID
       const response = await fetch(
         "Create_organization/get_single_organization_info",
         {
@@ -106,8 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const info = await response.json();
 
-        // Handle successful response
-        myModal.show();
+        // Populate modal fields with organization information
         document.getElementById("edit_organization_name").value =
           info.data.OrgName;
         document.getElementById("edit_address").value = info.data.Address;
@@ -117,200 +120,188 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("edit_contact_number").value =
           info.data.ContactNumber;
 
+        // Attach event listener for the organization edit button
         $("#orgEdit").on("click", async () => {
-          console.log("hello");
-          let data2 = new FormData(document.getElementById("form_edit")); // the jquery does not work since it gets the jquery object and not the form element itself.
-          data2.append("id", $(this).data("pass-value"));
-          const response = await fetch(
-            "create_organization/services/Create_organization_service/edit",
-            {
-              method: "POST",
-              body: data2,
+          try {
+            console.log("hello");
+
+            // Get form data
+            let data2 = new FormData(document.getElementById("form_edit"));
+            data2.append("id", $(this).data("pass-value"));
+
+            // Send request to edit organization information
+            const response = await fetch(
+              "create_organization/services/Create_organization_service/edit",
+              {
+                method: "POST",
+                body: data2,
+              }
+            );
+
+            if (response.ok) {
+              // If edit is successful, redraw DataTable and hide the modal
+              myModal.hide();
+            } else {
+              // Handle error response
+              console.error("Error submitting form:", response.statusText);
             }
-          );
-          if (response.ok) {
-            $("#example").DataTable().draw();
-            myModal.hide();
-          } else {
-            // Handle error response
-            console.error('Error submitting form:', response.statusText);
-        }
-    
-        }catch(error) {
-            console.error('Error:', error);
-        }
-    
-        // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-        // myModal.show();;
-    }
-    
-    //function for updating client info
-    async function OpenModalUpdateClientData(value) {
-        console.log("modalUpdate()");
-      const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-        try {
-        let data = new FormData();
-        data.append('id', value);
-    
-        const response = await fetch('Create_client/get_single_client_info', {
-            method: 'POST',
-            body: data
+          } catch (error) {
+            console.error("Error:", error);
+          }
         });
-    
+
+        // Show the modal
+        myModal.show();
+      } else {
+        // Handle error response
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  });
+
+  //function for updating client info
+  async function OpenModalUpdateClientData(value) {
+    console.log("modalUpdate()");
+    const myModal = new bootstrap.Modal(document.getElementById("editModal"));
+    try {
+      let data = new FormData();
+      data.append("id", value);
+
+      const response = await fetch("Create_client/get_single_client_info", {
+        method: "POST",
+        body: data,
+      });
+
+      if (response.ok) {
+        const info = await response.json();
+        console.log(info);
+        // Handle successful response
+        myModal.show();
+
+        document.getElementById("edit_user_name").value = info.data.UserName;
+        document.getElementById("edit_first_name").value = info.data.FName;
+        document.getElementById("edit_middle_name").value = info.data.MName;
+        document.getElementById("edit_last_name").value = info.data.LName;
+        document.getElementById("edit_password").value = info.data.Password;
+        document.getElementById("edit_gender").value = info.data.Gender;
+        document.getElementById("edit_civil_status").value =
+          info.data.CivilStatus;
+        document.getElementById("edit_contact_no").value = info.data.ContactNo;
+        document.getElementById("edit_email").value = info.data.EmailAddress;
+        document.getElementById("edit_address").value = info.data.Address;
+
+        if (document.getElementById("clientEdit")) {
+          document
+            .getElementById("clientEdit")
+            .addEventListener("click", async () => {
+              let data = new FormData(document.getElementById("form_edit"));
+              data.append("id", value);
+              const response = await fetch(
+                "create_client/services/Create_client_service/editinfo",
+                {
+                  method: "POST",
+                  body: data,
+                }
+              );
+              if (response.ok) {
+                reloadTable();
+                myModal.hide();
+              }
+            });
+        }
+      } else {
+        // Handle error response
+        console.error("Error submitting form:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+    // myModal.show();;
+  }
+
+  const el_form_save = document.getElementById("form_save");
+  const el_form_saveinfo = document.getElementById("client_save");
+  const el_modal_btn_save = document.getElementById("orgSave");
+  const el_modal_btn_saveinfo = document.getElementById("clientSave");
+
+  // Check if toast should be shown
+  const shouldShowToast = localStorage.getItem("showToast");
+  const shouldShowToastdel = localStorage.getItem("showToastdel");
+  if (shouldShowToast === "true" || shouldShowToastdel === "true") {
+    //not done
+    // Show the toast
+    var el_toast = document.getElementById("liveToast");
+    var myToast = new bootstrap.Toast(el_toast, { delay: 3000 });
+    myToast.show();
+
+    // Remove the flag from localStorage to prevent showing the toast again
+    localStorage.removeItem("showToast");
+  }
+
+  if (el_modal_btn_save) {
+    el_modal_btn_save.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        let data = new FormData(el_form_save);
+        const response = await fetch(
+          "create_organization/services/Create_organization_service/save",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const info = await response.text();
+
         if (response.ok) {
-            const info = await response.json();
-            console.log(info);
-            // Handle successful response
-            myModal.show();
-            
-            document.getElementById('edit_user_name').value = info.data.UserName;
-            document.getElementById('edit_first_name').value = info.data.FName;
-            document.getElementById('edit_middle_name').value = info.data.MName;
-            document.getElementById('edit_last_name').value = info.data.LName;
-            document.getElementById('edit_password').value = info.data.Password;
-            document.getElementById('edit_gender').value = info.data.Gender;
-            document.getElementById('edit_civil_status').value = info.data.CivilStatus;
-            document.getElementById('edit_contact_no').value = info.data.ContactNo;
-            document.getElementById('edit_email').value = info.data.EmailAddress;
-            document.getElementById('edit_address').value = info.data.Address;
-            
-            if(document.getElementById("clientEdit")) {
-                document.getElementById("clientEdit").addEventListener("click", async () => {
-                    let data = new FormData(document.getElementById('form_edit'));
-                    data.append('id', value);
-                    const response = await fetch('create_client/services/Create_client_service/editinfo', {
-                        method: 'POST',
-                        body: data
-                    });
-                    if(response.ok) {
-                        
-                        reloadTable();
-                        myModal.hide();
-                    }
-                    
-                });
-            }
-            
+          // Handle successful response
+          console.log("Form submitted successfully");
+          localStorage.setItem("showToast", "true");
+          window.location.href = "Organization";
         } else {
-            // Handle error response
-            console.error('Error submitting form:', response.statusText);
+          // Handle error response
+          console.error("Error submitting form:", response.statusText);
         }
-    
-        }catch(error) {
-            console.error('Error:', error);
-        }
-    
-        // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-        // myModal.show();;
-    }
-    
-  
-    
-    const el_form_save = document.getElementById("form_save");
-    const el_form_saveinfo = document.getElementById("client_save");
-    const el_modal_btn_save = document.getElementById("orgSave");
-    const el_modal_btn_saveinfo = document.getElementById("clientSave");
-    
-    
-    
-    
-    // Check if toast should be shown
-    const shouldShowToast = localStorage.getItem('showToast');
-    const shouldShowToastdel = localStorage.getItem('showToastdel');
-    if (shouldShowToast === 'true' || shouldShowToastdel === 'true') { //not done
-        // Show the toast
-        var el_toast = document.getElementById("liveToast");
-        var myToast = new bootstrap.Toast(el_toast, {delay : 3000});
-        myToast.show();
-    
-        // Remove the flag from localStorage to prevent showing the toast again
-        localStorage.removeItem('showToast');
-    }
-    
-    
-    
-    
-    
-    
-    
-    if(el_modal_btn_save) {
-    
-        el_modal_btn_save.addEventListener("click", async(e) => 
-        {
-            e.preventDefault();
-        try 
-        {
-            let data = new FormData(el_form_save);
-            const response = await fetch('create_organization/services/Create_organization_service/save', {
-                method: 'POST',
-                body: data
-            });
-            const info = await response.text();
-    
-            if (response.ok) {
-                // Handle successful response
-                console.log('Form submitted successfully');
-                localStorage.setItem('showToast', 'true');
-                window.location.href = "Organization";
-                
-              
-                
-            } else {
-                // Handle error response
-                console.error('Error submitting form:', response.statusText);
-            }
-    
-        }catch(error) 
-        {
-            console.error('Error submitting form:', error);
-        }
-    
-        });
-    
-    };
-    
-    if(el_modal_btn_saveinfo) {
-    
-        el_modal_btn_saveinfo.addEventListener("click", async(e) => 
-        {
-            e.preventDefault();
-        try 
-        {
-            let data = new FormData(el_form_saveinfo);
-            const response = await fetch('create_client/services/Create_client_service/saveinfo', {
-                method: 'POST',
-                body: data
-            });
-            const info = await response.text();
-    
-            if (response.ok) {
-                // Handle successful response
-                console.log('Form submitted successfully');
-                localStorage.setItem('showToast', 'true');
-                window.location.href = "Client";
-                
-              
-                
-            } else {
-                // Handle error response
-                console.error('Error submitting form:', response.statusText);
-            }
-    
-        }catch(error) 
-        {
-            console.error('Error submitting form:', error);
-        }
-    
-        });
-    
-    };
-    
-    
-     
-    // document.getElementById("submit").addEventListener("click", () => {
-    
-    //     alert(document.getElementById("address").value);
-    // });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    });
+  }
 
+  if (el_modal_btn_saveinfo) {
+    el_modal_btn_saveinfo.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        let data = new FormData(el_form_saveinfo);
+        const response = await fetch(
+          "create_client/services/Create_client_service/saveinfo",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const info = await response.text();
 
+        if (response.ok) {
+          // Handle successful response
+          console.log("Form submitted successfully");
+          localStorage.setItem("showToast", "true");
+          window.location.href = "Client";
+        } else {
+          // Handle error response
+          console.error("Error submitting form:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    });
+  }
 
+  // document.getElementById("submit").addEventListener("click", () => {
+
+  //     alert(document.getElementById("address").value);
+  // });
+});
