@@ -5,7 +5,6 @@
         <?php include 'sidebar.php'; ?>
         <div class="main p-3">
             <div class="text-center">
-                <?php organization_header(); ?>
 
                 <body>
 
@@ -135,8 +134,4 @@
     </form>
     </div>
     -->
-            <?php organization_footer(); ?>
-            -->
-
-
             <?php organization_footer(); ?>
