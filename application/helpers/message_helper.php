@@ -50,6 +50,9 @@ define('SYSTEM_MODULE', 'DOCUMENT TRACKING');
 define('MB', 1048576);
 $array = array(
     'organization' =>  'tbl_organization',
+    'process' => 'tbl_process',
+    'steps' => 'tbl_steps',
+    'client' => 'tbl_client',
     
 
 
