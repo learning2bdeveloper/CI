@@ -9,8 +9,7 @@ class Organization_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->database();
-        $this->load->helper('message_helper');
+        $this->load->helper('message_helper', 'pagination_helper');
 
         $this->Table = json_decode(TABLE);
     }
@@ -51,19 +50,12 @@ class Organization_model extends CI_Model
 
     public function record_count()
     {
-        return $this->db->count_all($this->Table->organization);
+        // return $this->db->count_all($this->Table->organization);
+        return count_record("tbl_organization");
     }
 
     public function fetch_organization($limit, $start)
     {
-        $this->db->limit($limit, $start);
-        $query = $this->db->get($this->Table->organization);
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $data[] = $row;
-            }
-            return $data;
-        }
-        return false;
+        return pagination_model($limit, $start, $this->Table->organization);
     }
 }

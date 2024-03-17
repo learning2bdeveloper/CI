@@ -1,54 +1,17 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const reloadTable = async () => {
-    //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
-    const response = await fetch(
-      "create_organization/Create_organization/get_organization_info_with_pagination"
-    );
-    if (response.ok) {
-      const data = await response.text();
-      document.getElementById("table").innerHTML = data;
-      console.log("reloadtable()");
-    } else {
-      // Handle error response
-      console.error("Error submitting form:", response.statusText);
-    }
-  };
-  reloadTable();
-
-  // Function to perform search
-  async function performSearch() {
-    try {
-      const data = new FormData();
-      data.append("input", document.getElementById("searchInput").value);
-      const response = await fetch(
-        "create_organization/Create_organization/search",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-      const info = await response.text();
-      document.getElementById("table").innerHTML = info;
-    } catch (error) {
-      console.warn(error);
-    }
-  }
+document.addEventListener("DOMContentLoaded", async () => {
+  await reloadTable();
 
   // Event listener for search button click
-  document
-    .getElementById("searchButton")
-    .addEventListener("click", async () => {
-      await performSearch();
-    });
+  $("#searchButton").on("click", async () => {
+    await performSearch();
+  });
 
   // Event listener for Enter key press
-  document
-    .getElementById("searchInput")
-    .addEventListener("keypress", async (event) => {
-      if (event.key === "Enter") {
-        await performSearch();
-      }
-    });
+  $("#searchInput").on("keypress", async (event) => {
+    if (event.key === "Enter") {
+      await performSearch();
+    }
+  });
 
   $(document).on("click", ".btnDelete", async function () {
     console.log($(this).data("pass-value"));
@@ -161,6 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  $("#btn_add_new").click(async function () {
+    // Create a modal instance
+    const myModal = new bootstrap.Modal(document.getElementById("addModal"));
+    myModal.show();
+  });
+
   //function for updating client info
   async function OpenModalUpdateClientData(value) {
     console.log("modalUpdate()");
@@ -223,85 +192,71 @@ document.addEventListener("DOMContentLoaded", () => {
     // myModal.show();;
   }
 
-  const el_form_save = document.getElementById("form_save");
-  const el_form_saveinfo = document.getElementById("client_save");
-  const el_modal_btn_save = document.getElementById("orgSave");
-  const el_modal_btn_saveinfo = document.getElementById("clientSave");
+  // if (el_modal_btn_saveinfo) {
+  //   el_modal_btn_saveinfo.addEventListener("click", async (e) => {
+  //     e.preventDefault();
+  //     try {
+  //       let data = new FormData(el_form_saveinfo);
+  //       const response = await fetch(
+  //         "create_client/services/Create_client_service/saveinfo",
+  //         {
+  //           method: "POST",
+  //           body: data,
+  //         }
+  //       );
+  //       const info = await response.text();
 
-  // Check if toast should be shown
-  const shouldShowToast = localStorage.getItem("showToast");
-  const shouldShowToastdel = localStorage.getItem("showToastdel");
-  if (shouldShowToast === "true" || shouldShowToastdel === "true") {
-    //not done
-    // Show the toast
-    var el_toast = document.getElementById("liveToast");
-    var myToast = new bootstrap.Toast(el_toast, { delay: 3000 });
-    myToast.show();
-
-    // Remove the flag from localStorage to prevent showing the toast again
-    localStorage.removeItem("showToast");
-  }
-
-  if (el_modal_btn_save) {
-    el_modal_btn_save.addEventListener("click", async (e) => {
-      e.preventDefault();
-      try {
-        let data = new FormData(el_form_save);
-        const response = await fetch(
-          "create_organization/services/Create_organization_service/save",
-          {
-            method: "POST",
-            body: data,
-          }
-        );
-        const info = await response.text();
-
-        if (response.ok) {
-          // Handle successful response
-          console.log("Form submitted successfully");
-          localStorage.setItem("showToast", "true");
-          window.location.href = "Organization";
-        } else {
-          // Handle error response
-          console.error("Error submitting form:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
-    });
-  }
-
-  if (el_modal_btn_saveinfo) {
-    el_modal_btn_saveinfo.addEventListener("click", async (e) => {
-      e.preventDefault();
-      try {
-        let data = new FormData(el_form_saveinfo);
-        const response = await fetch(
-          "create_client/services/Create_client_service/saveinfo",
-          {
-            method: "POST",
-            body: data,
-          }
-        );
-        const info = await response.text();
-
-        if (response.ok) {
-          // Handle successful response
-          console.log("Form submitted successfully");
-          localStorage.setItem("showToast", "true");
-          window.location.href = "Client";
-        } else {
-          // Handle error response
-          console.error("Error submitting form:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
-    });
-  }
+  //       if (response.ok) {
+  //         // Handle successful response
+  //         console.log("Form submitted successfully");
+  //         localStorage.setItem("showToast", "true");
+  //         window.location.href = "Client";
+  //       } else {
+  //         // Handle error response
+  //         console.error("Error submitting form:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error submitting form:", error);
+  //     }
+  //   });
+  // }
 
   // document.getElementById("submit").addEventListener("click", () => {
 
   //     alert(document.getElementById("address").value);
   // });
 });
+
+// Function to perform search
+async function performSearch() {
+  try {
+    const data = new FormData();
+    data.append("input", document.getElementById("searchInput").value);
+    const response = await fetch(
+      "create_organization/Create_organization/search",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const info = await response.text();
+    document.getElementById("table").innerHTML = info;
+  } catch (error) {
+    console.warn(error);
+  }
+}
+
+async function reloadTable() {
+  //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
+  const response = await fetch(
+    "create_organization/Create_organization/get_organization_info_with_pagination"
+  );
+  if (response.ok) {
+    const data = await response.text();
+    document.getElementById("table").innerHTML = data;
+    console.log("reloadtable()");
+  } else {
+    // Handle error response
+    console.error("Error submitting form:", response.statusText);
+  }
+}

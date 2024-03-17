@@ -7,7 +7,7 @@ class Create_organization extends MY_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->helpers(array('template/organization_helper', 'message_helper'));
+        $this->load->helpers(array('template/organization_helper', 'pagination_helper', 'message_helper'));
         $this->load->model('Organization_model', 'get_org_info');
     }
 
@@ -43,22 +43,15 @@ class Create_organization extends MY_Controller
     // }
 
 
+
     public function get_organization_info_with_pagination()
     {
-
-        if ($this->input->post('page') !== null) {
-            $currentPage = $this->input->post('page');
-        } else {
-            $currentPage = 1;
-        }
-        $recordsPerPage = 10;
-        // Calculate the starting record index
-        $startFrom = ($currentPage - 1) * $recordsPerPage;
-        $datas['data'] = $this->get_org_info->fetch_organization($recordsPerPage, $startFrom);
-        $total_records = $this->get_org_info->record_count();
-        $datas['totalPages'] = ceil($total_records / $recordsPerPage);
-        $datas['currentPage'] = $currentPage;
-        $this->load->view('create_organization/grid/Load_organization', $datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        $pagination = pagination($this->input->post('input'), 'get_org_info', "fetch_organization", "record_count");
+        // $datas['data'] = $this->get_org_info->fetch_organization($recordsPerPage, $startFrom);
+        // $total_records = $this->get_org_info->record_count();
+        // $datas['totalPages'] = ceil($total_records / $recordsPerPage);
+        // $datas['currentPage'] = $pagination['currentPage'];
+        $this->load->view('create_organization/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
 
     public function get_single_organization_info()
