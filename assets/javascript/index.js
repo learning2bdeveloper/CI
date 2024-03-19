@@ -113,11 +113,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       );
 
-      console.log(response);
       if (response.ok) {
         const info = await response.json();
         editModal.show();
-        console.log(info);
 
         // Populate modal fields with organization information
         document.getElementById("edit_organization_name").value =
@@ -128,6 +126,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           info.data.ContactPerson;
         document.getElementById("edit_contact_number").value =
           info.data.ContactNumber;
+
+        // Remove any existing event listeners on orgEdit button
+        $("#orgEdit").off("click");
 
         // Attach event listener for the organization edit button
         $("#orgEdit").on("click", async () => {
@@ -148,7 +149,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
             if (response.ok) {
+              const info = await response.text();
               // If edit is successful, redraw DataTable and hide the modal
+              await reloadTable();
+              toastr.options.progressBar = true;
+              toastr.success("Update Success!");
               editModal.hide();
             } else {
               // Handle error response
