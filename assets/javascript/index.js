@@ -178,9 +178,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   $("#btn_add_new").click(async function () {
     addModal.show();
-
+    $(document).off("click", "#save");
+    // Clear form fields when modal is opened
+    $("#form_save")[0].reset();
     $(document).on("click", "#save", async () => {
-      data = new FormData(document.getElementById("form_save"));
+      data = new FormData($("#form_save")[0]);
 
       const response = await fetch(
         "create_organization/services/Create_organization_service/save",
