@@ -4,7 +4,7 @@ function pagination_links($currentPage, $totalPages)
 { ?>
     <!-- Pagination links -->
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" id="navbottom">
         <ul class="pagination justify-content-center"> <!-- Added justify-content-center class -->
             <?php if ($currentPage > 1) { ?>
                 <li class="page-item">
