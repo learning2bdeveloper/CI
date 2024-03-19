@@ -76,12 +76,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
         if (response.ok) {
-          // Handle successful response
-          console.log("Form submitted successfully");
-          toastr.options.progressBar = true;
-          toastr.success("Deleted Success!");
-
-          reloadTable();
+          const info = await response.json();
+          if (info.has_error === false) {
+            console.log(info.message);
+            toastr.options.progressBar = true;
+            toastr.success("Deleted Success!");
+            await reloadTable();
+          }
 
           // $('#example').DataTable() gets the DataTable instance.
           // table.row($(this).closest('tr')) finds the DataTable row corresponding to the closest table row (<tr>) relative to the clicked delete button.
@@ -133,8 +134,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Attach event listener for the organization edit button
         $("#orgEdit").on("click", async () => {
           try {
-            console.log("hello");
-
             // Get form data
             let data2 = new FormData(document.getElementById("form_edit"));
             data2.append("id", $(this).data("pass-value"));
@@ -149,12 +148,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
             if (response.ok) {
-              const info = await response.text();
-              // If edit is successful, redraw DataTable and hide the modal
-              await reloadTable();
-              toastr.options.progressBar = true;
-              toastr.success("Update Success!");
-              editModal.hide();
+              const info = await response.json();
+              if (info.has_error === false) {
+                console.log(info.message);
+                await reloadTable();
+                toastr.options.progressBar = true;
+                toastr.success("Update Success!");
+                editModal.hide();
+              }
             } else {
               // Handle error response
               console.error("Error submitting form:", response.statusText);
@@ -176,72 +177,93 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   $("#btn_add_new").click(async function () {
-    // Create a modal instance
-    const myModal = new bootstrap.Modal(document.getElementById("addModal"));
-    myModal.show();
-  });
+    addModal.show();
 
-  //function for updating client info
-  async function OpenModalUpdateClientData(value) {
-    console.log("modalUpdate()");
-    const myModal = new bootstrap.Modal(document.getElementById("editModal"));
-    try {
-      let data = new FormData();
-      data.append("id", value);
+    $(document).on("click", "#save", async () => {
+      data = new FormData(document.getElementById("form_save"));
 
-      const response = await fetch("Create_client/get_single_client_info", {
-        method: "POST",
-        body: data,
-      });
+      const response = await fetch(
+        "create_organization/services/Create_organization_service/save",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
       if (response.ok) {
         const info = await response.json();
-        console.log(info);
-        // Handle successful response
-        myModal.show();
-
-        document.getElementById("edit_user_name").value = info.data.UserName;
-        document.getElementById("edit_first_name").value = info.data.FName;
-        document.getElementById("edit_middle_name").value = info.data.MName;
-        document.getElementById("edit_last_name").value = info.data.LName;
-        document.getElementById("edit_password").value = info.data.Password;
-        document.getElementById("edit_gender").value = info.data.Gender;
-        document.getElementById("edit_civil_status").value =
-          info.data.CivilStatus;
-        document.getElementById("edit_contact_no").value = info.data.ContactNo;
-        document.getElementById("edit_email").value = info.data.EmailAddress;
-        document.getElementById("edit_address").value = info.data.Address;
-
-        if (document.getElementById("clientEdit")) {
-          document
-            .getElementById("clientEdit")
-            .addEventListener("click", async () => {
-              let data = new FormData(document.getElementById("form_edit"));
-              data.append("id", value);
-              const response = await fetch(
-                "create_client/services/Create_client_service/editinfo",
-                {
-                  method: "POST",
-                  body: data,
-                }
-              );
-              if (response.ok) {
-                reloadTable();
-                myModal.hide();
-              }
-            });
+        if (info.has_error === false) {
+          console.log(info.message);
+          await reloadTable();
+          toastr.options.progressBar = true;
+          toastr.success("Add Success!");
+          addModal.hide();
         }
-      } else {
-        // Handle error response
-        console.error("Error submitting form:", response.statusText);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    });
+  });
 
-    // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-    // myModal.show();;
-  }
+  // //function for updating client info
+  // async function OpenModalUpdateClientData(value) {
+  //   console.log("modalUpdate()");
+  //   const myModal = new bootstrap.Modal(document.getElementById("editModal"));
+  //   try {
+  //     let data = new FormData();
+  //     data.append("id", value);
+
+  //     const response = await fetch("Create_client/get_single_client_info", {
+  //       method: "POST",
+  //       body: data,
+  //     });
+
+  //     if (response.ok) {
+  //       const info = await response.json();
+  //       console.log(info);
+  //       // Handle successful response
+  //       myModal.show();
+
+  //       document.getElementById("edit_user_name").value = info.data.UserName;
+  //       document.getElementById("edit_first_name").value = info.data.FName;
+  //       document.getElementById("edit_middle_name").value = info.data.MName;
+  //       document.getElementById("edit_last_name").value = info.data.LName;
+  //       document.getElementById("edit_password").value = info.data.Password;
+  //       document.getElementById("edit_gender").value = info.data.Gender;
+  //       document.getElementById("edit_civil_status").value =
+  //         info.data.CivilStatus;
+  //       document.getElementById("edit_contact_no").value = info.data.ContactNo;
+  //       document.getElementById("edit_email").value = info.data.EmailAddress;
+  //       document.getElementById("edit_address").value = info.data.Address;
+
+  //       if (document.getElementById("clientEdit")) {
+  //         document
+  //           .getElementById("clientEdit")
+  //           .addEventListener("click", async () => {
+  //             let data = new FormData(document.getElementById("form_edit"));
+  //             data.append("id", value);
+  //             const response = await fetch(
+  //               "create_client/services/Create_client_service/editinfo",
+  //               {
+  //                 method: "POST",
+  //                 body: data,
+  //               }
+  //             );
+  //             if (response.ok) {
+  //               reloadTable();
+  //               myModal.hide();
+  //             }
+  //           });
+  //       }
+  //     } else {
+  //       // Handle error response
+  //       console.error("Error submitting form:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+
+  // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+  // myModal.show();;
+  //}
 
   // if (el_modal_btn_saveinfo) {
   //   el_modal_btn_saveinfo.addEventListener("click", async (e) => {

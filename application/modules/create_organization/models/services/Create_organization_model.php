@@ -15,30 +15,25 @@ class Create_organization_model extends CI_Model
 
     public function save_method_from_model($data)
     {
-       try{     
-          if(empty($data['OrgName'])) {
-            echo "missing organization name";
-          }
+        try {
+            if (empty($data['OrgName'])) {
+                echo "missing organization name";
+            }
 
             $this->db->trans_start();
-                           
+
             $this->db->insert($this->Table->organization, $data); // Table-> nd Table[''] kay bawal array 
 
             $this->db->trans_complete();
-            if ($this->db->trans_status() === FALSE)
-            {                
+            if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
-                //throw new Exception(ERROR_PROCESSING, true);	
-            }
-            else
-            {
+                throw new Exception(ERROR_PROCESSING, true);
+            } else {
                 $this->db->trans_commit();
-                return array('message'=>SAVED_SUCCESSFUL);
+                return array('message' => SAVED_SUCCESSFUL, 'has_error' => false);
             }
-        }
-        catch(Exception$msg)
-        {
-            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        } catch (Exception $msg) {
+            return (array('message' => $msg->getMessage(), 'has_error' => true));
         }
     }
 
@@ -49,17 +44,15 @@ class Create_organization_model extends CI_Model
             $this->db->where('OrgID', $data);
             $this->db->delete($this->Table->organization);
             $this->db->trans_complete();
-            if ($this->db->trans_status() === FALSE)
-            {                
+            if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
-                throw new Exception(ERROR_PROCESSING, true);	
-            }else{
+                throw new Exception(ERROR_PROCESSING, true);
+            } else {
                 $this->db->trans_commit();
-                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+                return array('message' => DELETED_SUCCESSFUL, 'has_error' => false);
             }
-        }
-        catch(Exception$msg){
-            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        } catch (Exception $msg) {
+            return (array('message' => $msg->getMessage(), 'has_error' => true));
         }
     }
 
@@ -70,16 +63,15 @@ class Create_organization_model extends CI_Model
             $this->db->where('OrgID', $data['OrgID']);
             $this->db->update($this->Table->organization, $data);
             $this->db->trans_complete();
-            if ($this->db->trans_status() === FALSE)
-            {                
+            if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
-                throw new Exception(ERROR_PROCESSING, true);	
-            }else{
+                throw new Exception(ERROR_PROCESSING, true);
+            } else {
                 $this->db->trans_commit();
-                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+                return array('message' => DELETED_SUCCESSFUL, 'has_error' => false);
             }
-        }catch(Exception$msg) {
-            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        } catch (Exception $msg) {
+            return (array('message' => $msg->getMessage(), 'has_error' => true));
         }
     }
 }

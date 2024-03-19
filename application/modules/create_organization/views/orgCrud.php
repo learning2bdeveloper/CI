@@ -93,11 +93,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-center mt-3">
-                                                        <button type="button" class="btn btn-success" id="save">Save</button>
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                                    </div>
                                                 </form>
+                                                <div class="text-center mt-3">
+                                                    <button type="button" class="btn btn-success" id="save">Save</button>
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
