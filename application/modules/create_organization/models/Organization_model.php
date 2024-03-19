@@ -51,7 +51,7 @@ class Organization_model extends CI_Model
     public function record_count()
     {
         // return $this->db->count_all($this->Table->organization);
-        return count_record("tbl_organization");
+        return count_record($this->Table->organization);
     }
 
     public function fetch_organization($limit, $start)

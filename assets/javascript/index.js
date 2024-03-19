@@ -1,3 +1,7 @@
+// Define modal instances outside of the DOMContentLoaded event listener
+const editModal = new bootstrap.Modal(document.getElementById("editModal"));
+const addModal = new bootstrap.Modal(document.getElementById("addModal"));
+
 document.addEventListener("DOMContentLoaded", async () => {
   await reloadTable();
 
@@ -10,6 +14,49 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#searchInput").on("keypress", async (event) => {
     if (event.key === "Enter") {
       await performSearch();
+    }
+  });
+
+  // Event listener for the Dropdown recordsPerPage
+  $("#rowsPerPage").on("change", async function () {
+    try {
+      let data = new FormData();
+      data.append("recordsPerPage", this.value);
+      const response = await fetch(
+        "create_organization/Create_organization/get_organization_info_with_pagination",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+      }
+    } catch (error) {
+      console.error("Error: " + error);
+    }
+  });
+
+  //Event Listener for Pagination Links
+  $(document).on("click", ".pagination_link", async function () {
+    console.log($(this).data("pass-value"));
+    try {
+      let data = new FormData();
+      data.append("page", $(this).data("pass-value"));
+      const response = await fetch(
+        "create_organization/Create_organization/get_organization_info_with_pagination",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+      }
+    } catch (error) {
+      console.error("Error: " + error);
     }
   });
 
@@ -54,13 +101,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Access data-pass-value attribute of the clicked element
     console.log($(this).data("pass-value"));
 
-    // Create a modal instance
-    const myModal = new bootstrap.Modal(document.getElementById("editModal"));
-
     try {
       let data = new FormData();
       data.append("id", $(this).data("pass-value"));
-
       // Fetch organization information based on the ID
       const response = await fetch(
         "Create_organization/get_single_organization_info",
@@ -70,8 +113,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       );
 
+      console.log(response);
       if (response.ok) {
         const info = await response.json();
+        editModal.show();
+        console.log(info);
 
         // Populate modal fields with organization information
         document.getElementById("edit_organization_name").value =
@@ -103,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (response.ok) {
               // If edit is successful, redraw DataTable and hide the modal
-              myModal.hide();
+              editModal.hide();
             } else {
               // Handle error response
               console.error("Error submitting form:", response.statusText);
@@ -114,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         // Show the modal
-        myModal.show();
+        editModal.show();
       } else {
         // Handle error response
         console.error("Error:", response.statusText);

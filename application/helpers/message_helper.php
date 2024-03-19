@@ -48,12 +48,18 @@ define('FOOTER_NAME', '');
 define('FOOTER_YEAR', '');
 define('SYSTEM_MODULE', 'DOCUMENT TRACKING');
 define('MB', 1048576);
+
+////////////
+define('MODEL_ERROR', 'The MODEL does not exist!');
+define('FUNCTION_ERORR', 'The FUNCTION does not exist!');
+define('DATABASE_ERORR', 'The DATABASE does not exist!');
+define('TABLE_ERORR', 'The DATABASE TABLE does not exist!');
 $array = array(
     'organization' =>  'tbl_organization',
     'process' => 'tbl_process',
     'steps' => 'tbl_steps',
     'client' => 'tbl_client',
-    
+
 
 
 

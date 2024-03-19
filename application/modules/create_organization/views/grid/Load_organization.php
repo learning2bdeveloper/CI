@@ -1,10 +1,9 @@
 <?php
 if (!empty($data)) {
-    $id = 1;
     foreach ($data as $value) { // dapat ang name ka key sng array imo gamiton ND ang whole array gid 'datas[data]';
 ?>
         <tr>
-            <td><?= $id ?></td>
+            <td><?= @$value->OrgID ?></td>
             <td><?= ucwords(@$value->OrgName) ?></td>
             <td><?= @$value->EmailAddress ?></td>
             <td><?= @$value->ContactPerson ?></td>
@@ -24,7 +23,6 @@ if (!empty($data)) {
             </td>
 
         </tr>
-        <?php $id++; ?>
     <?php
     }
 } else {
@@ -44,46 +42,5 @@ if (!empty($data)) {
 ?>
 </tbody>
 </table>
-<!-- Pagination links -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <!-- <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li> -->
-        <?php if ($currentPage > 1) { # Previous currentPage halin sa controller 
-        ?>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous" data-pass-value="<?= $i - 1; ?>">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        <?php } ?>
-        <?php if ($totalPages > 1) {
-            for ($i = 1; $i <= $totalPages; $i++) {
-                if ($i == $currentPage) { ?>
-                    <li class="page-item"><a class="page-link" data-pass-value="<?= $i; ?>"><?= $i; ?></a></li>
-                <?php } else { ?>
-                    <li class="page-item"><a class="page-link" data-pass-value="<?= $i; ?>"><?= $i; ?></a></li>
-        <?php }
-            }
-        } ?>
-        <?php if ($currentPage < $totalPages) { # next
-        ?>
-            <li class="page-item">
-                <a class="page-link" aria-label="Next" data-pass-value="<?= $i + 1; ?>">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        <?php } ?>
-        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"> -->
-        <!-- <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </a>
-        </li> -->
-    </ul>
-</nav>
+</div>
+<?= pagination_links($currentPage, $totalPages); ?>

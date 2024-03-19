@@ -7,8 +7,8 @@ class Create_organization extends MY_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->helpers(array('template/organization_helper', 'pagination_helper', 'message_helper'));
-        $this->load->model('Organization_model', 'get_org_info');
+        $this->load->helpers(array('template/organization_template_helper', 'template/pagination_template_helper', 'pagination_helper', 'message_helper'));
+        $this->load->model('Organization_model');
     }
 
 
@@ -46,7 +46,7 @@ class Create_organization extends MY_Controller
 
     public function get_organization_info_with_pagination()
     {
-        $pagination = pagination($this->input->post('input'), 'get_org_info', "fetch_organization", "record_count");
+        $pagination = pagination($this->input->post('page'), 'Organization_model', "fetch_organization", "record_count", $this->input->post('recordsPerPage'));
         // $datas['data'] = $this->get_org_info->fetch_organization($recordsPerPage, $startFrom);
         // $total_records = $this->get_org_info->record_count();
         // $datas['totalPages'] = ceil($total_records / $recordsPerPage);
