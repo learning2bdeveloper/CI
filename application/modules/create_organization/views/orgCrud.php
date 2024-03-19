@@ -21,30 +21,30 @@
                     </nav> -->
 
                     <div class="row">
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <button id="btn_add_new" class="btn btn-success mb-1 me-3"><i class="bi bi-building-fill-add"></i></button>
-                                        <select id="rowsPerPage" class="form-select me-3">
-                                            <option disabled selected>Rows Per Page</option>
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                    <div>
-                                        <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
-								            <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
-								            <button id="searchButton" class="btn btn-primary">Search</button>
-							            </div>
-                                    </div>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <button id="btn_add_new" class="btn btn-success mb-1 me-3"><i class="bi bi-building-fill-add"></i></button>
+                                <select id="rowsPerPage" class="form-select me-3">
+                                    <option disabled selected>Rows Per Page</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
+                                <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
+                                <button id="searchButton" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <!-- <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p> -->
 
-                    <div style="max-height: 400px; overflow-y: auto;">
+                    <div style="max-height: 560px; overflow-y: auto;">
                         <table id="example" class="table table-striped" style="width:98%">
                             <thead>
                                 <tr>
