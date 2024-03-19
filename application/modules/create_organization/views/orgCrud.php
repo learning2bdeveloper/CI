@@ -23,6 +23,11 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="input-group">
+                            <div class="dropdown">
+                                <button id="dropbtn" class="btn btn-dark">&#9660;</button>
+                                <div class="dropdown-content">
+                                </div>
+                             </div>
                                 <button id="btn_add_new" class="btn btn-success mb-1 me-3"><i class="bi bi-building-fill-add"></i></button>
                                 <select id="rowsPerPage" class="form-select me-3">
                                     <option disabled selected>Rows Per Page</option>
@@ -37,7 +42,6 @@
                             <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
                                 <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
                                 <button id="searchButton" class="btn btn-primary">Search</button>
-                            </div>
                         </div>
                     </div>
 
