@@ -37,15 +37,35 @@ class Organization_model extends CI_Model
     public function Search($value)
     {
 
+        // Define the number of results per page
+        $resultsPerPage = 25;
+
         if ($value == " ") {
+            // No search value provided, retrieve all organizations
             $this->db->order_by('OrgID', 'DESC');
-            $query = $this->db->get($this->Table->organization)->result();
+            $query = $this->db->get($this->Table->organization);
+            $totalRows = $query->num_rows(); //gamiton ni sa future kung may design na haha
+            // $totalPages = ceil($totalRows / $resultsPerPage);
+
+            return array(
+                "data" => $query->result(),
+                "totalPages" => 1,
+                "currentPage" => 1,
+            );
         } else {
+            // Search for organizations based on the provided value
             $this->db->from($this->Table->organization);
             $this->db->like('OrgName', $value, 'both');
-            $query = $this->db->get()->result();
+            $query = $this->db->get();
+            $totalRows = $query->num_rows();
+            // $totalPages = ceil($totalRows / $resultsPerPage);
+
+            return array(
+                "data" => $query->result(),
+                "totalPages" => 1,
+                "currentPage" => 1,
+            );
         }
-        return $query;
     }
 
     public function record_count()
