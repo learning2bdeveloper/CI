@@ -4,7 +4,6 @@ if (!empty($data)) {
 ?>
         <tr>
             <td><?= @$value->OrgID ?></td>
-            <td> <img style="width: 100px; height: 100px;" src="uploads/profile?>.jpg" alt="Organization Logo"> </td>
             <td><?= ucwords(@$value->OrgName) ?></td>
             <td><?= @$value->EmailAddress ?></td>
             <td><?= @$value->ContactPerson ?></td>
