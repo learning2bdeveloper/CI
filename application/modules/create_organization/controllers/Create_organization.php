@@ -63,8 +63,7 @@ class Create_organization extends MY_Controller
 
     public function search()
     {
-        $this->load->model('Organization_model', 'get_org_info');
-        $datas['data'] = $this->get_org_info->Search($this->input->post('input'));
-        $this->load->view('grid/Load_organization', $datas);
+        $search = $this->Organization_model->Search($this->input->post('input'));
+        $this->load->view('grid/Load_organization', $search);
     }
 }

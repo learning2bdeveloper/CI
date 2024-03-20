@@ -60,6 +60,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  //Event Listener for Dropbtn Links
+  $("#dropbtn").click(async () => {
+    document.getElementById("navbottom").scrollIntoView({ behavior: "smooth" });
+  });
+
   $(document).on("click", ".btnDelete", async function () {
     console.log($(this).data("pass-value"));
     let confirmation = confirm("Are you sure you want to delete this?");
