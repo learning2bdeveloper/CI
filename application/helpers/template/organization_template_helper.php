@@ -78,7 +78,7 @@ function client_header()
         <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
         <script defer src="assets/javascript/sidebarnavigation.js"></script>
 
-        <script defer src="<?= base_url('/assets/javascript/organization.js') ?>"></script>
+        <script defer src="<?= base_url('/assets/javascript/client.js') ?>"></script>
         <script defer src="<?= base_url('/assets/javascript/changeLocation.js') ?>"></script>
 
         <!--Toastr-->

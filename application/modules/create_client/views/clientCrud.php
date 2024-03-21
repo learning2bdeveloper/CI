@@ -1,165 +1,248 @@
-<?php organization_header(); ?>
+<?php client_header(); ?>
+<!-- <style>
+    .toast-info {
+        background-color: #51A351 !important;
+        /* Change background color to green */
+        opacity: 1 !important;
+        /* Ensure opacity is set to fully opaque */
+    }
+</style> -->
+
 <body>
     <div class="wrapper">
-    <?php include 'sidebar.php'; ?>
+        <?php include 'sidebar.php'; ?>
         <div class="main p-3">
             <div class="text-center">
-            <?php organization_header(); ?>
-<body>
 
-    <nav class="navbar navbar-light justify-content-between fs-3 mb-4" style="background-color: #1E90FF;">
-        <span class="mx-auto">Lists of Clients</span>
-        
-    </nav>
+                <body>
 
-    <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Names of the Clients. Use search/filter to load specific profiles</p>
-    <div class="table-responsive mx-auto" style="max-width: 900px;">
-    <div class="row">
-        <div class="col text-start">
-            <button id="btn_add_client" class="btn btn-success mb-1"><i class="bi bi-person-add"></i></button>
-        </div>
-    </div>
+                    <!-- <nav class="navbar navbar-light justify-content-between fs-4 mb-1" style="background-color: black;">
+                        <span class="mx-auto">Lists of Clients</span>
+                    </nav> -->
 
-            <table id="example" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">UserName</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Middle Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Civil Status</th>
-                        <th scope="col">Contact #</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="clienttable">
-                </tbody>
-            </table>
-            
-            
-        </div>
-        
-
-     
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <div class="dropdown mb-1 me-3">
+                                <button id="dropbtn" class="btn btn-dark">&#9660;</button>
+                                <div class="dropdown-content">
+                                </div>
+                             </div>
+                                <button id="btn_add_client" class="btn btn-success mb-1 me-3"><i class="bi bi-person-add"></i></button>
+                                <select id="rowsPerPage" class="form-select me-3">
+                                    <option disabled selected>Rows Per Page</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
+                                <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
+                                <button id="searchButton" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
 
 
-    <!-- edit modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Client Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Add your form fields for editing here -->
-                    <div class="container d-flex justify-content-center">
-            <form method="post" style="width: 45vw; min-width:300px;" id="form_edit">
-            <div class="row">
-            <div class="col">
-                  <div class="form-group border p-3">
-                <label class="form-label" for="edit_user_name">UserName:</label>
-                <input type="text" class="form-control" name="edit_user_name" id="edit_user_name"> <br>
+                    <!-- <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p> -->
 
-                <label class="form-label" for="edit_first_name">First Name:</label>
-                <input type="text" class="form-control" name="edit_first_name" id="edit_first_name"> <br>
-
-                <label class="form-label" for="edit_middle_name">Middle Name:</label>
-                <input type="text" class="form-control" name="edit_middle_name" id="edit_middle_name"> <br>
-
-                <label class="form-label" for="edit_last_name">Last Name:</label>
-                <input type="text" class="form-control" name="edit_last_name" id="edit_last_name"> <br>
-
-                <label class="form-label" for="edit_password">Password</label>
-                <input class="form-control" type="edit_password" name="edit_password" id="edit_password"> <br>
-
-                <label class="form-label" for="edit_gender">Gender</label>
-                <select class="form-control" id="edit_gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select><br>
+                    <div style="max-height: 560px; overflow-y: auto;">
+                        <table id="example" class="table table-striped" style="width:98%">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">UserName</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Middle Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Civil Status</th>
+                                <th scope="col">Contact #</th>
+                                <th scope="col">Email Address</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
 
 
-                <label class="form-label" for="edit_civil_status">Civil Status</label>
-                <select class="form-control" id="edit_civil_status">
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Divorced">Divorced</option>
-                    <option value="Widowed">Widowed</option>
-                </select><br>
+                            <tbody id="clienttable"> <!-- diri ang Load_Client.php ga gwa-->
+
+                                <!-- add modal -->
+                                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add Client Profile</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" id="form_saveinfo">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="user_name" class="form-label">UserName</label>
+                                                                <input type="text" class="form-control" id="user_name" name="user_name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="first_name" class="form-label">First Name</label>
+                                                                <input type="text" class="form-control" id="first_name" name="first_name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="middle_name" class="form-label">Middle Name</label>
+                                                                <input type="text" class="form-control" id="middle_name" name="middle_name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="last_name" class="form-label">Last Name</label>
+                                                                <input type="text" class="form-control" id="last_name" name="last_name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="password" class="form-label">Password</label>
+                                                                <input type="password" class="form-control" id="password" name="password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="gender" class="form-label">Gender</label>
+                                                                    <select class="form-control" id="gender" name="gender">
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                    </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="civil_status" class="form-label">Civil Status</label>
+                                                                    <select class="form-control" id="civil_status" name="civil_status">
+                                                                        <option value="Single">Single</option>
+                                                                        <option value="Married">Married</option>
+                                                                        <option value="Divorced">Divorced</option>
+                                                                        <option value="Widowed">Widowed</option>
+                                                                    </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="contact_no" class="form-label">Contact Number</label>
+                                                                <input type="tel" class="form-control" id="contact_no" name="contact_no">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="email" class="form-label">Email Address</label>
+                                                                <input type="email" class="form-control" id="email" name="email">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="address" class="form-label">Address</label>
+                                                                <input type="text" class="form-control" id="address" name="address">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="text-center mt-3">
+                                                    <button type="button" class="btn btn-success" id="saveinfo">Save</button>
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                              <!-- edit modal -->
+                              <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Client's Profile</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" id="form_edit">
+                                                        <div class="row mb-3">
+                                                            <label for="edit_image" class="col-sm-4 col-form-label text-end">Upload Image:</label>
+                                                            <div class="col-sm-8">
+                                                                <label for="edit_image" class="btn btn-outline-success" style="border-radius: 15px; cursor: pointer;">
+                                                                    Choose File
+                                                                    <input type="file" name="edit_image" id="edit_image" style="display: none;">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_user_name" class="col-sm-4 col-form-label text-end">UserName:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" name="edit_user_name" id="edit_user_name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_first_name" class="col-sm-4 col-form-label text-end">First Name:</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="text" name="edit_first_name" id="edit_first_name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_middle_name" class="col-sm-4 col-form-label text-end">Middle Name:</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="text" name="edit_middle_name" id="edit_middle_name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_last_name" class="col-sm-4 col-form-label text-end">Last Name:</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="text" name="edit_last_name" id="edit_last_name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_password" class="col-sm-4 col-form-label text-end">Password:</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="password" name="edit_password" id="edit_password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_gender" class="col-sm-4 col-form-label text-end">Gender:</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="edit_gender" name="edit_gender">
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                            <div class="row mb-3">
+                                                            <label for="edit_civil_status" class="col-sm-4 col-form-label text-end">Civil Status:</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="edit_civil_status" name="edit_civil_status">
+                                                                    <option value="Single">Single</option>
+                                                                    <option value="Married">Married</option>
+                                                                    <option value="Divorced">Divorced</option>
+                                                                    <option value="Widowed">Widowed</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_contact_no" class="col-sm-4 col-form-label text-end">Contact #:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="tel" class="form-control" name="edit_contact_no" id="edit_contact_no">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_email" class="col-sm-4 col-form-label text-end">Email Address:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="email" class="form-control" name="edit_email" id="edit_email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="edit_address" class="col-sm-4 col-form-label text-end">Address:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" name="edit_address" id="edit_address">
+                                                            </div>
+                                                        </div>
+                                
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary" id="clientEdit">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                <label class="form-label" for="edit_contact_no">Contact Number</label>
-                <input type="number" class="form-control" name="edit_contact_no" id="edit_contact_no"> <br>
 
-                <label class="form-label" for="edit_email">Email Address</label> 
-                <input type="email" class="form-control" name="edit_email" id="edit_email"> <br> 
 
-                <label class="form-label" for="edit_address">Address</label>
-                <input class="form-control" type="text" name="edit_address" id="edit_address"> <br>
-                </div>
-            </form>
-        </div>
-    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="clientEdit">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-   <!-- Success Toast -->
-
-   <div class="position-fixed bottom-0 end-0 h-2">
-    <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-            <i class="bi bi-hand-thumbs-up-fill"></i> Successfully saved!
-            </div>
-            <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-
-   <!-- Success Toast -->
-
-   <div class="position-fixed bottom-0 end-0 h-2">
-    <div id="liveToastdel" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-            <i class="bi bi-hand-thumbs-up-fill"></i> Successfully deleted!
-            </div>
-            <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-    <!--
-    <div id="table">
-    <form  method="post" id="form_create">
-        <label for="organization_name">Organization Name</label>
-        <input type="text" name="organization_name" id="organization_name"> <br>
-
-        <label for="address">Address</label>
-        <input type="text" name="address" id="address"> <br>
-
-        <label for="email">Email</label> 
-        <input type="email" name="email" id="email"> <br> 
-
-        <label for="contact_person">Contact Person</label>
-        <input type="text" name="contact_person" id="contact_person"> <br>
-
-        <label for="contact_number">Contact #</label>
-        <input type="number" name="contact_number" id="contact_number"> <br>
-
-        <button type="submit" id="submit">Create</button>
-    </form>
-    </div>
-    --> 
-<?php organization_footer();?>
+<?php client_footer(); ?>

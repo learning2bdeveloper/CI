@@ -17,11 +17,13 @@ if(!empty($data)){
                 <td><?=@$value->Address?></td>
                 <td>
                
-                        <div class="action-icon">
-                            <button onclick="deleteClientData(<?=$value->ClientID?>)"><i class="bi bi-trash3-fill"></i></button>
-                       
-                            <button onclick="OpenModalUpdateClientData(<?=$value->ClientID?>)"><i class="bi bi-pencil-fill"></i></button>
-                    </div>
+                <div class="action-icon">
+                    <button class="btnDeleteInfo" data-pass-value="<?= $value->ClientID ?>"><i class="bi bi-trash3-fill"></i></button>
+
+
+                    <button class="btnUpdateInfo" data-pass-value="<?= $value->ClientID ?>"><i class="bi bi-pencil-fill"></i></button>
+
+                </div>
                 </td>
 
             </tr>
@@ -32,11 +34,18 @@ if(!empty($data)){
     ?>
         <tr>
             <td colspan="8">
-                <div><center><h6 style="color:red">No Data Found.</h6></center></div>
+                <div>
+                <center>
+                    <h6 style="color:red">No Data Found.</h6>
+                </center></div>
             </td>
         </tr>
     <?php
     
 }
 ?>
+</tbody>
+</table>
+</div>
+<?= pagination_links($currentPage, $totalPages); ?>
 
