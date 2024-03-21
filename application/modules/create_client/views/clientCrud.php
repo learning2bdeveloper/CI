@@ -87,42 +87,42 @@
                                                                 <input type="text" class="form-control" id="user_name" name="user_name">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="address" class="form-label">First Name</label>
-                                                                <input type="text" class="form-control" id="address" name="address">
+                                                                <label for="first_name" class="form-label">First Name</label>
+                                                                <input type="text" class="form-control" id="first_name" name="first_name">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="address" class="form-label">Middle Name</label>
-                                                                <input type="text" class="form-control" id="address" name="address">
+                                                                <label for="middle_name" class="form-label">Middle Name</label>
+                                                                <input type="text" class="form-control" id="middle_name" name="middle_name">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="address" class="form-label">Last Name</label>
-                                                                <input type="text" class="form-control" id="address" name="address">
+                                                                <label for="last_name" class="form-label">Last Name</label>
+                                                                <input type="text" class="form-control" id="last_name" name="last_name">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="address" class="form-label">Password</label>
+                                                                <label for="password" class="form-label">Password</label>
                                                                 <input type="password" class="form-control" id="password" name="password">
                                                             </div>
-                                                            </div>
-                                                            <div class="col-md-6">                                                                           
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="mb-3">
-                                                                <label>Gender</label>
-                                                                <select class="form-control" id="Gender">
-                                                                    <option value="Male">Male</option>
-                                                                    <option value="Female">Female</option>
-                                                                </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label>Civil Status</label>
-                                                                <select class="form-control" id="CivilStatus">
-                                                                    <option value="Single">Single</option>
-                                                                    <option value="Married">Married</option>
-                                                                    <option value="Divorced">Divorced</option>
-                                                                    <option value="Widowed">Widowed</option>
-                                                                </select>
+                                                                <label for="gender" class="form-label">Gender</label>
+                                                                    <select class="form-control" id="gender" name="gender">
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                    </select>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="contact_number" class="form-label">Contact Number</label>
-                                                                <input type="tel" class="form-control" id="contact_number" name="contact_number">
+                                                                <label for="civil_status" class="form-label">Civil Status</label>
+                                                                    <select class="form-control" id="civil_status" name="civil_status">
+                                                                        <option value="Single">Single</option>
+                                                                        <option value="Married">Married</option>
+                                                                        <option value="Divorced">Divorced</option>
+                                                                        <option value="Widowed">Widowed</option>
+                                                                    </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="contact_no" class="form-label">Contact Number</label>
+                                                                <input type="tel" class="form-control" id="contact_no" name="contact_no">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="email" class="form-label">Email Address</label>
@@ -136,7 +136,7 @@
                                                     </div>
                                                 </form>
                                                 <div class="text-center mt-3">
-                                                    <button type="button" class="btn btn-success" id="save">Save</button>
+                                                    <button type="button" class="btn btn-success" id="saveinfo">Save</button>
                                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary" id="orgEdit">Save changes</button>
+                                                    <button type="submit" class="btn btn-primary" id="clientEdit">Save changes</button>
                                                 </div>
                                             </div>
                                         </div>

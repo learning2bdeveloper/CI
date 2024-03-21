@@ -187,9 +187,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     addModal.show();
     $(document).off("click", "#saveinfo");
     // Clear form fields when modal is opened
-    $("#form_save")[0].reset();
+    $("#form_saveinfo")[0].reset();
     $(document).on("click", "#saveinfo", async () => {
-      data = new FormData($("#form_save")[0]);
+      data = new FormData($("#form_saveinfo")[0]);
 
       const response = await fetch(
         "create_client/services/Create_client_service/saveinfo",
