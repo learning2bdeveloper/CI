@@ -205,6 +205,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           toastr.options.progressBar = true;
           toastr.success("Add Success!");
           addModal.hide();
+        } else {
+          console.log(info.message);
         }
       }
     });

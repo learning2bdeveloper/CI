@@ -16,9 +16,6 @@ class Create_organization_model extends CI_Model
     public function save_method_from_model($data)
     {
         try {
-            if (empty($data['OrgName'])) {
-                echo "missing organization name";
-            }
 
             $this->db->trans_start();
 

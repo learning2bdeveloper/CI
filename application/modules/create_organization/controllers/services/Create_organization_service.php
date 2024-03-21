@@ -17,6 +17,7 @@ class Create_organization_service extends MY_Controller
             'ContactPerson' => $this->input->post('contact_person'),
             'ContactNumber' => $this->input->post('contact_number'),
             'Address' => $this->input->post('address'),
+            'Image' => $this->input->$_FILES,
         );
 
         $response = $this->create_organization_model->save_method_from_model($data);
