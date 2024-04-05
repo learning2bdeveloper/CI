@@ -2,7 +2,7 @@ body {
   overflow-x: hidden;
 }
 
-@charset "UTF-8";
+/* @charset "UTF-8"; */
 /*!
 * Start Bootstrap - Business Frontpage v5.0.9 (https://startbootstrap.com/template/business-frontpage)
 * Copyright 2013-2023 Start Bootstrap
@@ -387,8 +387,10 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button;
+  -webkit-appearance: button; /* Set appearance to button for WebKit compatibility */
+  appearance: button; /* Set appearance to button for standard compatibility */
 }
+
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
@@ -445,8 +447,10 @@ legend + * {
 
 [type=search] {
   outline-offset: -2px;
-  -webkit-appearance: textfield;
+  -webkit-appearance: textfield; /* Set appearance to textfield for WebKit compatibility */
+  appearance: textfield; /* Set appearance to textfield for standard compatibility */
 }
+
 
 /* rtl:raw:
 [type="tel"],
@@ -466,7 +470,8 @@ legend + * {
 
 ::file-selector-button {
   font: inherit;
-  -webkit-appearance: button;
+  -webkit-appearance: button; /* For WebKit compatibility */
+  appearance: button; /* For standard compatibility */
 }
 
 output {

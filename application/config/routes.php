@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -59,6 +59,11 @@ $route['translate_uri_dashes'] = FALSE;
 $route['simple-message'] = 'Create_organization/kandeng';
 $route['Dashboard'] = 'Create_organization/index';
 $route['Add'] = 'Create_organization/create';
-$route['Organization'] = 'Create_organization/crud';
-$route['Client'] = 'Create_client/client';
+
+
 $route['AddClient'] = 'Create_client/createclient';
+
+$route['Organization'] = 'Create_organization/crud';
+$route['Process'] = 'define_process/Define_process/process';
+
+$route['Client'] = 'Create_client/client';

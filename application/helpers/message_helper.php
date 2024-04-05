@@ -54,6 +54,15 @@ define('MODEL_ERROR', 'The MODEL does not exist!');
 define('FUNCTION_ERORR', 'The FUNCTION does not exist!');
 define('DATABASE_ERORR', 'The DATABASE does not exist!');
 define('TABLE_ERORR', 'The DATABASE TABLE does not exist!');
+
+/** image messages */
+define('IMAGE_ERROR', 'Image error!');
+define('IMAGE_DOES_NOT_EXIST', 'Image does exist!');
+define('IMAGE_TYPE_ERROR', 'Image type not allowed!');
+define('IMAGE_MOVE_FILE_ERROR', 'Error moving the file!');
+
+
+
 $array = array(
     'organization' =>  'tbl_organization',
     'process' => 'tbl_process',

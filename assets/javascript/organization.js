@@ -1,7 +1,8 @@
-// Define modal instances outside of the DOMContentLoaded event listener
 const editModal = new bootstrap.Modal(document.getElementById("editModal"));
 const addModal = new bootstrap.Modal(document.getElementById("addModal"));
-
+// const defineProcessModal = new bootstrap.Modal(
+//   document.getElementById("defineprocessModal")
+// );
 document.addEventListener("DOMContentLoaded", async () => {
   await reloadTable();
 
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         let data = new FormData();
         data.append("id", $(this).data("pass-value")); // Getting value from data-pass-value attribute
+        data.append("image", $(this).data("pass-image"));
         const response = await fetch(
           "create_organization/services/Create_organization_service/delete",
           {
@@ -106,6 +108,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   $(document).on("click", ".btnUpdate", async function () {
     // Access data-pass-value attribute of the clicked element
     console.log($(this).data("pass-value"));
+    let oldimage = $(this).data("pass-oldimage");
+    console.log($(this).data("pass-oldimage"));
 
     try {
       let data = new FormData();
@@ -140,8 +144,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         $("#orgEdit").on("click", async () => {
           try {
             // Get form data
-            let data2 = new FormData(document.getElementById("form_edit"));
+            let data2 = new FormData($("#form_edit")[0]);
             data2.append("id", $(this).data("pass-value"));
+            data2.append("oldimage", oldimage);
 
             // Send request to edit organization information
             const response = await fetch(
@@ -154,6 +159,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (response.ok) {
               const info = await response.json();
+              console.log(info);
               if (info.has_error === false) {
                 console.log(info.message);
                 await reloadTable();
@@ -307,6 +313,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //     alert(document.getElementById("address").value);
   // });
+
+  $(document).on("click", ".infobutton", async function () {
+    // pakadto define process crud
+    // console.log($(this).data("pass-value"));
+
+    window.location.href =
+      "Process?orgID=" + encodeURIComponent($(this).data("pass-value"));
+  });
 });
 
 // Function to perform search

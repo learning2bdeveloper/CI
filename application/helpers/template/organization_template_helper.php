@@ -16,43 +16,33 @@ function organization_header()
 
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap5.3.2.min.css') ?>">
         <link rel="stylesheet" href="<?= base_url('assets/css/table.css') ?>">
 
         <!-- Link sidebar CSS and JS -->
-        <link rel="stylesheet" href="assets/css/navigationbar.css">
-        <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-        <script defer src="assets/javascript/sidebarnavigation.js"></script>
+        <link rel="stylesheet" href="<?= base_url('assets/css/navigationbar.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/lineicons/web-font-files/lineicons.css') ?>">
+        <script defer src="<?= base_url('assets/javascript/sidebarnavigation.js') ?>"></script>
 
-        <script defer src="<?= base_url('/assets/javascript/organization.js') ?>"></script>
-        <script defer src="<?= base_url('/assets/javascript/changeLocation.js') ?>"></script>
+        <!-- Link jQuery -->
+        <script src="<?= base_url('assets/javascript/bootstrap/jquery3.7.1.js') ?>"></script>
 
-        <!--Toastr-->
+        <!-- Link Bootstrap JS -->
+        <script defer src="<?= base_url('assets/javascript/bootstrap/bootstrap5.3.2.bundle.min.js') ?>"></script>
+
+        <!-- Link your custom JavaScript files -->
+        <script defer src="<?= base_url('assets/javascript/changeLocation.js') ?>"></script>
+
+        <!-- Toastr -->
         <link href="<?= base_url('node_modules/toastr/build/toastr.min.css') ?>" rel="stylesheet">
         <script defer src="<?= base_url('node_modules/toastr/build/toastr.min.js') ?>"></script>
-
-
-
-
     </head>
 
-<?php
-}
-
-function organization_footer()
-{
-
-?>
-    </body>
-    <!-- Link DataTables JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    </html>
 
 <?php
 }
+
 
 function client_header()
 {
@@ -69,26 +59,26 @@ function client_header()
 
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap5.3.2.min.css') ?>">
         <link rel="stylesheet" href="<?= base_url('assets/css/table.css') ?>">
 
         <!-- Link sidebar CSS and JS -->
-        <link rel="stylesheet" href="assets/css/navigationbar.css">
-        <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-        <script defer src="assets/javascript/sidebarnavigation.js"></script>
+        <link rel="stylesheet" href="<?= base_url('assets/css/navigationbar.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/lineicons/web-font-files/lineicons.css') ?>">
+        <script defer src="<?= base_url('assets/javascript/sidebarnavigation.js') ?>"></script>
 
-        <script defer src="<?= base_url('/assets/javascript/client.js') ?>"></script>
+        <script defer src="<?= base_url('/assets/javascript/organization.js') ?>"></script>
         <script defer src="<?= base_url('/assets/javascript/changeLocation.js') ?>"></script>
+        <script defer src="<?= base_url('/assets/javascript/bootstrap/bootstrap5.3.2.bundle.min.js') ?>"></script>
+        <script defer src="<?= base_url('/assets/javascript/bootstrap/jquery3.7.1.js') ?>"></script>
 
-        <!--Toastr-->
+        <!-- Toastr -->
         <link href="<?= base_url('node_modules/toastr/build/toastr.min.css') ?>" rel="stylesheet">
         <script defer src="<?= base_url('node_modules/toastr/build/toastr.min.js') ?>"></script>
-
-
-
-
     </head>
+
+
 
 <?php
 }
@@ -99,8 +89,7 @@ function client_footer()
 ?>
     </body>
     <!-- Link DataTables JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 
     </html>
 

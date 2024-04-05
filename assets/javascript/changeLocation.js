@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // }
 
-//   const el_add_new_client = document.getElementById("btn_add_client");
-//   if (el_add_new_client) {
-//     el_add_new_client.addEventListener("click", () => {
-//       window.location.href = "AddClient"; // route
-//     });
-//   }
+  //   const el_add_new_client = document.getElementById("btn_add_client");
+  //   if (el_add_new_client) {
+  //     el_add_new_client.addEventListener("click", () => {
+  //       window.location.href = "AddClient"; // route
+  //     });
+  //   }
 });
