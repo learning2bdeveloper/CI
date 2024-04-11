@@ -23,7 +23,15 @@ class Process_model extends CI_Model
         //     'id' => 1,
         //     'name' => 'John',
         //     'age' => 30
-        // );
+        // ); 
         return $query;
+        // $query = $this->db->select('p.*, s.StepName')
+        //     ->distinct()
+        //     ->from('tbl_process p')
+        //     ->join('tbl_steps s', 'p.ProcessID = s.ProcessID', 'left')
+        //     ->where('p.OrgID', $this->orgID)
+        //     ->get()->result();
+
+        return ($query) ? $query : "Error!";
     }
 }

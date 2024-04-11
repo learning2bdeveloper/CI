@@ -1,6 +1,6 @@
 <?php
 
-class Define_process extends MY_Controller
+class Define_steps extends MY_Controller
 {
     private $datas = array();
 
@@ -9,23 +9,16 @@ class Define_process extends MY_Controller
         parent::__construct();
         $this->load->database();
         $this->load->helpers(array('template/organization_template_helper', 'template/pagination_template_helper', 'pagination_helper', 'message_helper'));
-        $this->load->model('Process_model');
-        $this->load->model('define_steps/Steps_model');
-    }
-
-    public function process()
-    {
-        $datas["orgID"] = $this->input->get('orgID');
-        $this->load->view('define_process/processCrud', $datas);
+        $this->load->model('Steps_model');
     }
 
 
-    public function processes() // para sa table
-    {
-        $this->Process_model->orgID = $this->input->post('orgID'); // halin ni sa process() through processCrud then process.js pakadto diri kay para ma kwa ang orgiD value sa url using get
-        $datas['data'] = $this->Process_model->get_organization_process_info();
 
-        $this->load->view('define_process/grid/Load_process', $datas);
+    public function load_steps()
+    {
+        $this->Steps_model->processID = $this->input->post('processID');
+        $datas['data'] = $this->Steps_model->steps();
+        $this->load->view('define_steps/load_steps', $datas);
     }
 
 
