@@ -18,6 +18,7 @@ class Define_steps extends MY_Controller
     {
         $this->Steps_model->processID = $this->input->post('processID');
         $datas['data'] = $this->Steps_model->steps();
+        $datas['processID'] =  $this->input->post('processID');
         $this->load->view('define_steps/load_steps', $datas);
     }
 

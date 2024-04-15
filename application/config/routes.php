@@ -67,3 +67,6 @@ $route['Organization'] = 'Create_organization/crud';
 $route['Process'] = 'define_process/Define_process/process';
 
 $route['Client'] = 'Create_client/client';
+
+
+$route['Index'] = 'client/Client/Index';
