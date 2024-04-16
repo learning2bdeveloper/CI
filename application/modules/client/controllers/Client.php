@@ -16,4 +16,16 @@ class Client extends MY_Controller
 
         $this->load->view('homepage');
     }
+
+    public function landingpage()
+    {
+
+        $this->load->view('landingpage');
+    }
+
+    public function upload()
+    {
+
+        $this->load->view('uploaddocuments');
+    }
 }
