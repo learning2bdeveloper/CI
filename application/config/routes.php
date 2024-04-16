@@ -70,3 +70,7 @@ $route['Client'] = 'Create_client/client';
 
 
 $route['Index'] = 'client/Client/Index';
+
+$route['Landingpage'] = 'client/Client/landingpage';
+
+$route['Upload'] = 'client/Client/upload';
