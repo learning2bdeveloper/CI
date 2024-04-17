@@ -1,3 +1,4 @@
+
 <link rel="stylesheet" href="<?= base_url("assets/css/navigationbar.css") ?>">
 
 <style>
@@ -17,6 +18,7 @@
         </button>
         <div class="sidebar-logo">
             <a href="#"><?= $this->session->userdata('first_name') . " " . $this->session->userdata('middle_name') . " " . $this->session->userdata('last_name'); ?></a>
+
         </div>
     </div>
     <ul class="sidebar-nav">
@@ -33,7 +35,9 @@
             </a>
         </li>
         <li class="sidebar-item">
+
             <a href="#" class="sidebar-link">
+
                 <i class="lni lni-user"></i>
                 <span>Profile Settings</span>
             </a>
@@ -45,5 +49,7 @@
             <span>Logout</span>
         </a>
     </div>
+
     <script src="<?= base_url("assets/javascript/sidebarnavigation.js") ?>"></script>
+
 </aside>

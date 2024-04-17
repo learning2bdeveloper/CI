@@ -1,3 +1,4 @@
+
 <?= usefulLinks(); ?>
 
 <link rel="stylesheet" href="<?= base_url('assets/css/landingpage.css') ?>">
@@ -6,9 +7,11 @@
 <body>
     <div class="wrapper">
         <?= $this->load->view('client/sidebar'); ?>
+
         <div class="main p-3">
             <div class="text-center">
 </body>
+
 
 <div class="row">
     <div class="col-md-3">
@@ -59,6 +62,7 @@
                 <!-- CRUD naman ni sang tbl_Process, d ko kabalo paano ya nama kwa ang value sang foreign key nga Org_ID -->
                 <!-- define process modal -->
                 <!-- <div class="modal fade" id="defineprocessModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -99,11 +103,15 @@
                                         </div>
                                     </div> -->
 
+
                 <!-- <script>
+
                                     $(document).on("click", ".infobutton", function() {
                                         console.log($(this).data("pass-value"));
                                     });
                                 </script> -->
+
                 </body>
 
                 </html>
+
