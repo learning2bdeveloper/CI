@@ -74,3 +74,5 @@ $route['Index'] = 'client/Client/Index';
 $route['Landingpage'] = 'client/Client/landingpage';
 
 $route['Upload'] = 'client/Client/upload';
+
+$route['Settings'] ='client/Client/settings';
