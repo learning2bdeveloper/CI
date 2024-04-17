@@ -83,15 +83,32 @@ function client_header()
 <?php
 }
 
-function client_footer()
+function usefulLinks()
 {
-
 ?>
-    </body>
-    <!-- Link DataTables JS -->
+    <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?= SYSTEM_MODULE ?></title>
 
-    </html>
+        <!-- Link Bootstrap CSS -->
+        <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap5.3.2.min.css') ?>">
+        <link rel="stylesheet" href="<?= base_url('assets/css/lineicons/web-font-files/lineicons.css') ?>">
 
-<?php
+        <!-- Link jQuery -->
+        <script src="<?= base_url('assets/javascript/bootstrap/jquery3.7.1.js') ?>"></script>
+
+        <!-- Link Bootstrap JS -->
+        <script defer src="<?= base_url('assets/javascript/bootstrap/bootstrap5.3.2.bundle.min.js') ?>"></script>
+
+        <!-- Toastr -->
+        <link href="<?= base_url('node_modules/toastr/build/toastr.min.css') ?>" rel="stylesheet">
+        <script defer src="<?= base_url('node_modules/toastr/build/toastr.min.js') ?>"></script>
+    <?php
 }
