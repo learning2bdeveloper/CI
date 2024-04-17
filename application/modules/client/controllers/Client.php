@@ -29,6 +29,24 @@ class Client extends MY_Controller
         $this->load->view('uploaddocuments');
     }
 
+    public function settings()
+    {
+
+        $this->load->view('profilesettings');
+    }
+
+    public function landingpage()
+    {
+
+        $this->load->view('landingpage');
+    }
+
+    public function upload()
+    {
+
+        $this->load->view('uploaddocuments');
+    }
+
 
     public function settings()
     {
