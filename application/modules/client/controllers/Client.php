@@ -17,23 +17,6 @@ class Client extends MY_Controller
         $this->load->view('homepage');
     }
 
-    public function landingpage()
-    {
-
-        $this->load->view('landingpage');
-    }
-
-    public function upload()
-    {
-
-        $this->load->view('uploaddocuments');
-    }
-
-    public function settings()
-    {
-
-        $this->load->view('profilesettings');
-    }
 
     public function landingpage()
     {
@@ -53,5 +36,4 @@ class Client extends MY_Controller
 
         $this->load->view('profilesettings');
     }
-
 }
