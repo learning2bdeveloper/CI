@@ -29,9 +29,11 @@ class Client extends MY_Controller
         $this->load->view('uploaddocuments');
     }
 
+
     public function settings()
     {
 
         $this->load->view('profilesettings');
     }
+
 }
