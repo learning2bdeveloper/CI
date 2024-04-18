@@ -45,6 +45,12 @@ class Client_service extends MY_Controller
         echo json_encode($response);
     }
 
+    public function logout()
+    {
+        $response = $this->Client_model_service->logout_method_from_model();
+        echo json_encode($response);
+    }
+
     public function delete()
     {
 

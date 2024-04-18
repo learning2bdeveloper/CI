@@ -67,6 +67,7 @@ class Client_model_service extends CI_Model
 
         // after success login
         $datas = array(
+            "logged_in" => true,
             "clientID" => $user->ClientID,
             "email" => $user->EmailAddress,
             "first_name" => $user->FName,
@@ -102,6 +103,13 @@ class Client_model_service extends CI_Model
         // } catch (Exception $msg) {
         //     return (array('message' => $msg->getMessage(), 'has_error' => true));
         // }
+    }
+
+    public function logout_method_from_model()
+    {
+        // Destroy entire session
+        $this->session->sess_destroy();
+        return array('message' => 'Logout Successfully!', 'has_error' => false);
     }
 
     public function delete_method_from_model()

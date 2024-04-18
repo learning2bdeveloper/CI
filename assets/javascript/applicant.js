@@ -63,10 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let data = new FormData($(this)[0]);
       //console.log($("#login_email").val() + $("#login_pwd").val());
-      const response = await fetch("client/services/Client_service/login", {
-        method: "POST",
-        body: data,
-      });
+      const response = await fetch(
+        "../../client/services/Client_service/login",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
       if (response.ok) {
         const info = await response.json();
@@ -83,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
         });
         $("#form_login")[0].reset();
-        window.location.href = "client/Client/landingpage";
+        window.location.href = "../../client/Client/landingpage";
       } else {
         // Handle error response
         console.error("Error submitting form:", response.statusText);
