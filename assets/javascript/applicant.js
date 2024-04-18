@@ -20,10 +20,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let data = new FormData($(this)[0]);
 
-      const response = await fetch("client/services/Client_service/signup", {
-        method: "POST",
-        body: data,
-      });
+      const response = await fetch(
+        "../../client/services/Client_service/signup",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
       if (response.ok) {
         const info = await response.json();

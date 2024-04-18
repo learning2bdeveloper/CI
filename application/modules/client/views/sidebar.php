@@ -28,7 +28,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="Landingpage" class="sidebar-link">
+            <a class="sidebar-link" id="client_landing_page">
                 <i class="lni lni-apartment"></i>
                 <span>View Organizations</span>
             </a>

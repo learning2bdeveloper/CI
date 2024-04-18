@@ -21,4 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error(error);
     }
   });
+
+  $("#client_landing_page").on("click", () => {
+    window.location.href = "landingpage";
+  });
 });

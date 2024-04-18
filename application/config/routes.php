@@ -69,8 +69,6 @@ $route['Process'] = 'define_process/Define_process/process';
 $route['Client'] = 'Create_client/client';
 
 
-$route['Landingpage'] = 'client/Client/landingpage';
-
 $route['Upload'] = 'client/Client/upload';
 
 
