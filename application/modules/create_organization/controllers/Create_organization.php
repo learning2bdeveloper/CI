@@ -51,7 +51,11 @@ class Create_organization extends MY_Controller
         // $total_records = $this->get_org_info->record_count();
         // $datas['totalPages'] = ceil($total_records / $recordsPerPage);
         // $datas['currentPage'] = $pagination['currentPage'];
-        $this->load->view('create_organization/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        if ($this->session->userdata("type") == "client") {
+            $this->load->view('client/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        } else {
+            $this->load->view('create_organization/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        }
     }
 
     public function get_single_organization_info()

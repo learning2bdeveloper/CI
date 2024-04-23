@@ -9,20 +9,28 @@
         border-radius: 50%;
         /* Make the image circular */
     }
+
+    .sidebar-link .lni {
+        font-size: 24px;
+        /* Adjust the font size as needed */
+        margin-right: 10px;
+        /* Optional: Add some space between the icon and the text */
+    }
 </style>
 <aside id="sidebar">
     <div class="d-flex">
         <button class="toggle-btn" type="button">
-            <img src="<?= base_url("assets/images/profiles/6602bfd9833aa6.51694611.jpg") ?>" class="profile-image">
+
         </button>
         <div class="sidebar-logo">
+
             <a href="#"><?= $this->session->userdata('first_name') . " " . $this->session->userdata('last_name'); ?></a>
 
         </div>
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="Upload" class="sidebar-link">
+            <a class="sidebar-link" id="client_upload_documents">
                 <i class="lni lni-home"></i>
                 <span>Upload Documents</span>
             </a>
@@ -34,9 +42,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-
-            <a href="#" class="sidebar-link">
-
+            <a class="sidebar-link" id="client_profile">
                 <i class="lni lni-user"></i>
                 <span>Profile Settings</span>
             </a>

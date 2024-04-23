@@ -68,8 +68,4 @@ $route['Process'] = 'define_process/Define_process/process';
 
 $route['Client'] = 'Create_client/client';
 
-
-$route['Upload'] = 'client/Client/upload';
-
-
 $route['Settings'] = 'client/Client/settings';

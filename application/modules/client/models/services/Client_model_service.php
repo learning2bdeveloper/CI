@@ -68,6 +68,7 @@ class Client_model_service extends CI_Model
         // after success login
         $datas = array(
             "logged_in" => true,
+            "type" => "client",
             "clientID" => $user->ClientID,
             "email" => $user->EmailAddress,
             "first_name" => $user->FName,
@@ -76,33 +77,6 @@ class Client_model_service extends CI_Model
         );
 
         $this->session->set_userdata($datas);
-
-        return array('message' => 'Login successful', 'has_error' => false);
-
-        // $data = array(
-        //     'FName' => $this->firstName,
-        //     'MName' => $this->middleName,
-        //     'LName' => $this->lastName,
-        //     'Password' => $hashed_password,
-        //     'EmailAddress' => $this->email,
-        // );
-        // try {
-
-        //     $this->db->trans_start();
-
-        //     $this->db->insert($this->Table->client, $data); // Table-> nd Table[''] kay bawal array 
-
-        //     $this->db->trans_complete();
-        //     if ($this->db->trans_status() === FALSE) {
-        //         $this->db->trans_rollback();
-        //         throw new Exception(ERROR_PROCESSING, true);
-        //     } else {
-        //         $this->db->trans_commit();
-        //         return array('message' => SAVED_SUCCESSFUL, 'has_error' => false);
-        //     }
-        // } catch (Exception $msg) {
-        //     return (array('message' => $msg->getMessage(), 'has_error' => true));
-        // }
     }
 
     public function logout_method_from_model()

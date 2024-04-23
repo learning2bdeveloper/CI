@@ -25,4 +25,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#client_landing_page").on("click", () => {
     window.location.href = "landingpage";
   });
+
+  $("#client_upload_documents").on("click", () => {
+    window.location.href = "upload";
+  });
+
+  $("#client_profile").on("click", async () => {
+    try {
+      const response = await fetch("profile");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      window.location.href = "profile";
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });

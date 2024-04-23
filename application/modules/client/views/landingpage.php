@@ -2,7 +2,7 @@
 if ($this->session->userdata("logged_in")) {
 
     usefulLinks(); ?>
-
+    <script defer src="<?= base_url('assets/javascript/applicant.js') ?>"></script>
     <link rel="stylesheet" href="<?= base_url('assets/css/landingpage.css') ?>">
 
 
@@ -12,58 +12,57 @@ if ($this->session->userdata("logged_in")) {
 
             <div class="main p-3">
                 <div class="text-center">
-    </body>
 
 
-    <div class="row">
-        <div class="col-md-3">
-            <div class="input-group">
-                <div class="dropdown">
-                    <button id="dropbtn" class="btn btn-dark">&#9660;</button>
-                    <div class="dropdown-content">
-                    </div>
-                </div>
-                <select id="rowsPerPage" class="form-select me-3">
-                    <option disabled selected>Rows Per Page</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
-        </div>
-        <div>
-            <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
-                <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
-                <button id="searchButton" class="btn btn-primary">Search</button>
-            </div>
-        </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <div class="dropdown">
+                                    <button id="dropbtn" class="btn btn-dark">&#9660;</button>
+                                    <div class="dropdown-content">
+                                    </div>
+                                </div>
+                                <select id="rowsPerPage" class="form-select me-3">
+                                    <option disabled selected>Rows Per Page</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group" style="width:250px; position: absolute; right:0px; top:0px; margin:20px;">
+                                <input type="text" id="searchInput" class="form-control mb-1 me-1" placeholder="Search...">
+                                <button id="searchButton" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
 
 
-        <!-- <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p> -->
+                        <!-- <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p> -->
 
-        <div style="max-height: 560px; overflow-y: auto;">
-            <table id="example" class="table table-striped" style="width:98%">
-                <thead>
-                    <tr>
-                        <th scope="col" class="styled-header">#</th>
-                        <th scope="col" class="styled-header"></th>
-                        <th scope="col" class="styled-header">Organization Name</th>
-                        <th scope="col" class="styled-header">Email Address</th>
-                        <th scope="col" class="styled-header">Contact Person</th>
-                        <th scope="col" class="styled-header">Contact #</th>
-                        <th scope="col" class="styled-header">Address</th>
-                        <th scope="col" class="styled-header">Actions</th>
-                    </tr>
-                </thead>
+                        <div style="max-height: 560px; overflow-y: auto;">
+                            <table id="example" class="table table-striped" style="width:98%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="styled-header">#</th>
+                                        <th scope="col" class="styled-header"></th>
+                                        <th scope="col" class="styled-header">Organization Name</th>
+                                        <th scope="col" class="styled-header">Email Address</th>
+                                        <th scope="col" class="styled-header">Contact Person</th>
+                                        <th scope="col" class="styled-header">Contact #</th>
+                                        <th scope="col" class="styled-header">Address</th>
+                                        <!--<th scope="col" class="styled-header">Actions</th>-->
+                                    </tr>
+                                </thead>
 
-                <tbody id="table"> <!-- diri ang Load_organization.php ga gwa-->
+                                <tbody id="table"> <!-- diri ang Load_organization.php ga gwa-->
 
 
 
-                    <!-- CRUD naman ni sang tbl_Process, d ko kabalo paano ya nama kwa ang value sang foreign key nga Org_ID -->
-                    <!-- define process modal -->
-                    <!-- <div class="modal fade" id="defineprocessModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <!-- CRUD naman ni sang tbl_Process, d ko kabalo paano ya nama kwa ang value sang foreign key nga Org_ID -->
+                                    <!-- define process modal -->
+                                    <!-- <div class="modal fade" id="defineprocessModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
@@ -106,18 +105,18 @@ if ($this->session->userdata("logged_in")) {
                                     </div> -->
 
 
-                    <!-- <script>
+                                    <!-- <script>
 
                                     $(document).on("click", ".infobutton", function() {
                                         console.log($(this).data("pass-value"));
                                     });
                                 </script> -->
 
-                    </body>
+    </body>
 
-                    </html>
+    </html>
 
-                <?php } else { ?>
+<?php } else { ?>
 
-                    <?= accessDenied(); ?>
-                <?php } ?>
+    <?= accessDenied(); ?>
+<?php } ?>
