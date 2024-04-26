@@ -77,6 +77,7 @@ class Client_model_service extends CI_Model
         );
 
         $this->session->set_userdata($datas);
+        return array('message' => 'Login Succesfully!', 'has_error' => false);
     }
 
     public function logout_method_from_model()

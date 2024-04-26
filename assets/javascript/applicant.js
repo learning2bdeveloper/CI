@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     reloadTable(); // no need mag butang await kay ga error.
   }
 
+  // Event listener for search button click
+  $("#searchButton").on("click", async () => {
+    await performSearch();
+  });
+
+  // Event listener for Enter key press
+  $("#searchInput").on("keypress", async (event) => {
+    if (event.key === "Enter") {
+      await performSearch();
+    }
+  });
+
   $("#form_signup").on("submit", async function (event) {
     try {
       event.preventDefault(); // Prevent default form submission
@@ -80,15 +92,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (response.ok) {
         const info = await response.json();
-        console.log(info);
-        if (info.has_error === true) {
+        if (info.has_error == true) {
           toastr.error(info.message, "", {
             timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
           });
           return;
         }
         $("#form_login")[0].reset();
-        window.location.href = "../../client/Client/landingpage";
+        window.location.href = "landingpage";
       } else {
         // Handle error response
         console.error("Error submitting form:", response.statusText);
@@ -196,5 +207,24 @@ async function reloadTable() {
   } else {
     // Handle error response
     console.error("Error submitting form:", response.statusText);
+  }
+}
+
+// Function to perform search
+async function performSearch() {
+  try {
+    const data = new FormData();
+    data.append("input", document.getElementById("searchInput").value);
+    const response = await fetch(
+      "../../create_organization/Create_organization/search",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const info = await response.text();
+    document.getElementById("table").innerHTML = info;
+  } catch (error) {
+    console.warn(error);
   }
 }

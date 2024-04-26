@@ -68,6 +68,10 @@ class Create_organization extends MY_Controller
     public function search()
     {
         $search = $this->Organization_model->Search($this->input->post('input'));
-        $this->load->view('grid/Load_organization', $search);
+        if ($this->session->userdata("type") == "client") {
+            $this->load->view('client/grid/Load_organization', $search); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        } else {
+            $this->load->view('create_organization/grid/Load_organization', $search); // need dapat array hahhaa mag pasa data kung nd nd ya makita
+        }
     }
 }
