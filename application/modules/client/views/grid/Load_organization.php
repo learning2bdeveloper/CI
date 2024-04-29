@@ -2,7 +2,7 @@
 if (!empty($data)) {
     foreach ($data as $value) { // dapat ang name ka key sng array imo gamiton ND ang whole array gid 'datas[data]';
 ?>
-        <tr>
+        <tr class="click_row" data-test="<?= $value->OrgID; ?>" data-test2="<?= $value->OrgName; ?>">
             <td><?= @$value->OrgID ?></td>
             <td> <img style="width: 100px; height: 100px;" src="<?= ($value->Image == null and isset($value->Image)) ? base_url('assets/images/default.png') : base_url('assets/images/profiles/') . $value->Image; ?>" alt="Organization Logo"> </td>
             <td><?= ucwords(@$value->OrgName) ?></td>

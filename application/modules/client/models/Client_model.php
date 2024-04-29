@@ -86,7 +86,7 @@ class Client_model extends CI_Model
             $query = $this->db->get($this->Table->client)->row();
             $oldFileName = $query->Image;
 
-            if ($oldFileName == "") {
+            if (!$oldFileName == "") {
                 unlink('assets/images/client_profiles/' . $oldFileName);
                 clearstatcache();
             }

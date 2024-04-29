@@ -8,6 +8,7 @@ class Client extends MY_Controller
         $this->load->database();
         $this->load->helpers(array('template/organization_template_helper', 'template/pagination_template_helper', 'pagination_helper', 'message_helper'));
         $this->load->model('Client_model');
+        $this->load->model('define_process/Process_model');
     }
 
 
@@ -35,6 +36,14 @@ class Client extends MY_Controller
     {
         $datas['data'] = $this->Client_model->get_single_client_info();
         $this->load->view('profilesettings', $datas);
+    }
+
+    public function process()
+    {
+        $this->Process_model->orgID = $this->input->get('orgID'); // halin ni sa process() through processCrud then process.js pakadto diri kay para ma kwa ang orgiD value sa url using get
+        $datas['data'] = $this->Process_model->get_organization_process_info();
+        $datas['orgName'] = $this->input->get('orgName');
+        $this->load->view('Processes', $datas);
     }
 
     public function save_profile()

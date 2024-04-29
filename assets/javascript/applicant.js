@@ -192,6 +192,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     location.reload();
   });
+
+  $(document).on("dblclick", ".click_row", async function () {
+    try {
+      // Redirect only after a successful response
+      let orgID = encodeURIComponent($(this).data("test"));
+      let orgName = encodeURIComponent($(this).data("test2"));
+      let url = "process?orgID=" + orgID + "&orgName=" + orgName;
+
+      window.location.href = url;
+    } catch (error) {
+      console.error("Error occurred during request:", error);
+    }
+  });
 });
 
 async function reloadTable() {
