@@ -1,8 +1,4 @@
-// const editModal = new bootstrap.Modal(document.getElementById("editModal"));
-// const addModal = new bootstrap.Modal(document.getElementById("addModal"));
-// const defineProcessModal = new bootstrap.Modal(
-//   document.getElementById("defineprocessModal")
-// );
+const base_url = "/kyanu_document_tracking";
 document.addEventListener("DOMContentLoaded", async () => {
   if (document.querySelector(".img__btn")) {
     document.querySelector(".img__btn").addEventListener("click", function () {
@@ -29,7 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let data = new FormData(this);
       const response = await fetch(
-        "authentication/services/Login_service_controller/SetSignupOrganization", //not tried
+        base_url +
+          "/authentication/services/Login_service_controller/SetSignupOrganization", //not tried
         {
           method: "POST",
           body: data,
@@ -72,7 +69,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let data = new FormData(this);
       const response = await fetch(
-        "authentication/services/Login_service_controller/SetLoginOrganization", //done
+        base_url +
+          "/authentication/services/Login_service_controller/SetLoginOrganization", //done
         {
           method: "POST",
           body: data,
@@ -94,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
         });
         $("#form_login")[0].reset();
-        window.location.href = "Organization/Dashboard";
+        window.location.href = base_url + "/organization/dashboard";
       } else {
         throw new Error();
       }

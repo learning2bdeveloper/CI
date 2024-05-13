@@ -52,13 +52,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#organization_logout").on("click", async () => {
     try {
       const response = await fetch(
-        "../authentication/Logout_controller/logout"
+        base_url + "/authentication/Logout_controller/logout"
       );
       const info = await response.json();
       toastr.success(info.message, "", {
         timeOut: 2000,
       });
-      window.location.href = "../Organization";
+      window.location.href = base_url + "/organization";
     } catch (error) {
       console.error(error);
     }
