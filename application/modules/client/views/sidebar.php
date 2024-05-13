@@ -1,60 +1,49 @@
 <link rel="stylesheet" href="<?= base_url("assets/css/navigationbar.css") ?>">
 
 <style>
-    .profile-image {
-        width: 40px;
-        /* Adjust the width as needed */
-        height: 40px;
-        /* Adjust the height as needed */
-        border-radius: 50%;
-        /* Make the image circular */
-    }
-
-    .sidebar-link .lni {
+    .custom-sidebar-link .lni {
         font-size: 24px;
         /* Adjust the font size as needed */
         margin-right: 10px;
         /* Optional: Add some space between the icon and the text */
     }
 </style>
-<aside id="sidebar">
+
+<aside id="custom-sidebar"> <!-- Change the ID to avoid conflicts -->
     <div class="d-flex">
-        <button class="toggle-btn" type="button">
 
-        </button>
-        <div class="sidebar-logo">
-
-            <a href="#"><?= $this->session->userdata('first_name') . " " . $this->session->userdata('last_name'); ?></a>
-
+        <div class="custom-sidebar-logo"> <!-- Change class names -->
+            <a href>
+                <?= $this->session->userdata('first_name') . " " . $this->session->userdata('last_name'); ?>
+            </a>
         </div>
     </div>
-    <ul class="sidebar-nav">
-        <li class="sidebar-item">
-            <a class="sidebar-link" id="client_upload_documents">
-                <i class="lni lni-home"></i>
-                <span>Upload Documents</span>
+    <ul class="custom-sidebar-nav"> <!-- Change class names -->
+        <li class="custom-sidebar-item"> <!-- Change class names -->
+            <a class="custom-sidebar-link" id="client_dashboard">
+                <i class="lni lni-dashboard"></i>
+                <span>Dashboard</span>
             </a>
         </li>
-        <li class="sidebar-item">
-            <a class="sidebar-link" id="client_landing_page">
+        <li class="custom-sidebar-item"> <!-- Change class names -->
+            <a class="custom-sidebar-link" id="client_view_organizations">
                 <i class="lni lni-apartment"></i>
                 <span>View Organizations</span>
             </a>
         </li>
-        <li class="sidebar-item">
-            <a class="sidebar-link" id="client_profile">
+        <li class="custom-sidebar-item"> <!-- Change class names -->
+            <a class="custom-sidebar-link" id="client_profile">
                 <i class="lni lni-user"></i>
                 <span>Profile Settings</span>
             </a>
         </li>
     </ul>
-    <div class="sidebar-footer">
-        <a class="sidebar-link" id="client_logout">
+    <div class="custom-sidebar-footer"> <!-- Change class names -->
+        <a class="custom-sidebar-link" id="client_logout">
             <i class="lni lni-exit"></i>
             <span>Logout</span>
         </a>
     </div>
 
-    <script src="<?= base_url("assets/javascript/sidebarnavigation.js") ?>"></script>
-
+    <script src="<?= base_url("assets/javascript/Sidebarnavigation.js") ?>"></script>
 </aside>

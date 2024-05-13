@@ -1,10 +1,108 @@
-const editModal = new bootstrap.Modal(document.getElementById("editModal"));
-const addModal = new bootstrap.Modal(document.getElementById("addModal"));
+// const editModal = new bootstrap.Modal(document.getElementById("editModal"));
+// const addModal = new bootstrap.Modal(document.getElementById("addModal"));
 // const defineProcessModal = new bootstrap.Modal(
 //   document.getElementById("defineprocessModal")
 // );
 document.addEventListener("DOMContentLoaded", async () => {
-  await reloadTable();
+  if (document.querySelector(".img__btn")) {
+    document.querySelector(".img__btn").addEventListener("click", function () {
+      document.querySelector(".cont").classList.toggle("s--signup");
+    });
+  }
+
+  $("#form_signup").submit(async function (event) {
+    try {
+      event.preventDefault();
+
+      if (
+        $("#organizationsdropdown").val() === "" ||
+        $("#department").val() === "" ||
+        $("#username").val() === "" ||
+        $("#pwd").val() === ""
+      ) {
+        // At least one of the required fields is empty or checkbox is not checked
+        toastr.error("Please fill in all required fields.", "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return; // Stop form submission
+      }
+
+      let data = new FormData(this);
+      const response = await fetch(
+        "authentication/services/Login_service_controller/SetSignupOrganization", //not tried
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      if (response.ok) {
+        const info = await response.json();
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
+        }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        $("#form_signup")[0].reset();
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  $("#form_login").submit(async function (event) {
+    try {
+      event.preventDefault();
+
+      if ($("#login_username").val() === "" || $("#login_pwd").val() === "") {
+        // At least one of the required fields is empty or checkbox is not checked
+        toastr.error("Please fill in all required fields.", "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return; // Stop form submission
+      }
+
+      let data = new FormData(this);
+      const response = await fetch(
+        "authentication/services/Login_service_controller/SetLoginOrganization", //done
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      if (response.ok) {
+        const info = await response.json();
+        console.log(info);
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
+        }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        $("#form_login")[0].reset();
+        window.location.href = "Organization/Dashboard";
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  //await reloadTable();
 
   // Event listener for search button click
   $("#searchButton").on("click", async () => {

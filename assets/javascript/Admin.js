@@ -1,0 +1,389 @@
+// const defineProcessModal = new bootstrap.Modal(
+//   document.getElementById("defineprocessModal")
+// );
+document.addEventListener("DOMContentLoaded", async () => {
+  if (document.getElementById("table")) {
+    reloadTable(); // no need mag butang await kay ga error.
+  }
+
+  if (document.querySelector("#numberoforganizations")) {
+    number_of_organizations();
+  }
+
+  if (document.querySelector("#numberofclients")) {
+    number_of_clients();
+  }
+
+  let editModal;
+  if (document.getElementById("editModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    editModal = new bootstrap.Modal(document.getElementById("editModal"));
+  }
+
+  let addModal;
+  if (document.getElementById("addModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    addModal = new bootstrap.Modal(document.getElementById("addModal"));
+  }
+
+  // Event listener for search button click
+  $("#searchButton").on("click", async () => {
+    await performSearch();
+  });
+
+  // Event listener for Enter key press
+  $("#searchInput").on("keypress", async (event) => {
+    if (event.key === "Enter") {
+      await performSearch();
+    }
+  });
+
+  // Event listener for the Dropdown recordsPerPage
+  $("#rowsPerPage").on("change", async function () {
+    try {
+      let data = new FormData();
+      data.append("recordsPerPage", this.value);
+      const response = await fetch(
+        "create_organization/Create_organization/get_organization_info_with_pagination",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+      }
+    } catch (error) {
+      console.error("Error: " + error);
+    }
+  });
+
+  //Event Listener for Pagination Links
+  $(document).on("click", ".pagination_link", async function () {
+    console.log($(this).data("pass-value"));
+    try {
+      let data = new FormData();
+      data.append("page", $(this).data("pass-value"));
+      const response = await fetch(
+        "create_organization/Create_organization/get_organization_info_with_pagination",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+      }
+    } catch (error) {
+      console.error("Error: " + error);
+    }
+  });
+
+  //Event Listener for Dropbtn Links
+  $("#dropbtn").click(async () => {
+    document.getElementById("navbottom").scrollIntoView({ behavior: "smooth" });
+  });
+
+  $(document).on("click", ".btnDelete", async function () {
+    console.log($(this).data("pass-value"));
+    let confirmation = confirm("Are you sure you want to delete this?");
+    if (confirmation) {
+      try {
+        let data = new FormData();
+        data.append("id", $(this).data("pass-value")); // Getting value from data-pass-value attribute
+        data.append("image", $(this).data("pass-image"));
+        const response = await fetch(
+          "../services/Organization_services/delete",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (response.ok) {
+          const info = await response.json();
+          if (info.has_error === false) {
+            console.log(info.message);
+            toastr.options.progressBar = true;
+            toastr.success("Deleted Success!");
+            await reloadTable();
+          }
+
+          // $('#example').DataTable() gets the DataTable instance.
+          // table.row($(this).closest('tr')) finds the DataTable row corresponding to the closest table row (<tr>) relative to the clicked delete button.
+          // .remove() removes the row from the DataTable.
+          // .draw(false) redraws the DataTable without refreshing the page.
+        } else {
+          // Handle error response
+          console.error("Error submitting form:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }
+  });
+
+  $(document).on("click", ".btnUpdate", async function () {
+    // Access data-pass-value attribute of the clicked element
+    console.log($(this).data("pass-value"));
+    let oldimage = $(this).data("pass-oldimage");
+    console.log($(this).data("pass-oldimage"));
+
+    try {
+      let data = new FormData();
+      data.append("id", $(this).data("pass-value"));
+      // Fetch organization information based on the ID
+      const response = await fetch("get_single_organization_info", {
+        method: "POST",
+        body: data,
+      });
+
+      if (response.ok) {
+        const info = await response.json();
+        editModal.show();
+
+        // Populate modal fields with organization information
+        document.getElementById("edit_organization_name").value =
+          info.data.OrgName;
+        document.getElementById("edit_address").value = info.data.Address;
+        document.getElementById("edit_email").value = info.data.EmailAddress;
+        document.getElementById("edit_contact_person").value =
+          info.data.ContactPerson;
+        document.getElementById("edit_contact_number").value =
+          info.data.ContactNumber;
+
+        // Remove any existing event listeners on orgEdit button
+        $("#orgEdit").off("click");
+
+        // Attach event listener for the organization edit button
+        $("#orgEdit").on("click", async () => {
+          try {
+            // Get form data
+            let data2 = new FormData($("#form_edit")[0]);
+            data2.append("id", $(this).data("pass-value"));
+            data2.append("oldimage", oldimage);
+
+            // Send request to edit organization information
+            const response = await fetch(
+              "../services/Organization_services/edit",
+              {
+                method: "POST",
+                body: data2,
+              }
+            );
+
+            if (response.ok) {
+              const info = await response.json();
+              console.log(info);
+              if (info.has_error === false) {
+                console.log(info.message);
+                await reloadTable();
+                toastr.options.progressBar = true;
+                toastr.success("Update Success!");
+                editModal.hide();
+              }
+            } else {
+              // Handle error response
+              console.error("Error submitting form:", response.statusText);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        });
+
+        // Show the modal
+        editModal.show();
+      } else {
+        // Handle error response
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  });
+
+  $("#btn_add_new").click(async function () {
+    addModal.show();
+    $(document).off("click", "#save");
+    // Clear form fields when modal is opened
+    $("#form_save")[0].reset();
+    $(document).on("click", "#save", async () => {
+      data = new FormData($("#form_save")[0]);
+
+      const response = await fetch("../services/Organization_services/save", {
+        method: "POST",
+        body: data,
+      });
+
+      if (response.ok) {
+        const info = await response.json();
+        if (info.has_error === false) {
+          console.log(info.message);
+          await reloadTable();
+          toastr.options.progressBar = true;
+          toastr.success("Add Success!");
+          addModal.hide();
+        } else {
+          toastr.warning(info.message);
+        }
+      }
+    });
+  });
+
+  // //function for updating client info
+  // async function OpenModalUpdateClientData(value) {
+  //   console.log("modalUpdate()");
+  //   const myModal = new bootstrap.Modal(document.getElementById("editModal"));
+  //   try {
+  //     let data = new FormData();
+  //     data.append("id", value);
+
+  //     const response = await fetch("Create_client/get_single_client_info", {
+  //       method: "POST",
+  //       body: data,
+  //     });
+
+  //     if (response.ok) {
+  //       const info = await response.json();
+  //       console.log(info);
+  //       // Handle successful response
+  //       myModal.show();
+
+  //       document.getElementById("edit_user_name").value = info.data.UserName;
+  //       document.getElementById("edit_first_name").value = info.data.FName;
+  //       document.getElementById("edit_middle_name").value = info.data.MName;
+  //       document.getElementById("edit_last_name").value = info.data.LName;
+  //       document.getElementById("edit_password").value = info.data.Password;
+  //       document.getElementById("edit_gender").value = info.data.Gender;
+  //       document.getElementById("edit_civil_status").value =
+  //         info.data.CivilStatus;
+  //       document.getElementById("edit_contact_no").value = info.data.ContactNo;
+  //       document.getElementById("edit_email").value = info.data.EmailAddress;
+  //       document.getElementById("edit_address").value = info.data.Address;
+
+  //       if (document.getElementById("clientEdit")) {
+  //         document
+  //           .getElementById("clientEdit")
+  //           .addEventListener("click", async () => {
+  //             let data = new FormData(document.getElementById("form_edit"));
+  //             data.append("id", value);
+  //             const response = await fetch(
+  //               "create_client/services/Create_client_service/editinfo",
+  //               {
+  //                 method: "POST",
+  //                 body: data,
+  //               }
+  //             );
+  //             if (response.ok) {
+  //               reloadTable();
+  //               myModal.hide();
+  //             }
+  //           });
+  //       }
+  //     } else {
+  //       // Handle error response
+  //       console.error("Error submitting form:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+
+  // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+  // myModal.show();;
+  //}
+
+  // if (el_modal_btn_saveinfo) {
+  //   el_modal_btn_saveinfo.addEventListener("click", async (e) => {
+  //     e.preventDefault();
+  //     try {
+  //       let data = new FormData(el_form_saveinfo);
+  //       const response = await fetch(
+  //         "create_client/services/Create_client_service/saveinfo",
+  //         {
+  //           method: "POST",
+  //           body: data,
+  //         }
+  //       );
+  //       const info = await response.text();
+
+  //       if (response.ok) {
+  //         // Handle successful response
+  //         console.log("Form submitted successfully");
+  //         localStorage.setItem("showToast", "true");
+  //         window.location.href = "Client";
+  //       } else {
+  //         // Handle error response
+  //         console.error("Error submitting form:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error submitting form:", error);
+  //     }
+  //   });
+  // }
+
+  // document.getElementById("submit").addEventListener("click", () => {
+
+  //     alert(document.getElementById("address").value);
+  // });
+
+  $(document).on("click", ".infobutton", async function () {
+    // pakadto define process crud
+    // console.log($(this).data("pass-value"));
+
+    window.location.href =
+      "Process?orgID=" + encodeURIComponent($(this).data("pass-value"));
+  });
+});
+
+// Function to perform search
+async function performSearch() {
+  try {
+    const data = new FormData();
+    data.append("input", document.getElementById("searchInput").value);
+    const response = await fetch("admin/Admin/search", {
+      method: "POST",
+      body: data,
+    });
+    const info = await response.text();
+    document.getElementById("table").innerHTML = info;
+  } catch (error) {
+    console.warn(error);
+  }
+}
+
+async function number_of_organizations() {
+  try {
+    const response = await fetch("number_of_organizations");
+    const info = await response.text();
+    console.log(info);
+    $("#numberoforganizations").html(info);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function number_of_clients() {
+  try {
+    const response = await fetch("number_of_clients");
+    const info = await response.text();
+    console.log(info);
+    $("#numberofclients").html(info);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function reloadTable() {
+  //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
+  const response = await fetch("organization_table_with_pagination");
+  if (response.ok) {
+    const data = await response.text();
+    document.getElementById("table").innerHTML = data;
+    console.log("reloadtable()");
+  } else {
+    // Handle error response
+    console.error("Error submitting form:", response.statusText);
+  }
+}

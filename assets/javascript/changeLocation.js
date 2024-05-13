@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const btn_org = document.getElementById("btn_org");
-  if (btn_org) {
-    btn_org.addEventListener("click", () => {
-      window.location.href = "Organization";
-    });
-  }
+  // const btn_org = document.getElementById("btn_org");
+  // if (btn_org) {
+  //   btn_org.addEventListener("click", () => {
+  //     window.location.href = "Organization";
+  //   });
+  // }
 
   const btn_dashboard = document.getElementById("btn_dashboard");
   if (btn_dashboard) {

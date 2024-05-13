@@ -3,7 +3,7 @@
 
 <body>
     <div class="wrapper">
-        <?php include 'sidebar.php'; ?>
+        <?= $this->load->view('client/sidebar'); ?>
         <div class="main p-3">
             <div class="text-center">
 

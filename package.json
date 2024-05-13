@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "material-design-icons-iconfont": "^6.7.0",
     "toastr": "^2.1.4"
   }
 }

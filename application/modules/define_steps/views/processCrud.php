@@ -3,7 +3,7 @@
 
 <body>
     <div class="wrapper">
-        <?php include 'sidebar.php'; ?>
+        <?= $this->load->view('client/sidebar'); ?>
         <div class="main p-3">
             <div class="text-center">
 
@@ -40,7 +40,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody id="table"> <!-- diri ang Load_organization.php ga gwa-->
+                            <tbody id="table"> <!-- diri ang Load_process.php ga gwa-->
 
                     </div>
 

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let data = new FormData();
     data.append("processID", $(this).data("pass-value"));
 
-    const response = await fetch("define_steps/Define_steps/load_steps", {
+    const response = await fetch("load_steps", {
       method: "POST",
       body: data,
     });
@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function reloadTable() {
   //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
   let data = new FormData();
-  // console.log($("#hidden_elem").val());
+  console.log($("#hidden_elem").val());
   data.append("orgID", $("#hidden_elem").val());
-  const response = await fetch("define_process/Define_process/processes", {
+  const response = await fetch("Processes", {
     method: "POST",
     body: data,
   });

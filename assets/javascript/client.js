@@ -1,9 +1,34 @@
-// Define modal instances outside of the DOMContentLoaded event listener
-const editModal = new bootstrap.Modal(document.getElementById("editModal"));
-const addModal = new bootstrap.Modal(document.getElementById("addModal"));
-
+const base_url = "/kyanu_document_tracking";
 document.addEventListener("DOMContentLoaded", async () => {
-  await reloadClientTable();
+  if (document.getElementById("table")) {
+    reloadTable(); // no need mag butang await kay ga error.
+  }
+
+  let stepsModal;
+  if (document.getElementById("stepsModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    stepsModal = new bootstrap.Modal(document.getElementById("stepsModal"));
+  }
+
+  let uploadDocumentModal;
+  if (document.getElementById("uploadDocumentModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    uploadDocumentModal = new bootstrap.Modal(
+      document.getElementById("uploadDocumentModal")
+    );
+  }
+
+  let cancelModal;
+  if (document.getElementById("cancelModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    cancelModal = new bootstrap.Modal(document.getElementById("cancelModal"));
+  }
+
+  let deleteModal;
+  if (document.getElementById("deleteModal")) {
+    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
+    deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+  }
 
   // Event listener for search button click
   $("#searchButton").on("click", async () => {
@@ -17,24 +42,100 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Event listener for the Dropdown recordsPerPage
-  $("#rowsPerPage").on("change", async function () {
+  $("#form_signup").on("submit", async function (event) {
+    //not yet
     try {
-      let data = new FormData();
-      data.append("recordsPerPage", this.value);
+      event.preventDefault(); // Prevent default form submission
+
+      if (
+        $("#firstName").val() === "" ||
+        $("#middleName").val() === "" ||
+        $("#lastName").val() === "" ||
+        $("#email").val() === "" ||
+        $("#pwd").val() === "" ||
+        $("#checkbox").prop("checked") === false
+      ) {
+        // At least one of the required fields is empty or checkbox is not checked
+        toastr.error("Please fill in all required fields.", "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return; // Stop form submission
+      }
+
+      let data = new FormData($(this)[0]);
+
       const response = await fetch(
-        "create_client/Create_client/get_client_info_with_pagination",
+        "../../client/services/Client_service/signup",
         {
           method: "POST",
           body: data,
         }
       );
+
       if (response.ok) {
-        const info = await response.text();
-        document.getElementById("clienttable").innerHTML = info;
+        const info = await response.json();
+        console.log(info);
+        if (info.has_error === true) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
+        }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        $("#form_signup")[0].reset();
+      } else {
+        // Handle error response
+        console.error("Error submitting form:", response.statusText);
       }
     } catch (error) {
-      console.error("Error: " + error);
+      console.error(error);
+    }
+  });
+
+  $("#form_login").on("submit", async function (event) {
+    //done
+    try {
+      event.preventDefault(); // Prevent default form submission
+
+      if ($("#login_email").val() === "" || $("#login_pwd").val() === "") {
+        // At least one of the required fields is empty or checkbox is not checked
+        toastr.error("Please fill in all required fields.", "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return; // Stop form submission
+      }
+
+      let data = new FormData($(this)[0]);
+      //console.log($("#login_email").val() + $("#login_pwd").val());
+      const response = await fetch(
+        base_url +
+          "/authentication/services/Login_service_controller/SetLoginClient",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      if (response.ok) {
+        const info = await response.json();
+        if (info.has_error == true) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
+        }
+        $("#form_login")[0].reset();
+        window.location.href = base_url + "/client/dashboard";
+      } else {
+        // Handle error response
+        console.error("Error submitting form:", response.statusText);
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 
@@ -45,7 +146,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       let data = new FormData();
       data.append("page", $(this).data("pass-value"));
       const response = await fetch(
-        "create_client/Create_client/get_client_info_with_pagination",
+        base_url +
+          "/client/Client_controller/GetOrganizationInfoWithPagination",
         {
           method: "POST",
           body: data,
@@ -53,7 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       if (response.ok) {
         const info = await response.text();
-        document.getElementById("clienttable").innerHTML = info;
+        document.getElementById("table").innerHTML = info;
       }
     } catch (error) {
       console.error("Error: " + error);
@@ -61,253 +163,283 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   //Event Listener for Dropbtn Links
-  $("#dropbtn").click(async () => {
+  $("#dropbtn").click(() => {
     document.getElementById("navbottom").scrollIntoView({ behavior: "smooth" });
   });
 
-  $(document).on("click", ".btnDeleteInfo", async function () {
-    console.log($(this).data("pass-value"));
-    let confirmation = confirm("Are you sure you want to delete this?");
-    if (confirmation) {
-      try {
+  // Event listener for the Dropdown recordsPerPage
+  $("#rowsPerPage").on("change", async function () {
+    try {
+      let data = new FormData();
+      data.append("recordsPerPage", this.value);
+      const response = await fetch(
+        base_url +
+          "/client/Client_controller/GetOrganizationInfoWithPagination",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        document.getElementById("table").innerHTML = info;
+      }
+    } catch (error) {
+      console.error("Error: " + error);
+    }
+  });
+
+  $("#image-preview").on("change", async () => {
+    try {
+      let data = new FormData($("#uploadForm")[0]);
+      const response = await fetch(
+        base_url + "/client/Client_profile_controller/save_profile_pic",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (!response.ok) {
+        throw new Error();
+      }
+      const info = await response.json();
+      if (info.has_error) {
+        console.log(info.message);
+      }
+      location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  $("#form_update_modal").on("submit", async function (event) {
+    event.preventDefault();
+    let data = new FormData($(this)[0]);
+    const response = await fetch(
+      base_url + "/client/Client_profile_controller/save_profile",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const info = await response.json();
+    if (info.has_error == true) {
+      console.log(info.message);
+      return;
+    }
+    location.reload();
+  });
+
+  $(document).on("dblclick", ".click_row", async function () {
+    try {
+      // Redirect only after a successful response
+      let orgID = encodeURIComponent($(this).data("test"));
+      let orgName = encodeURIComponent($(this).data("test2"));
+      let url =
+        base_url +
+        "/client/organizations/process?orgID=" +
+        orgID +
+        "&orgName=" +
+        orgName;
+
+      window.location.href = url;
+    } catch (error) {
+      console.error("Error occurred during request:", error);
+    }
+  });
+
+  let clickedProcessID;
+  $(document).on("click", ".box", async function () {
+    stepsModal.show();
+    $("#modal-title").html($(this).data("test2"));
+    clickedProcessID = $(this).data("test");
+    console.log($(this).data("test"));
+    let data = new FormData();
+    data.append("processID", $(this).data("test"));
+    const response = await fetch(
+      base_url + "/client/Client_controller/show_steps",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    if (!response.ok) {
+      throw new Error();
+    }
+    const info = await response.text();
+    $("#modal-body").html(info);
+  });
+
+  $(document).on("click", "#btn_createDocument", async function () {
+    try {
+      stepsModal.hide();
+      uploadDocumentModal.show();
+      $("#modal-title2").html($(".card").data("test2"));
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  });
+
+  $(document).on("click", "#btn_backModal", () => {
+    try {
+      uploadDocumentModal.hide();
+      stepsModal.show();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  });
+
+  $(document).on("submit", "#form_upload", async function (event) {
+    try {
+      event.preventDefault();
+
+      if (
+        $("#title").val() === "" ||
+        $("#type").val() === "" ||
+        $("#fileupload").val() === ""
+      ) {
+        // At least one of the required fields is empty or checkbox is not checked
+        toastr.error("Please fill in all required fields.", "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return; // Stop form submission
+      }
+
+      let data = new FormData(this);
+      data.append("processID", clickedProcessID);
+      const response = await fetch(
+        base_url +
+          "/clientprocess/services/ClientProcess_documents_service_controller/uploadDocs",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      const info = await response.json();
+      if (info.has_error) {
+        toastr.error(info.message, "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return;
+      }
+      toastr.success(info.message, "", {
+        //diri kung wla na errors
+
+        timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+      });
+      $("#form_upload")[0].reset();
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  $(document).on("click", ".btn_cancel", async function () {
+    try {
+      cancelModal.show();
+      $("#btn_yes_modal_cancel").click(async () => {
+        console.log($(this).data("pass-value-id"));
         let data = new FormData();
-        data.append("id", $(this).data("pass-value")); // Getting value from data-pass-value attribute
+        data.append("client_process_id", $(this).data("pass-value-id"));
+
         const response = await fetch(
-          "create_client/services/Create_client_service/deleteinfo",
+          base_url +
+            "/clientprocess/services/ClientProcess_documents_service_controller/cancelDocument",
           {
             method: "POST",
             body: data,
           }
         );
 
-        if (response.ok) {
-          const info = await response.json();
-          if (info.has_error === false) {
-            console.log(info.message);
-            toastr.options.progressBar = true;
-            toastr.success("Deleted Success!");
-            await reloadClientTable();
-          }
-
-          // $('#example').DataTable() gets the DataTable instance.
-          // table.row($(this).closest('tr')) finds the DataTable row corresponding to the closest table row (<tr>) relative to the clicked delete button.
-          // .remove() removes the row from the DataTable.
-          // .draw(false) redraws the DataTable without refreshing the page.
-        } else {
-          // Handle error response
-          console.error("Error submitting form:", response.statusText);
+        if (!response.ok) {
+          throw new Error();
         }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
-    }
-  });
 
-  $(document).on("click", ".btnUpdateInfo", async function () {
-    // Access data-pass-value attribute of the clicked element
-    console.log($(this).data("pass-value"));
-
-    try {
-      let data = new FormData();
-      data.append("id", $(this).data("pass-value"));
-      // Fetch organization information based on the ID
-      const response = await fetch(
-        "Create_client/get_single_client_info",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-
-      if (response.ok) {
         const info = await response.json();
-        editModal.show();
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
+        }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
 
-        // Populate modal fields with the client's information
-            document.getElementById("edit_user_name").value = info.data.UserName;
-            document.getElementById("edit_first_name").value = info.data.FName;
-            document.getElementById("edit_middle_name").value = info.data.MName;
-            document.getElementById("edit_last_name").value = info.data.LName;
-            document.getElementById("edit_password").value = info.data.Password;
-            document.getElementById("edit_gender").value = info.data.Gender;
-            document.getElementById("edit_civil_status").value =info.data.CivilStatus;
-            document.getElementById("edit_contact_no").value = info.data.ContactNo;
-            document.getElementById("edit_email").value = info.data.EmailAddress;
-            document.getElementById("edit_address").value = info.data.Address;
-
-        // Remove any existing event listeners on orgEdit button
-        $("#clientEdit").off("click");
-
-        // Attach event listener for the organization edit button
-        $("#clientEdit").on("click", async () => {
-          try {
-            // Get form data
-            let data2 = new FormData(document.getElementById("form_edit"));
-            data2.append("id", $(this).data("pass-value"));
-
-            // Send request to edit client information
-            const response = await fetch(
-              "create_client/services/Create_client_service/editinfo",
-              {
-                method: "POST",
-                body: data2,
-              }
-            );
-
-            if (response.ok) {
-              const info = await response.json();
-              if (info.has_error === false) {
-                console.log(info.message);
-                await reloadClientTable();
-                toastr.options.progressBar = true;
-                toastr.success("Update Success!");
-                editModal.hide();
-              }
-            } else {
-              // Handle error response
-              console.error("Error submitting form:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error:", error);
-          }
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
         });
-
-        // Show the modal
-        editModal.show();
-      } else {
-        // Handle error response
-        console.error("Error:", response.statusText);
-      }
+        location.reload();
+      });
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
     }
   });
 
-  $("#btn_add_client").click(async function () {
-    addModal.show();
-    $(document).off("click", "#saveinfo");
-    // Clear form fields when modal is opened
-    $("#form_saveinfo")[0].reset();
-    $(document).on("click", "#saveinfo", async () => {
-      data = new FormData($("#form_saveinfo")[0]);
+  $(document).on("click", ".btn_delete", async function () {
+    try {
+      deleteModal.show();
+      $("#btn_yes_modal_delete").click(async () => {
+        console.log($(this).data("pass-value-id"));
+        //console.log($(this).data("pass-value-filename"));
+        let data = new FormData();
+        data.append("client_process_id", $(this).data("pass-value-id"));
+        // data.append(
+        //   "client_process_filename",
+        //   $(this).data("pass-value-filename")
+        // );
 
-      const response = await fetch(
-        "create_client/services/Create_client_service/saveinfo",
-        {
-          method: "POST",
-          body: data,
+        const response = await fetch(
+          base_url +
+            "/clientprocess/services/ClientProcess_documents_service_controller/deleteDocument",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error();
         }
-      );
 
-      if (response.ok) {
         const info = await response.json();
-        if (info.has_error === false) {
-          console.log(info.message);
-          await reloadClientTable();
-          toastr.options.progressBar = true;
-          toastr.success("Add Success!");
-          addModal.hide();
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
         }
-      }
-    });
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        location.reload();
+      });
+    } catch (error) {
+      console.error(error);
+    }
   });
-
-  // //function for updating client info
-  // async function OpenModalUpdateClientData(value) {
-  //   console.log("modalUpdate()");
-  //   const myModal = new bootstrap.Modal(document.getElementById("editModal"));
-  //   try {
-  //     let data = new FormData();
-  //     data.append("id", value);
-
-  //     const response = await fetch("Create_client/get_single_client_info", {
-  //       method: "POST",
-  //       body: data,
-  //     });
-
-  //     if (response.ok) {
-  //       const info = await response.json();
-  //       console.log(info);
-  //       // Handle successful response
-  //       myModal.show();
-
-  //       document.getElementById("edit_user_name").value = info.data.UserName;
-  //       document.getElementById("edit_first_name").value = info.data.FName;
-  //       document.getElementById("edit_middle_name").value = info.data.MName;
-  //       document.getElementById("edit_last_name").value = info.data.LName;
-  //       document.getElementById("edit_password").value = info.data.Password;
-  //       document.getElementById("edit_gender").value = info.data.Gender;
-  //       document.getElementById("edit_civil_status").value =
-  //         info.data.CivilStatus;
-  //       document.getElementById("edit_contact_no").value = info.data.ContactNo;
-  //       document.getElementById("edit_email").value = info.data.EmailAddress;
-  //       document.getElementById("edit_address").value = info.data.Address;
-
-  //       if (document.getElementById("clientEdit")) {
-  //         document
-  //           .getElementById("clientEdit")
-  //           .addEventListener("click", async () => {
-  //             let data = new FormData(document.getElementById("form_edit"));
-  //             data.append("id", value);
-  //             const response = await fetch(
-  //               "create_client/services/Create_client_service/editinfo",
-  //               {
-  //                 method: "POST",
-  //                 body: data,
-  //               }
-  //             );
-  //             if (response.ok) {
-  //               reloadTable();
-  //               myModal.hide();
-  //             }
-  //           });
-  //       }
-  //     } else {
-  //       // Handle error response
-  //       console.error("Error submitting form:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-
-  // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-  // myModal.show();;
-  //}
-
-  // if (el_modal_btn_saveinfo) {
-  //   el_modal_btn_saveinfo.addEventListener("click", async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       let data = new FormData(el_form_saveinfo);
-  //       const response = await fetch(
-  //         "create_client/services/Create_client_service/saveinfo",
-  //         {
-  //           method: "POST",
-  //           body: data,
-  //         }
-  //       );
-  //       const info = await response.text();
-
-  //       if (response.ok) {
-  //         // Handle successful response
-  //         console.log("Form submitted successfully");
-  //         localStorage.setItem("showToast", "true");
-  //         window.location.href = "Client";
-  //       } else {
-  //         // Handle error response
-  //         console.error("Error submitting form:", response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error submitting form:", error);
-  //     }
-  //   });
-  // }
-
-  // document.getElementById("submit").addEventListener("click", () => {
-
-  //     alert(document.getElementById("address").value);
-  // });
 });
+
+async function reloadTable() {
+  const response = await fetch(
+    base_url + "/client/Client_controller/GetOrganizationInfoWithPagination"
+  );
+
+  if (response.ok) {
+    const data = await response.text();
+    document.getElementById("table").innerHTML = data;
+    console.log("reloadtable()");
+  } else {
+    // Handle error response
+    console.error("Error submitting form:", response.statusText);
+  }
+}
 
 // Function to perform search
 async function performSearch() {
@@ -315,30 +447,15 @@ async function performSearch() {
     const data = new FormData();
     data.append("input", document.getElementById("searchInput").value);
     const response = await fetch(
-      "create_client/Create_client/searchclient",
+      "../client/Client_controller/SearchOrganization",
       {
         method: "POST",
         body: data,
       }
     );
     const info = await response.text();
-    document.getElementById("clienttable").innerHTML = info;
+    document.getElementById("table").innerHTML = info;
   } catch (error) {
     console.warn(error);
-  }
-}
-
-async function reloadClientTable() {
-  //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
-  const response = await fetch(
-    "create_client/Create_client/get_client_info_with_pagination"
-  );
-  if (response.ok) {
-    const data = await response.text();
-    document.getElementById("clienttable").innerHTML = data;
-    console.log("reloadclienttable()");
-  } else {
-    // Handle error response
-    console.error("Error submitting form:", response.statusText);
   }
 }

@@ -12,7 +12,7 @@ function organization_header()
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= SYSTEM_MODULE ?></title>
+        <title><?= SYSTEM_NAME ?></title>
 
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
@@ -55,7 +55,7 @@ function client_header()
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= SYSTEM_MODULE ?></title>
+        <title><?= SYSTEM_NAME ?></title>
 
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
@@ -86,14 +86,16 @@ function client_header()
 function usefulLinks()
 {
 ?>
-    <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+    <?php defined('BASEPATH') or exit('No direct script access allowed');
+    date_default_timezone_set('Asia/Manila'); ?>
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= SYSTEM_MODULE ?></title>
+        <title><?= SYSTEM_NAME ?></title>
+
 
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />

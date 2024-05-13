@@ -61,15 +61,17 @@ define('IMAGE_DOES_NOT_EXIST', 'Image does exist!');
 define('IMAGE_TYPE_ERROR', 'Image type not allowed!');
 define('IMAGE_MOVE_FILE_ERROR', 'Error moving the file!');
 
-
+/**  */
+define('FILE_ERROR', 'File Error!');
+define('FILE_TYPE_ERROR', 'File type not allowed!');
 
 $array = array(
     'organization' =>  'tbl_organization',
     'process' => 'tbl_process',
     'steps' => 'tbl_steps',
     'client' => 'tbl_client',
-
-
+    'department' => 'tbl_organization_departments',
+    'clientprocess' => 'tbl_clientprocess',
 
 
 

@@ -1,7 +1,7 @@
 <?php
 if ($this->session->userdata("logged_in")) {
     usefulLinks(); ?>
-    <script defer src="<?= base_url('assets/javascript/applicant.js') ?>"></script>
+    <script defer src="<?= base_url('assets/javascript/Client.js') ?>"></script>
 
     <body>
 
@@ -88,7 +88,7 @@ if ($this->session->userdata("logged_in")) {
                         </div>
                     </div>
 
-                    <img src="<?= ($data->Image == "") ? base_url("assets/images/default.png") : base_url("assets/images/client_profiles/") . $data->Image;  ?>" class="img-fluid" alt="Responsive image">
+                    <img src="<?= ($data->Image == "") ? base_url("assets/images/default.png") : base_url("assets/images/client_profiles/") . $data->Image;  ?>" class="img-fluid rounded-circle" style="width: 200px; height: 200px;" alt="Profile Image">
                     <div class="px-5 pt-5 d-flex justify-content-center" style="width: 100%;">
                         <div class="card mx-5" style="border-radius: 50px; width: 100%;">
                             <div class="card-body">

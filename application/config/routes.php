@@ -49,23 +49,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'Create_organization';
+$route['default_controller'] = '';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-//modular based routes
+//organization based routes
 
-//routes for organization
-$route['simple-message'] = 'Create_organization/kandeng';
-$route['Dashboard'] = 'Create_organization/index';
-$route['Add'] = 'Create_organization/create';
+/** Organization */
+$route["organization"] = "organization/Organization_Controller/Index";
+$route["organization/dashboard"] = "organization/Organization_Controller/Dashboard";
 
-
-$route['AddClient'] = 'Create_client/createclient';
-
-$route['Organization'] = 'Create_organization/crud';
-$route['Process'] = 'define_process/Define_process/process';
-
-$route['Client'] = 'Create_client/client';
-
-$route['Settings'] = 'client/Client/settings';
+/** Client */
+$route["client"] = "client/Client_controller/Index";
+$route["client/dashboard"] = "client/Client_controller/Dashboard";
+$route["client/organizations"] = "client/Client_controller/Organizations";
+$route["client/profile"] = "client/Client_controller/Profile";
+$route["client/organizations/process"] = "client/Client_controller/Process";
+/** Admin */

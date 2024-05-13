@@ -1,0 +1,93 @@
+/*process-box*/
+body {
+    background: #eee;
+}
+.process-box {
+    background: #fff;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 2px 2px 7px 0 rgba(0, 0, 0, 0.57);
+}
+.process-left::after {
+    content: "";
+    border-top: 15px solid #ffffff;
+    border-bottom: 15px solid #ffffff;
+    border-left: 15px solid #ffffff;
+    border-right: 15px solid #ffffff;
+    display: none; /* This line is changed */
+}
+.process-right::after {
+    content: "";
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid #ffffff;
+    border-left: 15px solid #ffffff;
+    border-right: 15px solid transparent;
+    display: none; /* This line is changed */
+}
+.process-step {
+    background: #0d6efd; /* Primary color */
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    color: #fff;
+    height: 100%;
+    padding-top: 8px;
+    position: relative;
+    top: -26px;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: -6px 8px 0px 0px rgba(0, 0, 0, 0.14);
+}
+.process-box p {
+    z-index: 9;
+}
+.process-step p {
+    font-size: 20px;
+}
+.process-step h2 {
+    font-size: 39px;
+}
+.process-step::after {
+    content: "";
+    border-top: 8px solid rgba(4, 136, 152, 0);
+    border-bottom: 8px solid #048898;
+    border-left: 8px solid rgba(4, 136, 152, 0);
+    border-right: 8px solid #048898;
+    display: inline-grid;
+    position: absolute;
+    left: -16px;
+    top: 0;
+}
+.process-step::before {
+    content: "";
+    border-top: 8px solid rgba(255, 0, 0, 0);
+    border-bottom: 8px solid #048898;
+    border-left: 8px solid #048898;
+    border-right: 8px solid rgba(255, 0, 0, 0);
+    display: inline-grid;
+    position: absolute;
+    right: -16px;
+    top: 0;
+}
+.process-line-l {
+    background: white;
+    height: 4px;
+    position: absolute;
+    width: 136px;
+    right: -153px;
+    top: 64px;
+    z-index: 9;
+}
+.process-line-r {
+    background: white;
+    height: 4px;
+    position: absolute;
+    width: 136px;
+    left: -153px;
+    top: 63px;
+    z-index: 9;
+}
+
+.card.hover-shadow:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Increase the alpha value for a darker shadow */
+}
