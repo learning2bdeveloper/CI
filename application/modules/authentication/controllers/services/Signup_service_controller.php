@@ -5,9 +5,6 @@ class Signup_service_controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->database();
-        $this->load->helpers(array('template/organization_template_helper', 'template/pagination_template_helper', 'pagination_helper', 'message_helper'));
-        $this->load->model('Client_model');
         $this->load->model('services/Signup_service_model');
     }
 
@@ -24,5 +21,13 @@ class Signup_service_controller extends MY_Controller
 
     public function SetSignupClient()
     {
+        $this->Signup_service_model->firstName = $this->input->post('firstName');
+        $this->Signup_service_model->middleName = $this->input->post('middleName');
+        $this->Signup_service_model->lastName = $this->input->post('lastName');
+        $this->Signup_service_model->email = $this->input->post('email');
+        $this->Signup_service_model->pwd = $this->input->post('pwd');
+
+        $response = $this->Signup_service_model->SignupClient();
+        echo json_encode($response);
     }
 }

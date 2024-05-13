@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let data = new FormData(this);
       const response = await fetch(
         base_url +
-          "/authentication/services/Login_service_controller/SetSignupOrganization", //not tried
+          "/authentication/services/Signup_service_controller/SetSignupOrganization", //not tried
         {
           method: "POST",
           body: data,

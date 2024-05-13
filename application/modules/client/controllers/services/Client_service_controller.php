@@ -12,7 +12,6 @@ class Client_service extends MY_Controller
 
     public function delete()
     {
-
         $this->Create_organization_model->OrgID = $this->input->post('id');
         $this->Create_organization_model->image = $this->input->post('image');
         $response = $this->Create_organization_model->delete_method_from_model();
@@ -21,15 +20,6 @@ class Client_service extends MY_Controller
 
     public function edit()
     {
-        // $data = array(
-        //     'OrgName' => $this->input->post('edit_organization_name'),
-        //     'EmailAddress' => $this->input->post('edit_email'),
-        //     'ContactPerson' => $this->input->post('edit_contact_person'),
-        //     'ContactNumber' => $this->input->post('edit_contact_number'),
-        //     'Address' => $this->input->post('edit_address'),
-        //     'OrgID' => $this->input->post('id')
-        // );
-
         $this->Create_organization_model->OrgName = $this->input->post('edit_organization_name');
         $this->Create_organization_model->EmailAddress = $this->input->post('edit_email');
         $this->Create_organization_model->ContactPerson = $this->input->post('edit_contact_person');
