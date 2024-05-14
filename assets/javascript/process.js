@@ -1,3 +1,4 @@
+const base_url = "/kyanu_document_tracking";
 document.addEventListener("DOMContentLoaded", async () => {
   const defineProcessModal = new bootstrap.Modal(
     document.getElementById("defineprocessModal")
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       data = new FormData($("#form_save")[0]);
 
       const response = await fetch(
-        "define_process/services/Define_process_service/save",
+        base_url + "/admin/services/Admin_service_controller/SaveProcess",
         {
           method: "POST",
           body: data,
@@ -26,15 +27,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (response.ok) {
         const info = await response.json();
-        if (info.has_error === false) {
-          console.log(info.message);
-          await reloadTable();
-          toastr.options.progressBar = true;
-          toastr.success("Add Success!");
-          defineProcessModal.hide();
-        } else {
-          console.log(info.message);
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
         }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        reloadTable();
+        defineProcessModal.hide();
+      } else {
+        throw new Error();
       }
     });
   });
@@ -47,13 +54,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     let data = new FormData();
     data.append("processID", $(this).data("pass-value"));
 
-    const response = await fetch("load_steps", {
-      method: "POST",
-      body: data,
-    });
+    const response = await fetch(
+      base_url + "/admin/Admin_controller/load_steps",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
     if (response.ok) {
       let info = await response.text();
-      console.log(info);
       if (collapseElement.length) {
         collapseElement.collapse("toggle");
         $(".collapse_steps_" + $(this).data("pass-value")).html(info);
@@ -77,27 +86,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Handle further logic with the processID
     data = new FormData($("#form_add_step")[0]);
     data.append("processID", processID);
-    response = await fetch("define_steps/services/Define_steps_service/save", {
-      method: "POST",
-      body: data,
-    });
-    const info = await response.json();
+    response = await fetch(
+      base_url + "/admin/services/Admin_service_controller/SaveStep",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
 
-    if (response.ok & (info.has_error === false)) {
+    if (response.ok) {
+      const info = await response.json();
+      if (info.has_error) {
+        toastr.error(info.message, "", {
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        return;
+      }
+      toastr.success(info.message, "", {
+        timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+      });
       addStepsModal.hide();
       $("#form_add_step")[0].reset();
-      console.log(info.message);
     } else {
-      console.log(info.has_error);
+      throw new Error();
     }
   });
 });
 async function reloadTable() {
-  //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
   let data = new FormData();
   console.log($("#hidden_elem").val());
   data.append("orgID", $("#hidden_elem").val());
-  const response = await fetch("Processes", {
+  const response = await fetch(base_url + "/admin/Admin_controller/Processes", {
     method: "POST",
     body: data,
   });

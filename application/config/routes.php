@@ -69,3 +69,4 @@ $route["client/organizations/process"] = "client/Client_controller/Process";
 /** Admin */
 $route["admin"] = "admin/Admin_controller/Index";
 $route["admin/organization"] = "admin/Admin_controller/Organization";
+$route["admin/organization/process"] = "admin/Admin_controller/Process";

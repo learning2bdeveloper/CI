@@ -31,18 +31,16 @@ class Admin_controller extends MY_Controller
         $this->load->view('admin/grid/Load_organization', $pagination);
     }
 
-    public function get_single_organization_info()
+    public function GetSingleOrganizationInfo()
     {
-        $datas['data'] = $this->Organization_model->get_single_organization_info($this->input->post('id'));
+        $datas['data'] = $this->Organization_model->GetSingleInfoOrganization($this->input->post('id'));
         echo json_encode($datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
 
     public function SearchOrganization()
     {
         $search = $this->Organization_model->Search($this->input->post('input'));
-
         $this->load->view('grid/Load_organization', $search); // need dapat array hahhaa mag pasa data kung nd nd ya makita
-
     }
 
     ///////////// PROCESSES

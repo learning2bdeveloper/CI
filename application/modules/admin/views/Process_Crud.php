@@ -1,5 +1,5 @@
 <?php usefulLinks(); ?>
-<script defer src="<?= base_url('assets/javascript/process.js') ?>"></script>
+<script defer src="<?= base_url('assets/javascript/Process.js') ?>"></script>
 
 <body>
     <div class="wrapper">

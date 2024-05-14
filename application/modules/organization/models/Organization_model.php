@@ -28,7 +28,7 @@ class Organization_model extends CI_Model
         return $query;
     }
 
-    public function get_single_organization_info($value)
+    public function GetSingleInfoOrganization($value)
     {
         $this->db->where('OrgID', $value);
         $query = $this->db->get($this->Table->organization)->row();

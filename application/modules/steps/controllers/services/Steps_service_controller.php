@@ -9,25 +9,16 @@ class Steps_service_controller extends MY_Controller
         $this->load->database();
     }
 
-    public function save()
-    {
-        // $data = array(
-        //     'OrgName' => $this->input->post('organization_name'),
-        //     'EmailAddress' => $this->input->post('email'),
-        //     'ContactPerson' => $this->input->post('contact_person'),
-        //     'ContactNumber' => $this->input->post('contact_number'),
-        //     'Address' => $this->input->post('address'),
-        //     'Image' => $_FILES['image']['name'],
-        // );
+    // public function save() for the future ang admin lng danay
+    // {
+    //     $this->Step_model_services->processID = $this->input->post('processID');
+    //     $this->Step_model_services->stepName = $this->input->post('step_name');
+    //     $this->Step_model_services->sequenceNumber = $this->input->post('sequence_number');
+    //     $this->Step_model_services->prerequisite = $this->input->post('prerequisite');
 
-        $this->Step_model_services->processID = $this->input->post('processID');
-        $this->Step_model_services->stepName = $this->input->post('step_name');
-        $this->Step_model_services->sequenceNumber = $this->input->post('sequence_number');
-        $this->Step_model_services->prerequisite = $this->input->post('prerequisite');
-
-        $response = $this->Step_model_services->save_method_from_model();
-        echo json_encode($response);
-    }
+    //     $response = $this->Step_model_services->save_method_from_model();
+    //     echo json_encode($response);
+    // }
 
     public function delete()
     {

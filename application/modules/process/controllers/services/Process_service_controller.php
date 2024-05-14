@@ -6,28 +6,18 @@ class Process_service_controller extends MY_Controller
     {
         parent::__construct();
         $this->load->model('admin/services/Process_model_services');
-        $this->load->database();
     }
 
-    public function save()
-    {
-        // $data = array(
-        //     'OrgName' => $this->input->post('organization_name'),
-        //     'EmailAddress' => $this->input->post('email'),
-        //     'ContactPerson' => $this->input->post('contact_person'),
-        //     'ContactNumber' => $this->input->post('contact_number'),
-        //     'Address' => $this->input->post('address'),
-        //     'Image' => $_FILES['image']['name'],
-        // );
+    // public function save() ffor the future admin danay lng same sa tann
+    // {
+    //     $this->Process_model_services->OrgID = $this->input->post('hidden_elem');
+    //     $this->Process_model_services->processName = $this->input->post('process_name');
+    //     $this->Process_model_services->description = $this->input->post('description');
+    //     $this->Process_model_services->expectedDays = $this->input->post('expected_days');
 
-        $this->Process_model_services->OrgID = $this->input->post('hidden_elem');
-        $this->Process_model_services->processName = $this->input->post('process_name');
-        $this->Process_model_services->description = $this->input->post('description');
-        $this->Process_model_services->expectedDays = $this->input->post('expected_days');
-
-        $response = $this->Process_model_services->save_method_from_model();
-        echo json_encode($response);
-    }
+    //     $response = $this->Process_model_services->save_method_from_model();
+    //     echo json_encode($response);
+    // }
 
     public function delete()
     {

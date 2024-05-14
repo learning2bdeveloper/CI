@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   $(document).on("click", ".btnDelete", async function () {
-    console.log($(this).data("pass-value"));
+    /**done */ console.log($(this).data("pass-value"));
     let confirmation = confirm("Are you sure you want to delete this?");
     if (confirmation) {
       try {
@@ -85,7 +85,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.append("id", $(this).data("pass-value")); // Getting value from data-pass-value attribute
         data.append("image", $(this).data("pass-image"));
         const response = await fetch(
-          "../services/Organization_services/delete",
+          base_url +
+            "/admin/services/Admin_service_controller/DeleteOrganization",
           {
             method: "POST",
             body: data,
@@ -94,17 +95,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (response.ok) {
           const info = await response.json();
-          if (info.has_error === false) {
-            console.log(info.message);
-            toastr.options.progressBar = true;
-            toastr.success("Deleted Success!");
-            await reloadTable();
+          if (info.has_error) {
+            toastr.error(info.message, "", {
+              timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+            });
+            return;
           }
+          toastr.success(info.message, "", {
+            //diri kung wla na errors
 
-          // $('#example').DataTable() gets the DataTable instance.
-          // table.row($(this).closest('tr')) finds the DataTable row corresponding to the closest table row (<tr>) relative to the clicked delete button.
-          // .remove() removes the row from the DataTable.
-          // .draw(false) redraws the DataTable without refreshing the page.
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          reloadTable();
         } else {
           // Handle error response
           console.error("Error submitting form:", response.statusText);
@@ -116,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   $(document).on("click", ".btnUpdate", async function () {
-    // Access data-pass-value attribute of the clicked element
+    /** done */
     console.log($(this).data("pass-value"));
     let oldimage = $(this).data("pass-oldimage");
     console.log($(this).data("pass-oldimage"));
@@ -125,10 +127,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       let data = new FormData();
       data.append("id", $(this).data("pass-value"));
       // Fetch organization information based on the ID
-      const response = await fetch("get_single_organization_info", {
-        method: "POST",
-        body: data,
-      });
+      const response = await fetch(
+        base_url + "/admin/Admin_controller/GetSingleOrganizationInfo",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
       if (response.ok) {
         const info = await response.json();
@@ -157,7 +162,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Send request to edit organization information
             const response = await fetch(
-              "../services/Organization_services/edit",
+              base_url +
+                "/admin/services/Admin_service_controller/EditOrganization",
               {
                 method: "POST",
                 body: data2,
@@ -166,14 +172,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (response.ok) {
               const info = await response.json();
-              console.log(info);
-              if (info.has_error === false) {
-                console.log(info.message);
-                await reloadTable();
-                toastr.options.progressBar = true;
-                toastr.success("Update Success!");
-                editModal.hide();
+              if (info.has_error) {
+                toastr.error(info.message, "", {
+                  timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+                });
+                return;
               }
+              toastr.success(info.message, "", {
+                //diri kung wla na errors
+
+                timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+              });
+              reloadTable();
+              editModal.hide();
             } else {
               // Handle error response
               console.error("Error submitting form:", response.statusText);
@@ -202,22 +213,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     $(document).on("click", "#save", async () => {
       data = new FormData($("#form_save")[0]);
 
-      const response = await fetch("../services/Organization_services/save", {
-        method: "POST",
-        body: data,
-      });
-
+      const response = await fetch(
+        base_url + "/admin/services/Admin_service_controller/SaveOrganization",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
       if (response.ok) {
         const info = await response.json();
-        if (info.has_error === false) {
-          console.log(info.message);
-          await reloadTable();
-          toastr.options.progressBar = true;
-          toastr.success("Add Success!");
-          addModal.hide();
-        } else {
-          toastr.warning(info.message);
+        if (info.has_error) {
+          toastr.error(info.message, "", {
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          return;
         }
+        toastr.success(info.message, "", {
+          //diri kung wla na errors
+
+          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+        });
+        reloadTable();
+        addModal.hide();
       }
     });
   });
@@ -319,11 +336,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // });
 
   $(document).on("click", ".infobutton", async function () {
-    // pakadto define process crud
-    // console.log($(this).data("pass-value"));
-
     window.location.href =
-      "Process?orgID=" + encodeURIComponent($(this).data("pass-value"));
+      base_url +
+      "/admin/organization/process?orgID=" +
+      encodeURIComponent($(this).data("pass-value"));
   });
 });
 

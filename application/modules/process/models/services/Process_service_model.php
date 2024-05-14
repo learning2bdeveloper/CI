@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Process_service_model extends CI_Model
 {
 
-
     private $Table;
 
     public function __construct()
@@ -11,11 +10,11 @@ class Process_service_model extends CI_Model
         parent::__construct();
         $this->load->helper('message_helper');
         $this->Table = json_decode(TABLE);
+        $this->load->database();
     }
 
     public function save_method_from_model()
     {
-
         $data = array(
             'OrgID' => $this->OrgID,
             'ProcessName' => $this->processName,

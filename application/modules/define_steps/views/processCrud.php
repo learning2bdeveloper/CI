@@ -1,5 +1,5 @@
-<?php organization_header(); ?>
-<script defer src="<?= base_url('assets/javascript/process.js') ?>"></script>
+<?php usefulLinks(); ?>
+<script defer src="<?= base_url('assets/javascript/Process.js') ?>"></script>
 
 <body>
     <div class="wrapper">

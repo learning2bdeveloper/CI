@@ -11,40 +11,8 @@ class Organization_service_model extends CI_Model
         parent::__construct();
         $this->load->helper('message_helper');
         $this->Table = json_decode(TABLE);
+        $this->load->database();
     }
-
-
-
-    public function login_method_from_model()
-    {
-
-        // Check if the email exists in the database
-        $user = $this->db->get_where($this->Table->department, array('Username' => $this->username))->row();
-        if (!$user) {
-            return array('message' => 'Username does not exist', 'has_error' => true);
-        }
-
-        // verify the password
-        if (!password_verify($this->pwd, $user->Password)) {
-            return array('message' => 'Incorrect password', 'has_error' => true);
-        }
-
-        // after success login
-        $datas = array(
-            "logged_in" => true,
-            "type" => "department",
-            "departmentUserID" => $user->ID,
-            "username" => $user->Username,
-            "department" => $user->Department,
-            "OrgID" => $user->OrgID,
-        );
-
-        $this->session->set_userdata($datas);
-        return array('message' => 'Login Succesfully!', 'has_error' => false);
-    }
-
-
-
 
     public function save_method_from_model()
     {
@@ -115,14 +83,6 @@ class Organization_service_model extends CI_Model
 
     public function edit_method_from_model()
     {
-        // $this->Create_organization_model->OrgName = $this->input->post('edit_organization_name');
-        // $this->Create_organization_model->EmailAddress = $this->input->post('edit_email');
-        // $this->Create_organization_model->ContactPerson = $this->input->post('edit_contact_person');
-        // $this->Create_organization_model->ContactNumber = $this->input->post('edit_contact_number');
-        // $this->Create_organization_model->Address = $this->input->post('edit_address');
-        // $this->Create_organization_model->OrgID = $this->input->post('id');
-        // $this->Create_organization_model->oldImage = $this->input->post('oldimage');
-
         if (!$this->oldImage == null and file_exists('assets/images/profiles/' . $this->oldImage)) {
             unlink('assets/images/profiles/' . $this->oldImage);
         }
