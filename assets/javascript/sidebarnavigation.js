@@ -35,11 +35,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   //admin
 
   $("#admin_dashboard").on("click", () => {
-    window.location.href = "Index";
+    window.location.href = base_url + "/admin";
   });
 
   $("#admin_view_organization").on("click", () => {
-    window.location.href = "Organization";
+    window.location.href = base_url + "/admin/organization";
   });
 
   $("#admin_client").on("click", () => {

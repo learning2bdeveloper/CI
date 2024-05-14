@@ -32,7 +32,7 @@
             </a>
         </li>
         <li class="custom-sidebar-item"> <!-- Change class names -->
-            <a class="custom-sidebar-link" id="admin_client">
+            <a class="custom-sidebar-link" id="admin_view_client">
                 <i class="lni lni-user"></i>
                 <span>Clients</span>
             </a>

@@ -97,6 +97,7 @@ function usefulLinks()
         <title><?= SYSTEM_NAME ?></title>
 
 
+
         <!-- Link Bootstrap CSS -->
         <link rel="icon" type="image/x-icon" href="<?= base_url('assets/icons/favicon.ico') ?>" />
         <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css') ?>">

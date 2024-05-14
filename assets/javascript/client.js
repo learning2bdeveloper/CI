@@ -448,7 +448,7 @@ async function performSearch() {
     const data = new FormData();
     data.append("input", document.getElementById("searchInput").value);
     const response = await fetch(
-      "../client/Client_controller/SearchOrganization",
+      base_url + "/client/Client_controller/SearchOrganization",
       {
         method: "POST",
         body: data,

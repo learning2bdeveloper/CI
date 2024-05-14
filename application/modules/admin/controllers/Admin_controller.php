@@ -1,21 +1,22 @@
 <?php
 
-class Admin extends MY_Controller
+class Admin_controller extends MY_Controller
 {
-    private $datas = array();
     public function __construct()
     {
         parent::__construct();
         $this->load->database(); //fix ko ni karon ang helpers kay dapat sa directly sa views sila or dapat sa models lng 
         $this->load->helpers(array('template/organization_template_helper', 'pagination_helper', 'message_helper'));
-        $this->load->model('Organization_model');
-        $this->load->model('Process_model');
-        $this->load->model('Steps_model');
+        $this->load->model('organization/Organization_model');
+        $this->load->model('process/Process_model');
+        $this->load->model('steps/Steps_model');
     }
 
     public function Index()
     {
-        $this->load->view('Index');
+        $datas["numberoforganizations"] = $this->Organization_model->record_count();
+        $datas["numberofclients"] = $this->Organization_model->record_count2();
+        $this->load->view('Index', $datas);
     }
 
     public function Organization()
@@ -24,15 +25,10 @@ class Admin extends MY_Controller
     }
 
     ///////////// ORGANIZATIONS
-    public function organization_table_with_pagination()
+    public function GetOrganizationInfoWithPagination()
     {
         $pagination = pagination($this->input->post('page'), 'Organization_model', "fetch_organization", "record_count", $this->input->post('recordsPerPage'));
-
-        // if ($this->session->userdata("type") == "client") {
-        //     $this->load->view('client/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
-        // } else {
-        $this->load->view('admin/grid/Load_organization', $pagination); // need dapat array hahhaa mag pasa data kung nd nd ya makita
-        //}
+        $this->load->view('admin/grid/Load_organization', $pagination);
     }
 
     public function get_single_organization_info()
@@ -41,24 +37,13 @@ class Admin extends MY_Controller
         echo json_encode($datas); // need dapat array hahhaa mag pasa data kung nd nd ya makita
     }
 
-    public function search()
+    public function SearchOrganization()
     {
         $search = $this->Organization_model->Search($this->input->post('input'));
 
         $this->load->view('grid/Load_organization', $search); // need dapat array hahhaa mag pasa data kung nd nd ya makita
 
     }
-
-    public function number_of_organizations()
-    {
-        echo $this->Organization_model->record_count();
-    }
-
-    public function number_of_clients()
-    {
-        echo $this->Organization_model->record_count2();
-    }
-
 
     ///////////// PROCESSES
 

@@ -65,4 +65,7 @@ $route["client/dashboard"] = "client/Client_controller/Dashboard";
 $route["client/organizations"] = "client/Client_controller/Organizations";
 $route["client/profile"] = "client/Client_controller/Profile";
 $route["client/organizations/process"] = "client/Client_controller/Process";
+
 /** Admin */
+$route["admin"] = "admin/Admin_controller/Index";
+$route["admin/organization"] = "admin/Admin_controller/Organization";

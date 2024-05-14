@@ -1,17 +1,7 @@
-// const defineProcessModal = new bootstrap.Modal(
-//   document.getElementById("defineprocessModal")
-// );
+const base_url = "/kyanu_document_tracking";
 document.addEventListener("DOMContentLoaded", async () => {
   if (document.getElementById("table")) {
     reloadTable(); // no need mag butang await kay ga error.
-  }
-
-  if (document.querySelector("#numberoforganizations")) {
-    number_of_organizations();
-  }
-
-  if (document.querySelector("#numberofclients")) {
-    number_of_clients();
   }
 
   let editModal;
@@ -44,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let data = new FormData();
       data.append("recordsPerPage", this.value);
       const response = await fetch(
-        "create_organization/Create_organization/get_organization_info_with_pagination",
+        base_url + "/admin/Admin_controller/GetOrganizationInfoWithPagination",
         {
           method: "POST",
           body: data,
@@ -66,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let data = new FormData();
       data.append("page", $(this).data("pass-value"));
       const response = await fetch(
-        "create_organization/Create_organization/get_organization_info_with_pagination",
+        base_url + "/admin/Admin_controller/GetOrganizationInfoWithPagination",
         {
           method: "POST",
           body: data,
@@ -82,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   //Event Listener for Dropbtn Links
-  $("#dropbtn").click(async () => {
+  $("#dropbtn").click(() => {
     document.getElementById("navbottom").scrollIntoView({ behavior: "smooth" });
   });
 
@@ -342,10 +332,13 @@ async function performSearch() {
   try {
     const data = new FormData();
     data.append("input", document.getElementById("searchInput").value);
-    const response = await fetch("admin/Admin/search", {
-      method: "POST",
-      body: data,
-    });
+    const response = await fetch(
+      base_url + "/admin/Admin_controller/SearchOrganization",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
     const info = await response.text();
     document.getElementById("table").innerHTML = info;
   } catch (error) {
@@ -353,31 +346,11 @@ async function performSearch() {
   }
 }
 
-async function number_of_organizations() {
-  try {
-    const response = await fetch("number_of_organizations");
-    const info = await response.text();
-    console.log(info);
-    $("#numberoforganizations").html(info);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function number_of_clients() {
-  try {
-    const response = await fetch("number_of_clients");
-    const info = await response.text();
-    console.log(info);
-    $("#numberofclients").html(info);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 async function reloadTable() {
   //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
-  const response = await fetch("organization_table_with_pagination");
+  const response = await fetch(
+    base_url + "/admin/Admin_controller/GetOrganizationInfoWithPagination"
+  );
   if (response.ok) {
     const data = await response.text();
     document.getElementById("table").innerHTML = data;
