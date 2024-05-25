@@ -6,6 +6,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  const rejectModal = initializedModal("rejectModal");
+  const acceptModal = initializedModal("acceptModal");
+  const historyModal = initializedModal("historyModal");
+  const nextStepModal = initializedModal("nextStepModal");
+
+  reloadTable();
+
+  if (document.querySelector("#dropdown_process")) {
+    reloadDropdown();
+  }
+
   $("#form_signup").submit(async function (event) {
     try {
       event.preventDefault();
@@ -100,355 +111,327 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error(error);
     }
   });
-  //await reloadTable();
 
-  // Event listener for search button click
-  $("#searchButton").on("click", async () => {
-    await performSearch();
-  });
-
-  // Event listener for Enter key press
-  $("#searchInput").on("keypress", async (event) => {
-    if (event.key === "Enter") {
-      await performSearch();
-    }
-  });
-
-  // Event listener for the Dropdown recordsPerPage
-  $("#rowsPerPage").on("change", async function () {
+  $(document).on("click", ".btn_reject", async function () {
     try {
-      let data = new FormData();
-      data.append("recordsPerPage", this.value);
-      const response = await fetch(
-        "create_organization/Create_organization/get_organization_info_with_pagination",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-      if (response.ok) {
-        const info = await response.text();
-        document.getElementById("table").innerHTML = info;
-      }
+      rejectModal.show();
+      $("#btn_yes_modal_reject")
+        .off("click")
+        .click(async () => {
+          console.log($(this).data("pass-value-id"));
+          let data = new FormData();
+          data.append("client_process_id", $(this).data("pass-value-id"));
+
+          const response = await fetch(
+            base_url +
+              "/clientprocess/services/ClientProcess_documents_service_controller/rejectDocument",
+            {
+              method: "POST",
+              body: data,
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error();
+          }
+
+          const info = await response.json();
+          if (info.has_error) {
+            toastr.error(info.message, "", {
+              timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+            });
+            return;
+          }
+          toastr.success(info.message, "", {
+            //diri kung wla na errors
+
+            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
+          });
+          reloadTable();
+        });
     } catch (error) {
-      console.error("Error: " + error);
+      console.error(error);
     }
   });
 
-  //Event Listener for Pagination Links
-  $(document).on("click", ".pagination_link", async function () {
-    console.log($(this).data("pass-value"));
+  $(document).on("click", ".btn_accept", async function () {
     try {
-      let data = new FormData();
-      data.append("page", $(this).data("pass-value"));
-      const response = await fetch(
-        "create_organization/Create_organization/get_organization_info_with_pagination",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-      if (response.ok) {
-        const info = await response.text();
-        document.getElementById("table").innerHTML = info;
-      }
+      acceptModal.show();
+      $("#btn_yes_modal_accept")
+        .off("click")
+        .click(async () => {
+          console.log($(this).data("pass-value-id"));
+          let data = new FormData();
+          data.append(
+            "client_process_id",
+            $(this).data("pass-value-clientprocessid")
+          );
+          data.append("client_id", $(this).data("pass-value-clientid"));
+          data.append("process_id", $(this).data("pass-value-processid"));
+          data.append(
+            "client_process_id",
+            $(this).data("pass-value-clientprocessid")
+          );
+
+          const response = await fetch(
+            base_url +
+              "/clientprocess/services/ClientProcess_documents_service_controller/acceptDocument",
+            {
+              method: "POST",
+              body: data,
+            }
+          );
+
+          if (response.ok) {
+            const info = await response.json();
+            if (info.has_error) {
+              showToastr(info.message, "error", 2000);
+              return;
+            } else {
+              showToastr(info.message, "success", 2000);
+              reloadTable();
+              acceptModal.hide();
+            }
+          } else {
+            throw new Error();
+          }
+        });
     } catch (error) {
-      console.error("Error: " + error);
+      console.error(error);
     }
   });
 
-  //Event Listener for Dropbtn Links
-  $("#dropbtn").click(async () => {
-    document.getElementById("navbottom").scrollIntoView({ behavior: "smooth" });
+  let selectedOption;
+  $(document).on("change", "#processSelect", function () {
+    selectedOption = $(this).find("option:selected");
+    if (selectedOption.val()) {
+      // processID
+      // Load description and expected days for the selected process
+      $("#processDescription").html(
+        "<p><strong>Description: </strong>" +
+          selectedOption.data("description") +
+          "</p>"
+      );
+
+      $("#processDays").html(
+        "<p><strong>Expected Days: </strong>" +
+          selectedOption.data("days") +
+          "</p>"
+      );
+
+      // Load steps for the selected process
+      (async () => {
+        try {
+          processID = new FormData();
+          processID.append("processID", selectedOption.val());
+
+          const response = await fetch(
+            base_url + "/organization/Organization_controller/GetSteps",
+            {
+              method: "POST",
+              body: processID,
+            }
+          );
+
+          if (response.ok) {
+            const info = await response.json();
+
+            let steps = "";
+            info.forEach((element) => {
+              steps += `
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="card-title">Step ${element.SequenceNumber}: ${element.StepName}</h6>
+                                    <p class="card-text mb-0">Prerequisite Step: ${element.Prerequisite}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $("#processSteps").html(steps);
+
+            (async () => {
+              try {
+                const response = await fetch(
+                  base_url +
+                    "/organization/Organization_controller/FetchCheckDocuments",
+                  {
+                    method: "POST",
+                    body: processID,
+                  }
+                );
+
+                if (response.ok) {
+                  const info = await response.text();
+                  $("#check_documents").html(info);
+                } else {
+                  throw new Error("Failed to fetch documents");
+                }
+              } catch (error) {
+                console.error("Error fetching documents:", error);
+                $("#check_documents").html(
+                  "<p>Error loading documents. Please try again.</p>"
+                );
+              }
+            })();
+          } else {
+            throw new Error("Failed to fetch steps");
+          }
+        } catch (error) {
+          console.error("Error fetching steps:", error);
+          $("#processSteps").html(
+            "<p>Error loading steps. Please try again.</p>"
+          );
+        }
+      })();
+    } else {
+      // Clear the details if no process is selected
+      $("#processDescription").html("");
+      $("#processDays").html("");
+      $("#check_documents").html("");
+      $("#processSteps").html("");
+    }
   });
 
-  $(document).on("click", ".btnDelete", async function () {
-    console.log($(this).data("pass-value"));
-    let confirmation = confirm("Are you sure you want to delete this?");
-    if (confirmation) {
+  $(document)
+    .off("click", ".btn_history")
+    .on("click", ".btn_history", async function () {
       try {
-        let data = new FormData();
-        data.append("id", $(this).data("pass-value")); // Getting value from data-pass-value attribute
-        data.append("image", $(this).data("pass-image"));
+        historyModal.show();
+      } catch (error) {}
+    });
+
+  $(document)
+    .off("click", ".btn_next_step")
+    .on("click", ".btn_next_step", async function () {
+      try {
+        nextStepModal.show();
+
+        $("#nextStepForm").data(
+          "clientprocessID",
+          $(this).data("clientprocessid")
+        );
+        $("#nextStepForm").data("clientid", $(this).data("clientid"));
+
         const response = await fetch(
-          "create_organization/services/Create_organization_service/delete",
+          base_url + "/organization/Organization_controller/GetSteps",
           {
             method: "POST",
-            body: data,
+            body: processID,
           }
         );
 
         if (response.ok) {
           const info = await response.json();
-          if (info.has_error === false) {
-            console.log(info.message);
-            toastr.options.progressBar = true;
-            toastr.success("Deleted Success!");
-            await reloadTable();
-          }
+          let options = "";
+          info.forEach((element) => {
+            options += `<option value="${element.StepID}">${element.SequenceNumber}. ${element.StepName}</option>`;
+          });
 
-          // $('#example').DataTable() gets the DataTable instance.
-          // table.row($(this).closest('tr')) finds the DataTable row corresponding to the closest table row (<tr>) relative to the clicked delete button.
-          // .remove() removes the row from the DataTable.
-          // .draw(false) redraws the DataTable without refreshing the page.
+          $("#nextStep").html(options);
         } else {
-          // Handle error response
-          console.error("Error submitting form:", response.statusText);
+          throw new Error("Failed to get Steps");
         }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
-    }
-  });
+      } catch (error) {}
 
-  $(document).on("click", ".btnUpdate", async function () {
-    // Access data-pass-value attribute of the clicked element
-    console.log($(this).data("pass-value"));
-    let oldimage = $(this).data("pass-oldimage");
-    console.log($(this).data("pass-oldimage"));
+      try {
+        let clientprocessID = new FormData();
+        clientprocessID.append(
+          "clientprocessID",
+          $(this).data("clientprocessid")
+        );
 
-    try {
-      let data = new FormData();
-      data.append("id", $(this).data("pass-value"));
-      // Fetch organization information based on the ID
-      const response = await fetch(
-        "Create_organization/get_single_organization_info",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-
-      if (response.ok) {
-        const info = await response.json();
-        editModal.show();
-
-        // Populate modal fields with organization information
-        document.getElementById("edit_organization_name").value =
-          info.data.OrgName;
-        document.getElementById("edit_address").value = info.data.Address;
-        document.getElementById("edit_email").value = info.data.EmailAddress;
-        document.getElementById("edit_contact_person").value =
-          info.data.ContactPerson;
-        document.getElementById("edit_contact_number").value =
-          info.data.ContactNumber;
-
-        // Remove any existing event listeners on orgEdit button
-        $("#orgEdit").off("click");
-
-        // Attach event listener for the organization edit button
-        $("#orgEdit").on("click", async () => {
-          try {
-            // Get form data
-            let data2 = new FormData($("#form_edit")[0]);
-            data2.append("id", $(this).data("pass-value"));
-            data2.append("oldimage", oldimage);
-
-            // Send request to edit organization information
-            const response = await fetch(
-              "create_organization/services/Create_organization_service/edit",
-              {
-                method: "POST",
-                body: data2,
-              }
-            );
-
-            if (response.ok) {
-              const info = await response.json();
-              console.log(info);
-              if (info.has_error === false) {
-                console.log(info.message);
-                await reloadTable();
-                toastr.options.progressBar = true;
-                toastr.success("Update Success!");
-                editModal.hide();
-              }
-            } else {
-              // Handle error response
-              console.error("Error submitting form:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error:", error);
+        const response2 = await fetch(
+          base_url + "/organization/Organization_controller/GetCurrentStep",
+          {
+            method: "POST",
+            body: clientprocessID,
           }
-        });
+        );
 
-        // Show the modal
-        editModal.show();
-      } else {
-        // Handle error response
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  });
+        if (response2.ok) {
+          const info2 = await response2.json();
 
-  $("#btn_add_new").click(async function () {
-    addModal.show();
-    $(document).off("click", "#save");
-    // Clear form fields when modal is opened
-    $("#form_save")[0].reset();
-    $(document).on("click", "#save", async () => {
-      data = new FormData($("#form_save")[0]);
-
-      const response = await fetch(
-        "create_organization/services/Create_organization_service/save",
-        {
-          method: "POST",
-          body: data,
+          $("#currentStep").val(info2.SequenceNumber + ". " + info2.StepName);
+          $("#nextStepForm").data("clientID", info2.ClientID);
         }
-      );
-
-      if (response.ok) {
-        const info = await response.json();
-        if (info.has_error === false) {
-          console.log(info.message);
-          await reloadTable();
-          toastr.options.progressBar = true;
-          toastr.success("Add Success!");
-          addModal.hide();
-        } else {
-          toastr.warning(info.message);
-        }
-      }
+      } catch (error) {}
     });
-  });
 
-  // //function for updating client info
-  // async function OpenModalUpdateClientData(value) {
-  //   console.log("modalUpdate()");
-  //   const myModal = new bootstrap.Modal(document.getElementById("editModal"));
-  //   try {
-  //     let data = new FormData();
-  //     data.append("id", value);
+  $(document)
+    .off("submit", "#nextStepForm")
+    .on("submit", "#nextStepForm", async function (event) {
+      try {
+        event.preventDefault();
 
-  //     const response = await fetch("Create_client/get_single_client_info", {
-  //       method: "POST",
-  //       body: data,
-  //     });
+        let inputs = new FormData($(this)[0]);
+        inputs.append("clID", $(this).data("clientprocessID"));
+        inputs.append("nextStepID", $("#nextStep").val());
+        inputs.append("clientID", $(this).data("clientid"));
+        inputs.append("processID", selectedOption.val());
 
-  //     if (response.ok) {
-  //       const info = await response.json();
-  //       console.log(info);
-  //       // Handle successful response
-  //       myModal.show();
+        const response = await fetch(
+          base_url + "/organization/Organization_controller/UpdateDocumentStep",
+          {
+            method: "POST",
+            body: inputs,
+          }
+        );
 
-  //       document.getElementById("edit_user_name").value = info.data.UserName;
-  //       document.getElementById("edit_first_name").value = info.data.FName;
-  //       document.getElementById("edit_middle_name").value = info.data.MName;
-  //       document.getElementById("edit_last_name").value = info.data.LName;
-  //       document.getElementById("edit_password").value = info.data.Password;
-  //       document.getElementById("edit_gender").value = info.data.Gender;
-  //       document.getElementById("edit_civil_status").value =
-  //         info.data.CivilStatus;
-  //       document.getElementById("edit_contact_no").value = info.data.ContactNo;
-  //       document.getElementById("edit_email").value = info.data.EmailAddress;
-  //       document.getElementById("edit_address").value = info.data.Address;
-
-  //       if (document.getElementById("clientEdit")) {
-  //         document
-  //           .getElementById("clientEdit")
-  //           .addEventListener("click", async () => {
-  //             let data = new FormData(document.getElementById("form_edit"));
-  //             data.append("id", value);
-  //             const response = await fetch(
-  //               "create_client/services/Create_client_service/editinfo",
-  //               {
-  //                 method: "POST",
-  //                 body: data,
-  //               }
-  //             );
-  //             if (response.ok) {
-  //               reloadTable();
-  //               myModal.hide();
-  //             }
-  //           });
-  //       }
-  //     } else {
-  //       // Handle error response
-  //       console.error("Error submitting form:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-
-  // const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-  // myModal.show();;
-  //}
-
-  // if (el_modal_btn_saveinfo) {
-  //   el_modal_btn_saveinfo.addEventListener("click", async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       let data = new FormData(el_form_saveinfo);
-  //       const response = await fetch(
-  //         "create_client/services/Create_client_service/saveinfo",
-  //         {
-  //           method: "POST",
-  //           body: data,
-  //         }
-  //       );
-  //       const info = await response.text();
-
-  //       if (response.ok) {
-  //         // Handle successful response
-  //         console.log("Form submitted successfully");
-  //         localStorage.setItem("showToast", "true");
-  //         window.location.href = "Client";
-  //       } else {
-  //         // Handle error response
-  //         console.error("Error submitting form:", response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error submitting form:", error);
-  //     }
-  //   });
-  // }
-
-  // document.getElementById("submit").addEventListener("click", () => {
-
-  //     alert(document.getElementById("address").value);
-  // });
-
-  $(document).on("click", ".infobutton", async function () {
-    // pakadto define process crud
-    // console.log($(this).data("pass-value"));
-
-    window.location.href =
-      "Process?orgID=" + encodeURIComponent($(this).data("pass-value"));
-  });
+        if (response.ok) {
+          const info = await response.json();
+          if (info.has_error) {
+            showToastr(info.message, "error", 3000);
+            return;
+          } else {
+            showToastr(info.message, "success", 3000);
+            nextStepModal.hide();
+          }
+        } else {
+          throw new Error("Failed to update Step!");
+        }
+      } catch (error) {}
+    });
 });
 
-// Function to perform search
-async function performSearch() {
+async function reloadCheckDocuments() {
   try {
-    const data = new FormData();
-    data.append("input", document.getElementById("searchInput").value);
     const response = await fetch(
-      "create_organization/Create_organization/search",
-      {
-        method: "POST",
-        body: data,
-      }
+      base_url +
+        "/organization/Organization_controller/FetchUploadedDocumentsCards"
     );
     const info = await response.text();
-    document.getElementById("table").innerHTML = info;
+    $("#check_documents").html(info);
   } catch (error) {
-    console.warn(error);
+    console.error(error);
   }
 }
 
 async function reloadTable() {
-  //C:\xampp\htdocs\kyanu_document_tracking\application\modules\create_organization\views\grid\load_organization  create_organization/grid/load_organization
-  const response = await fetch(
-    "create_organization/Create_organization/get_organization_info_with_pagination"
-  );
-  if (response.ok) {
-    const data = await response.text();
-    document.getElementById("table").innerHTML = data;
-    console.log("reloadtable()");
-  } else {
-    // Handle error response
-    console.error("Error submitting form:", response.statusText);
+  try {
+    const response = await fetch(
+      base_url +
+        "/organization/Organization_controller/FetchUploadedDocumentsCards"
+    );
+    const info = await response.text();
+    $("#uploaded_documents").html(info);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function reloadDropdown() {
+  try {
+    const response = await fetch(
+      base_url + "/organization/Organization_controller/GetProcesses"
+    );
+    const info = await response.text();
+    $("#dropdown_process").html(info);
+  } catch (error) {
+    console.error(error);
   }
 }

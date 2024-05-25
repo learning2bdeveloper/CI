@@ -45,7 +45,6 @@ class Client_controller extends MY_Controller
 
     public function Dashboard()
     {
-        $datas["fetchedDocs"] = $this->ClientProcess_model->fetch_all_client_docs();
         $datas["numberofdeletedDocs"] = $this->ClientProcess_model->getNumberOfDeletedDoumentsOfClient();
         $datas["numberofuploadedDocs"] = $this->ClientProcess_model->get_numberofuploadedDocs();
         $this->load->view('Dashboard', $datas);
@@ -68,7 +67,22 @@ class Client_controller extends MY_Controller
     public function show_steps()
     {
         $this->Steps_model->processID = $this->input->post('processID');
-        $datas['data'] = $this->Steps_model->steps();
+        $datas['data'] = $this->Steps_model->GetSteps();
         $this->load->view("grid/Load_steps", $datas);
+    }
+
+    public function FetchClientsDocs()
+    {
+        $datas["fetchedDocs"] = $this->ClientProcess_model->fetch_all_client_docs();
+        $this->load->view("cards/load_documents", $datas);
+    }
+
+    public function LoadTrackingSystem()
+    {
+        $this->Steps_model->processID = $this->input->post("processID");
+        $this->Steps_model->clientprocessID = $this->input->post("clientprocessID");
+        $datas["data2"] = $this->Steps_model->GetClientStepsCompleted();
+        $datas["data"] = $this->Steps_model->GetSteps();
+        $this->load->view("tracking/load_track", $datas);
     }
 }

@@ -4,31 +4,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     reloadTable(); // no need mag butang await kay ga error.
   }
 
-  let stepsModal;
-  if (document.getElementById("stepsModal")) {
-    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
-    stepsModal = new bootstrap.Modal(document.getElementById("stepsModal"));
+  if (document.querySelector("#documents")) {
+    reloadDocumentsTable();
   }
 
-  let uploadDocumentModal;
-  if (document.getElementById("uploadDocumentModal")) {
-    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
-    uploadDocumentModal = new bootstrap.Modal(
-      document.getElementById("uploadDocumentModal")
-    );
-  }
-
-  let cancelModal;
-  if (document.getElementById("cancelModal")) {
-    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
-    cancelModal = new bootstrap.Modal(document.getElementById("cancelModal"));
-  }
-
-  let deleteModal;
-  if (document.getElementById("deleteModal")) {
-    // not sure kung jquery gamit ko to check kung na initialized na ang processModal mismo. but it works so ok na.
-    deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
-  }
+  const trackModal = initializedModal("trackModal");
+  const deleteModal = initializedModal("deleteModal");
+  const cancelModal = initializedModal("cancelModal");
+  const uploadDocumentModal = initializedModal("uploadDocumentModal");
+  const stepsModal = initializedModal("stepsModal");
 
   // Event listener for search button click
   $("#searchButton").on("click", async () => {
@@ -36,109 +20,99 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Event listener for Enter key press
-  $("#searchInput").on("keypress", async (event) => {
-    if (event.key === "Enter") {
-      await performSearch();
-    }
-  });
-
-  $("#form_signup").on("submit", async function (event) {
-    //not yet
-    try {
-      event.preventDefault(); // Prevent default form submission
-
-      if (
-        $("#firstName").val() === "" ||
-        $("#middleName").val() === "" ||
-        $("#lastName").val() === "" ||
-        $("#email").val() === "" ||
-        $("#pwd").val() === "" ||
-        $("#checkbox").prop("checked") === false
-      ) {
-        // At least one of the required fields is empty or checkbox is not checked
-        toastr.error("Please fill in all required fields.", "", {
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
-        return; // Stop form submission
+  $("#searchInput")
+    .off("keypress")
+    .on("keypress", async (event) => {
+      if (event.key === "Enter") {
+        await performSearch();
       }
+    });
 
-      let data = new FormData($(this)[0]);
+  $("#form_signup")
+    .off("submit")
+    .on("submit", async function (event) {
+      //not yet
+      try {
+        event.preventDefault(); // Prevent default form submission
 
-      const response = await fetch(
-        base_url +
-          "/authentication/services/Signup_service_controller/SetSignupClient",
-        {
-          method: "POST",
-          body: data,
+        if (
+          $("#firstName").val() === "" ||
+          $("#middleName").val() === "" ||
+          $("#lastName").val() === "" ||
+          $("#email").val() === "" ||
+          $("#pwd").val() === "" ||
+          $("#checkbox").prop("checked") === false
+        ) {
+          showToastr("Please fill in all required fields.", error, 3000);
+          return; // Stop form submission
         }
-      );
 
-      if (response.ok) {
-        const info = await response.json();
-        console.log(info);
-        if (info.has_error === true) {
-          toastr.error(info.message, "", {
-            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-          });
+        let data = new FormData($(this)[0]);
+
+        const response = await fetch(
+          base_url +
+            "/authentication/services/Signup_service_controller/SetSignupClient",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (response.ok) {
+          const info = await response.json();
+          console.log(info);
+          if (info.has_error) {
+            showToastr(info.message, error, 3000);
+          } else {
+            showToastr(info.message, success, 3000);
+            $("#form_signup")[0].reset();
+          }
+        } else {
+          // Handle error response
+          console.error("Error submitting form:", response.statusText);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+  $("#form_login")
+    .off("submit")
+    .on("submit", async function (event) {
+      //done
+      try {
+        event.preventDefault(); // Prevent default form submission
+        if ($("#login_email").val() === "" || $("#login_pwd").val() === "") {
+          showToastr("Please fill in all required fields.", error, 3000);
           return;
         }
-        toastr.success(info.message, "", {
-          //diri kung wla na errors
+        let data = new FormData($(this)[0]);
+        //console.log($("#login_email").val() + $("#login_pwd").val());
+        const response = await fetch(
+          base_url +
+            "/authentication/services/Login_service_controller/SetLoginClient",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
 
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
-        $("#form_signup")[0].reset();
-      } else {
-        // Handle error response
-        console.error("Error submitting form:", response.statusText);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-  $("#form_login").on("submit", async function (event) {
-    //done
-    try {
-      event.preventDefault(); // Prevent default form submission
-
-      if ($("#login_email").val() === "" || $("#login_pwd").val() === "") {
-        // At least one of the required fields is empty or checkbox is not checked
-        toastr.error("Please fill in all required fields.", "", {
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
-        return; // Stop form submission
-      }
-
-      let data = new FormData($(this)[0]);
-      //console.log($("#login_email").val() + $("#login_pwd").val());
-      const response = await fetch(
-        base_url +
-          "/authentication/services/Login_service_controller/SetLoginClient",
-        {
-          method: "POST",
-          body: data,
+        if (response.ok) {
+          const info = await response.json();
+          if (info.has_error) {
+            showToastr(info.message, error, 3000);
+          } else {
+            $("#form_login")[0].reset();
+            window.location.href = base_url + "/client/dashboard";
+          }
+        } else {
+          // Handle error response
+          console.error("Error submitting form:", response.statusText);
         }
-      );
-
-      if (response.ok) {
-        const info = await response.json();
-        if (info.has_error == true) {
-          toastr.error(info.message, "", {
-            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-          });
-          return;
-        }
-        $("#form_login")[0].reset();
-        window.location.href = base_url + "/client/dashboard";
-      } else {
-        // Handle error response
-        console.error("Error submitting form:", response.statusText);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    });
 
   //Event Listener for Pagination Links
   $(document).on("click", ".pagination_link", async function () {
@@ -213,41 +187,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  $("#form_update_modal").on("submit", async function (event) {
-    event.preventDefault();
-    let data = new FormData($(this)[0]);
-    const response = await fetch(
-      base_url + "/client/Client_profile_controller/save_profile",
-      {
-        method: "POST",
-        body: data,
+  $("#form_update_modal")
+    .off("submit")
+    .on("submit", async function (event) {
+      event.preventDefault();
+      let data = new FormData($(this)[0]);
+      const response = await fetch(
+        base_url + "/client/Client_profile_controller/save_profile",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const info = await response.json();
+      if (info.has_error) {
+        showToastr(info.message, error, 3000);
+      } else {
+        location.reload();
       }
-    );
-    const info = await response.json();
-    if (info.has_error == true) {
-      console.log(info.message);
-      return;
-    }
-    location.reload();
-  });
+    });
 
-  $(document).on("dblclick", ".click_row", async function () {
-    try {
-      // Redirect only after a successful response
-      let orgID = encodeURIComponent($(this).data("test"));
-      let orgName = encodeURIComponent($(this).data("test2"));
-      let url =
-        base_url +
-        "/client/organizations/process?orgID=" +
-        orgID +
-        "&orgName=" +
-        orgName;
+  $(document)
+    .off("dbclick")
+    .on("dblclick", ".click_row", async function () {
+      try {
+        // Redirect only after a successful response
+        let orgID = encodeURIComponent($(this).data("test"));
+        let orgName = encodeURIComponent($(this).data("test2"));
+        let url =
+          base_url +
+          "/client/organizations/process?orgID=" +
+          orgID +
+          "&orgName=" +
+          orgName;
 
-      window.location.href = url;
-    } catch (error) {
-      console.error("Error occurred during request:", error);
-    }
-  });
+        window.location.href = url;
+      } catch (error) {
+        console.error("Error occurred during request:", error);
+      }
+    });
 
   let clickedProcessID;
   $(document).on("click", ".box", async function () {
@@ -301,10 +279,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         $("#type").val() === "" ||
         $("#fileupload").val() === ""
       ) {
-        // At least one of the required fields is empty or checkbox is not checked
-        toastr.error("Please fill in all required fields.", "", {
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
+        showToastr("Please fill in all required fields.", "error", 3000);
         return; // Stop form submission
       }
 
@@ -319,23 +294,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       );
 
-      if (!response.ok) {
+      if (response.ok) {
+        const info = await response.json();
+        if (info.has_error) {
+          showToastr(info.message, "error", 3000);
+          return;
+        } else {
+          showToastr(info.message, "success", 3000);
+          $("#form_upload")[0].reset();
+          uploadDocumentModal.hide();
+          reloadDocumentsTable();
+        }
+      } else {
         throw new Error();
       }
-
-      const info = await response.json();
-      if (info.has_error) {
-        toastr.error(info.message, "", {
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
-        return;
-      }
-      toastr.success(info.message, "", {
-        //diri kung wla na errors
-
-        timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-      });
-      $("#form_upload")[0].reset();
     } catch (error) {
       console.error(error);
     }
@@ -343,39 +315,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   $(document).on("click", ".btn_cancel", async function () {
     try {
+      console.log("hello");
       cancelModal.show();
-      $("#btn_yes_modal_cancel").click(async () => {
-        console.log($(this).data("pass-value-id"));
-        let data = new FormData();
-        data.append("client_process_id", $(this).data("pass-value-id"));
+      $("#btn_yes_modal_cancel")
+        .off("click")
+        .click(async () => {
+          console.log($(this).data("pass-value-id"));
+          let data = new FormData();
+          data.append("client_process_id", $(this).data("pass-value-id"));
 
-        const response = await fetch(
-          base_url +
-            "/clientprocess/services/ClientProcess_documents_service_controller/cancelDocument",
-          {
-            method: "POST",
-            body: data,
+          const response = await fetch(
+            base_url +
+              "/clientprocess/services/ClientProcess_documents_service_controller/cancelDocument",
+            {
+              method: "POST",
+              body: data,
+            }
+          );
+          if (response.ok) {
+            const info = await response.json();
+            if (info.has_error) {
+              showToastr(info.message, "error", 3000);
+            } else {
+              showToastr(info.message, "success", 3000);
+              reloadDocumentsTable();
+              cancelModal.hide();
+              $(".btn_cancel").off("click");
+            }
+          } else {
+            throw new Error();
           }
-        );
-
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        const info = await response.json();
-        if (info.has_error) {
-          toastr.error(info.message, "", {
-            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-          });
-          return;
-        }
-        toastr.success(info.message, "", {
-          //diri kung wla na errors
-
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
         });
-        location.reload();
-      });
     } catch (error) {
       console.error(error);
     }
@@ -384,43 +354,62 @@ document.addEventListener("DOMContentLoaded", async () => {
   $(document).on("click", ".btn_delete", async function () {
     try {
       deleteModal.show();
-      $("#btn_yes_modal_delete").click(async () => {
-        console.log($(this).data("pass-value-id"));
-        //console.log($(this).data("pass-value-filename"));
-        let data = new FormData();
-        data.append("client_process_id", $(this).data("pass-value-id"));
-        // data.append(
-        //   "client_process_filename",
-        //   $(this).data("pass-value-filename")
-        // );
+      $("#btn_yes_modal_delete")
+        .off("click")
+        .click(async () => {
+          let data = new FormData();
+          data.append("client_process_id", $(this).data("pass-value-id"));
 
-        const response = await fetch(
-          base_url +
-            "/clientprocess/services/ClientProcess_documents_service_controller/deleteDocument",
-          {
-            method: "POST",
-            body: data,
+          const response = await fetch(
+            base_url +
+              "/clientprocess/services/ClientProcess_documents_service_controller/deleteDocument",
+            {
+              method: "POST",
+              body: data,
+            }
+          );
+
+          if (response.ok) {
+            const info = await response.json();
+            if (info.has_error) {
+              showToastr(info.message, "error", 3000);
+            } else {
+              showToastr(info.message, "success", 3000);
+              reloadDocumentsTable();
+              deleteModal.hide();
+              $(".btn_delete").off("click");
+            }
+          } else {
+            throw new Error();
           }
-        );
-
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        const info = await response.json();
-        if (info.has_error) {
-          toastr.error(info.message, "", {
-            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-          });
-          return;
-        }
-        toastr.success(info.message, "", {
-          //diri kung wla na errors
-
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
         });
-        location.reload();
-      });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  $(document).on("click", ".btn_track", async function () {
+    try {
+      trackModal.show();
+      let data = new FormData();
+      data.append("processID", $(this).data("pass-value-processid"));
+      data.append(
+        "clientprocessID",
+        $(this).data("pass-value-clientprocessid")
+      );
+      const response = await fetch(
+        base_url + "/client/Client_controller/LoadTrackingSystem",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      if (response.ok) {
+        const info = await response.text();
+        $("#load_track").html(info);
+      } else {
+        throw new Error();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -458,5 +447,17 @@ async function performSearch() {
     document.getElementById("table").innerHTML = info;
   } catch (error) {
     console.warn(error);
+  }
+}
+
+async function reloadDocumentsTable() {
+  try {
+    const response = await fetch(
+      base_url + "/client/Client_controller/FetchClientsDocs"
+    );
+    const info = await response.text();
+    $("#documents").html(info);
+  } catch (error) {
+    console.error(error);
   }
 }

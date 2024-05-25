@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#client_logout").on("click", async () => {
     try {
       const response = await fetch(
-        base_url + "/authentication/Logout_controller/logout"
+        base_url + "/authentication/Logout_controller/LogoutClient"
       );
       const info = await response.json();
       toastr.success(info.message, "", {
@@ -49,10 +49,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   ///Organization
 
+  $("#organization_dashboard").on("click", () => {
+    window.location.href = base_url + "/organization/dashboard";
+  });
+
+  $("#organization_check").on("click", () => {
+    window.location.href = base_url + "/organization/check";
+  });
+
   $("#organization_logout").on("click", async () => {
     try {
       const response = await fetch(
-        base_url + "/authentication/Logout_controller/logout"
+        base_url + "/authentication/Logout_controller/LogoutOrganization"
       );
       const info = await response.json();
       toastr.success(info.message, "", {

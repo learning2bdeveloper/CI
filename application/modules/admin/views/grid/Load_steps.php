@@ -7,18 +7,34 @@
     </div>
 
     <?php if (!empty($data)) { ?>
-
-        <ol>
-            <?php foreach ($data as $value) { ?>
-                <li><?= $value->SequenceNumber . " :" . $value->StepName . " Prerequisite :" . $value->Prerequisite; ?></li>
-
-            <?php } ?>
-        </ol>
-
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sequence Number</th>
+                    <th>Step Name</th>
+                    <th>Prerequisite</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $value) { ?>
+                    <tr>
+                        <td><?= $value->SequenceNumber ?></td>
+                        <td><?= @$value->StepName ?></td>
+                        <td><?= @$value->Prerequisite ?></td>
+                        <td>
+                            <div class="action-icon">
+                                <button class="btnDelete" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-trash3-fill"></i></button>
+                                <button class="btnUpdate" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     <?php } else { ?>
         <ol>
             <li style="color: red;">No Steps Yet!</li>
-
         </ol>
+    <?php } ?>
 </div>
-<?php } ?>

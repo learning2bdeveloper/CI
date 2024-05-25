@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Asia/Manila');
+
 define('DUPLICATE_RECORD', 'Duplicate record already found in the system.');
 define('EXIST_COLLECTION_LINE', 'Sorry this transaction cannot be process, this invoice was collected. ');
 define('EXIST_INVOICE_TRANSACTION', 'Sorry this transaction cannot be process, this client has invoice transacted. ');
@@ -64,6 +66,7 @@ define('IMAGE_MOVE_FILE_ERROR', 'Error moving the file!');
 /**  */
 define('FILE_ERROR', 'File Error!');
 define('FILE_TYPE_ERROR', 'File type not allowed!');
+define('FILE_SIZE_ERROR', 'File size too large!');
 
 $array = array(
     'organization' =>  'tbl_organization',
@@ -72,6 +75,7 @@ $array = array(
     'client' => 'tbl_client',
     'department' => 'tbl_organization_departments',
     'clientprocess' => 'tbl_clientprocess',
+    'clientsteps' => 'tbl_clientsteps',
 
 
 

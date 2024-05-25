@@ -6,7 +6,6 @@ class Login_service_controller extends MY_Controller
     {
         parent::__construct();
         $this->load->model('services/Login_service_model');
-        $this->load->database();
     }
 
     public function SetLoginOrganization()

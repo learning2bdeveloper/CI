@@ -1,7 +1,8 @@
 <?php
-if ($this->session->userdata("logged_in")) {
+if ($this->session->userdata("client_session")) {
 
     usefulLinks(); ?>
+    <script defer src="<?= base_url('assets/javascript/functions.js') ?>"></script>
     <script defer src="<?= base_url('assets/javascript/Client.js') ?>"></script>
 
 

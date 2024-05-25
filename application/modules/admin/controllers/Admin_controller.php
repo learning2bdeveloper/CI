@@ -64,7 +64,7 @@ class Admin_controller extends MY_Controller
     public function load_steps()
     {
         $this->Steps_model->processID = $this->input->post('processID');
-        $datas['data'] = $this->Steps_model->steps();
+        $datas['data'] = $this->Steps_model->GetSteps();
         $datas['processID'] =  $this->input->post('processID');
         $this->load->view('grid/Load_steps', $datas);
     }

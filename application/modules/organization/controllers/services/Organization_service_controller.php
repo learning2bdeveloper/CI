@@ -6,8 +6,8 @@ class Organization_service_controller extends MY_Controller
     {
         parent::__construct();
         // $this->load->model('admin/services/Organization_model_services');
-        $this->load->database();
     }
+
 
     // public function save() again basi sa future sbong admin pa lng may access dapat 
     // {

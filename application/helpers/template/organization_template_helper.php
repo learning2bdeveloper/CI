@@ -116,8 +116,9 @@ function usefulLinks()
     <?php
 }
 
-function accessDenied()
+function accessDenied($path = "")
 { ?>
+
         <!DOCTYPE html>
         <html>
 
@@ -152,7 +153,12 @@ function accessDenied()
 
         </div>
     </body>
+    <script>
+        // Redirect after a few seconds
+        setTimeout(function() {
+            window.location.href = "<?= base_url('') . $path ?>";
+        }, 3000); // 3 seconds
+    </script>
 
     </html>
-
 <?php } ?>

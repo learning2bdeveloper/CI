@@ -9,7 +9,6 @@ if (!empty($data)) {
 ?>
         <tr>
             <td><?= @$value->ProcessID ?></td>
-            <td><?= @$value->OrgID ?></td>
             <td><?= ucwords(@$value->ProcessName) ?></td>
             <td><?= ucwords(@$value->Description) ?></td>
             <td><?= @$value->ExpectedDays ?></td>

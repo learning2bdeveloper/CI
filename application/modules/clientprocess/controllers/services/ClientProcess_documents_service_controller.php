@@ -33,4 +33,21 @@ class ClientProcess_documents_service_controller extends MY_Controller
         $response = $this->ClientProcess_documents_service_model->setDeleteDocument();
         echo json_encode($response);
     }
+
+    public function rejectDocument()
+    {
+        $this->ClientProcess_documents_service_model->client_process_id = $this->input->post("client_process_id");
+        $response = $this->ClientProcess_documents_service_model->setRejectDocument();
+        echo json_encode($response);
+    }
+
+    public function acceptDocument()
+    {
+        $this->ClientProcess_documents_service_model->client_process_id = $this->input->post("client_process_id");
+        $this->ClientProcess_documents_service_model->client_id = $this->input->post("client_id");
+        $this->ClientProcess_documents_service_model->process_id = $this->input->post("process_id");
+
+        $response = $this->ClientProcess_documents_service_model->setAcceptDocument();
+        echo json_encode($response);
+    }
 }

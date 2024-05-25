@@ -8,13 +8,14 @@ class Login_service_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('message_helper');
+        $this->load->helper(
+            array("message_helper", "utils_helper")
+        );
         $this->Table = json_decode(TABLE);
     }
 
     public function LoginOrganization()
     {
-
         // Check if the email exists in the database
         $this->db->select("tbl_organization_departments.*, tbl_organization.OrgName");
         $this->db->from($this->Table->department);
@@ -32,19 +33,26 @@ class Login_service_model extends CI_Model
             return array('message' => 'Incorrect password', 'has_error' => true);
         }
 
-        // after success login
-        $datas = array(
+        // After success login
+        $UniqueID = Get_Random_ID();
+        $sessionData = array(
             "logged_in" => true,
-            "type" => "department",
-            "departmentUserID" => $user->ID,
+            "userID" => $user->ID,
             "username" => $user->Username,
             "department" => $user->Department,
             "OrgID" => $user->OrgID,
-            "OrgName" => $user->OrgName,
+            "OrgName" => $user->OrgName
         );
 
-        $this->session->set_userdata($datas);
-        return array('message' => 'Login Succesfully!', 'has_error' => false);
+        // Get existing sessions
+        $existing_sessions = $this->session->userdata('organization_session') ?? [];
+        $existing_sessions[$UniqueID] = $sessionData;
+
+        // Set new session data
+        $this->session->set_userdata('organization_session', $existing_sessions);
+        $this->session->set_userdata('uniqueKey', $UniqueID);
+
+        return array('message' => 'Login Successfully!', 'has_error' => false);
     }
 
     public function LoginClient()
@@ -55,13 +63,14 @@ class Login_service_model extends CI_Model
             return array('message' => 'Email address does not exist', 'has_error' => true);
         }
 
-        // verify the password
+        // Verify the password
         if (!password_verify($this->pwd, $user->Password)) {
             return array('message' => 'Incorrect password', 'has_error' => true);
         }
 
-        // after success login
-        $datas = array(
+        // After successful login
+        $UniqueID = Get_Random_ID(); // Generate a unique ID for the session
+        $sessionData = array(
             "logged_in" => true,
             "type" => "client",
             "clientID" => $user->ClientID,
@@ -71,7 +80,14 @@ class Login_service_model extends CI_Model
             "last_name" => $user->LName,
         );
 
-        $this->session->set_userdata($datas);
-        return array('message' => 'Login Succesfully!', 'has_error' => false);
+        // Get existing sessions
+        $existing_sessions = $this->session->userdata('client_session') ?? [];
+        $existing_sessions[$UniqueID] = $sessionData;
+
+        // Set new session data
+        $this->session->set_userdata('client_session', $existing_sessions);
+        $this->session->set_userdata('uniqueKey', $UniqueID);
+
+        return array('message' => 'Login Successfully!', 'has_error' => false);
     }
 }

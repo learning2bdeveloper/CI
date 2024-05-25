@@ -9,12 +9,16 @@
     }
 </style>
 
+<?php
+$key = $this->session->uniqueKey;
+$sessionData = $this->session->client_session[$key]; ?>
+
 <aside id="custom-sidebar"> <!-- Change the ID to avoid conflicts -->
     <div class="d-flex">
 
         <div class="custom-sidebar-logo"> <!-- Change class names -->
             <a href>
-                <?= $this->session->userdata('first_name') . " " . $this->session->userdata('last_name'); ?>
+                <?= $sessionData["first_name"] . " " . $sessionData["last_name"]; ?>
             </a>
         </div>
     </div>

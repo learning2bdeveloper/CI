@@ -8,9 +8,15 @@ class Logout_controller extends MY_Controller
         $this->load->model('Logout_service_model');
     }
 
-    public function logout()
+    public function LogoutOrganization()
     {
-        $response = $this->Logout_service_model->logout_method_from_model();
+        $response = $this->Logout_service_model->LogoutOrganization();
+        echo json_encode($response);
+    }
+
+    public function LogoutClient()
+    {
+        $response = $this->Logout_service_model->LogoutClient();
         echo json_encode($response);
     }
 }

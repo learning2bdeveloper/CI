@@ -1,5 +1,6 @@
 <?= usefulLinks(); ?>
 <link rel="stylesheet" href="<?= base_url('assets/css/client_homepage.css') ?>">
+<script defer src="<?= base_url('/assets/javascript/functions.js') ?>"></script>
 <script defer src="<?= base_url('/assets/javascript/Client.js') ?>"></script>
 
 <body>

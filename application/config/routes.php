@@ -58,6 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
 /** Organization */
 $route["organization"] = "organization/Organization_Controller/Index";
 $route["organization/dashboard"] = "organization/Organization_Controller/Dashboard";
+$route["organization/check"] = "organization/Organization_Controller/Check";
 
 /** Client */
 $route["client"] = "client/Client_controller/Index";

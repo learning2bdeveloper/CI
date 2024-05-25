@@ -1,5 +1,6 @@
 <?php usefulLinks(); ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/Organization_index.css") ?>">
+<script defer src="<?= base_url('assets/javascript/functions.js') ?>"></script>
 <script defer src="<?= base_url('assets/javascript/Organization.js') ?>"></script>
 
 <body>

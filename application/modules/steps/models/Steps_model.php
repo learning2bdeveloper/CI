@@ -14,16 +14,24 @@ class Steps_model extends CI_Model
         $this->Table = json_decode(TABLE);
     }
 
-    public function steps()
+    public function GetSteps()
     {
         $this->db->order_by('SequenceNumber', 'ASC');
         $this->db->where('ProcessID', $this->processID);
-        $query = $this->db->get($this->Table->steps)->result();  // para mag butan into array or same sa fetch assoc daw amo ni 
-        //     $results[0] = array(
-        //     'id' => 1,
-        //     'name' => 'John',
-        //     'age' => 30
-        // );
-        return $query;
+        $query = $this->db->get($this->Table->steps)->result();
+        return $query ?? null;
+    }
+
+    public function GetClientStepsCompleted()
+    {
+        $this->db->select('tbl_steps.*, tbl_clientsteps.*');
+        $this->db->from('tbl_steps');
+        $this->db->join('tbl_clientsteps', 'tbl_clientsteps.StepID = tbl_steps.StepID');
+        $this->db->where('tbl_steps.ProcessID', $this->processID);
+        $this->db->where('tbl_clientsteps.ClientProcessID', $this->clientprocessID);
+        $this->db->where('tbl_clientsteps.Status', 'Completed');
+        $this->db->order_by('tbl_steps.SequenceNumber', 'ASC');
+        $query = $this->db->get()->result();
+        return $query ?? null;
     }
 }

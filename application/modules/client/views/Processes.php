@@ -1,5 +1,6 @@
-<?php if ($this->session->userdata("logged_in")) : ?>
+<?php if ($this->session->userdata("client_session")) : ?>
     <?php usefulLinks(); ?>
+    <script defer src="<?= base_url('assets/javascript/functions.js') ?>"></script>
     <script defer src="<?= base_url('assets/javascript/Client.js') ?>"></script>
     <link rel="stylesheet" href="<?= base_url('assets/css/processes.css') ?>">
     </head>

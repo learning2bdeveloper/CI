@@ -1,0 +1,9 @@
+
+
+td.completed {
+    color: #057d09b4;
+}
+
+td.current-step {
+    background-color: grey; /* Highlight color for the current step */
+}
