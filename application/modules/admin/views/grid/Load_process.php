@@ -1,6 +1,7 @@
 <?php
 if (!empty($data)) {
 
+    $number = 1;
     foreach ($data as $value) {
 
         // Unique class for each collapse element
@@ -8,18 +9,17 @@ if (!empty($data)) {
         $collapse_steps = 'collapse_steps_' . $value->ProcessID;
 ?>
         <tr>
-            <td><?= @$value->ProcessID ?></td>
+            <td><?= @$number; ?></td>
             <td><?= ucwords(@$value->ProcessName) ?></td>
             <td><?= ucwords(@$value->Description) ?></td>
             <td><?= @$value->ExpectedDays ?></td>
-            <td>
+            <td class="text-center">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-danger btnDelete" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-trash3-fill"></i></button>
 
-                <div class="action-icon">
-                    <button class="btnDelete" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-trash3-fill"></i></button>
+                    <button class="btn btn-warning btnUpdate" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-pencil-fill"></i></button>
 
-                    <button class="btnUpdate" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-pencil-fill"></i></button>
-
-                    <button class="btnSteps" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-file-ruled"></i></button>
+                    <button class="btn btn-light btnSteps" data-pass-value="<?= $value->ProcessID ?>"><i class="bi bi-three-dots"></i></button>
                 </div>
             </td>
         </tr>
@@ -32,6 +32,7 @@ if (!empty($data)) {
             </td>
         </tr>
     <?php
+        $number++;
     }
 } else {
     ?>

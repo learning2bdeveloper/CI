@@ -10,17 +10,15 @@ if (!empty($data)) {
             <td><?= @$value->ContactPerson ?></td>
             <td><?= @$value->ContactNumber ?></td>
             <td><?= @$value->Address ?></td>
-            <td>
+            <td class="text-center">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-danger btnDelete" data-pass-value="<?= $value->OrgID ?>" data-pass-image="<?= $value->Image ?>"><i class="bi bi-trash3-fill"></i></button>
 
-                <div class="action-icon">
-                    <button class="btnDelete" data-pass-value="<?= $value->OrgID ?>" data-pass-image="<?= $value->Image ?>"><i class="bi bi-trash3-fill"></i></button>
+                    <button class="btn btn-warning btnUpdate" data-pass-value="<?= $value->OrgID ?>" data-pass-oldimage="<?= $value->Image ?>"><i class="bi bi-pencil-fill"></i></button>
 
-                    <button class="btnUpdate" data-pass-value="<?= $value->OrgID ?>" data-pass-oldimage="<?= $value->Image ?>"><i class="bi bi-pencil-fill"></i></button>
-
-                    <button class="infobutton" data-pass-value="<?= $value->OrgID ?>"><i class="bi bi-file-ruled"></i></button>
+                    <button class="btn btn-light infobutton" data-pass-value="<?= $value->OrgID ?>"><i class="bi bi-three-dots"></i></button>
                 </div>
             </td>
-
         </tr>
     <?php
     }

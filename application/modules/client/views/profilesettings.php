@@ -1,5 +1,5 @@
 <?php
-if ($this->session->userdata("logged_in")) {
+if ($this->session->userdata("client_session")) {
     usefulLinks(); ?>
     <script defer src="<?= base_url('assets/javascript/Client.js') ?>"></script>
 
@@ -142,5 +142,5 @@ if ($this->session->userdata("logged_in")) {
 
 <?php } else { ?>
 
-    <?= accessDenied(); ?>
+    <?= accessDenied("client"); ?>
 <?php } ?>

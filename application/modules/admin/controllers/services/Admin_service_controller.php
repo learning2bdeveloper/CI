@@ -55,6 +55,13 @@ class Admin_service_controller extends MY_Controller
         echo json_encode($response);
     }
 
+    public function DeleteProcess()
+    {
+        $this->Process_service_model->processID = $this->input->post("processID");
+        $response = $this->Process_service_model->delete_method_from_model();
+        echo json_encode($response);
+    }
+
     public function SaveStep()
     {
         $this->Steps_service_model->processID = $this->input->post('processID');
@@ -63,6 +70,13 @@ class Admin_service_controller extends MY_Controller
         $this->Steps_service_model->prerequisite = $this->input->post('prerequisite');
 
         $response = $this->Steps_service_model->save_method_from_model();
+        echo json_encode($response);
+    }
+
+    public function DeleteStep()
+    {
+        $this->Steps_service_model->stepID = $this->input->post("stepID");
+        $response = $this->Steps_service_model->delete_method_from_model();
         echo json_encode($response);
     }
 }

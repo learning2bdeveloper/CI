@@ -5,5 +5,5 @@ td.completed {
 }
 
 td.current-step {
-    background-color: grey; /* Highlight color for the current step */
+    background-color: lightgray; /* Highlight color for the current step */
 }

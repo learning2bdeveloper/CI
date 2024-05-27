@@ -132,5 +132,5 @@ if ($this->session->userdata("client_session")) {
 
 <?php } else { ?>
 
-    <?= accessDenied(); ?>
+    <?= accessDenied("client"); ?>
 <?php } ?>

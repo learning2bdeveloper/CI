@@ -1,4 +1,5 @@
 <?php usefulLinks(); ?>
+<script defer src="<?= base_url('assets/javascript/functions.js') ?>"></script>
 <script defer src="<?= base_url('assets/javascript/Process.js') ?>"></script>
 
 <body>
@@ -27,10 +28,10 @@
                     <!-- <p class="m-b-0 _300" style="font-size: 90%;"><i class="bi bi-info-circle"></i> NOTE: this table auto-loads the first 50 Organization only. Use search/filter to load specific organizations</p> -->
 
                     <div style="max-height: 560px; overflow-y: auto;">
-                        <table id="example" class="table table-striped" style="width:98%">
+                        <table id="example" class="table table-borderless table-hover" style="width:98%">
                             <thead>
                                 <tr>
-                                    <th scope="col">Process ID</th>
+                                    <th scope="col">#</th>
                                     <th scope="col">Process Name</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Expected Days</th>

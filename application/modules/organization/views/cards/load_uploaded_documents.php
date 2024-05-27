@@ -9,9 +9,9 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <h5 class="card-title"><?= htmlspecialchars($value->Title, ENT_QUOTES, 'UTF-8'); ?></h5>
-                            <p class="card-text"><?= "(" . htmlspecialchars($value->ClientID, ENT_QUOTES, 'UTF-8') . ") " . htmlspecialchars($value->FName, ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($value->MName, ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($value->LName, ENT_QUOTES, 'UTF-8'); ?></p>
-                            <p class="card-text">Type: <?= htmlspecialchars($value->Type, ENT_QUOTES, 'UTF-8'); ?></p>
+                            <h5 class="card-title"><strong><?= $value->Title; ?></strong></h5>
+                            <p class="card-text"><?= $value->FName . " " . $value->MName . " " . $value->LName; ?></p>
+                            <p class="card-text">Type: <?= $value->Type; ?></p>
                             <p class="card-text">
                                 Status:
                                 <?php
@@ -26,13 +26,13 @@
                                                 : '<span class="badge bg-danger">Unknown</span>')));
                                 ?>
                             </p>
-                            <a href="<?= base_url("assets/documents/") . htmlspecialchars($value->FileName, ENT_QUOTES, 'UTF-8'); ?>" target="_blank">
-                                <?= htmlspecialchars($value->OriginalFileName, ENT_QUOTES, 'UTF-8'); ?>
+                            <a href="<?= base_url("assets/documents/") . $value->FileName; ?>" target="_blank">
+                                <?= $value->OriginalFileName; ?>
                             </a>
                             <br>
                             <div class="mt-4">
-                                <button class="btn btn-success btn_accept" data-pass-value-clientprocessid="<?= htmlspecialchars($value->ClientProcessID, ENT_QUOTES, 'UTF-8'); ?>" data-pass-value-clientid="<?= htmlspecialchars($value->ClientID, ENT_QUOTES, 'UTF-8'); ?>" data-pass-value-processid="<?= htmlspecialchars($value->ProcessID, ENT_QUOTES, 'UTF-8'); ?>">Accept</button>
-                                <button class="btn btn-danger btn_reject" data-pass-value-clientprocessid="<?= htmlspecialchars($value->ClientProcessID, ENT_QUOTES, 'UTF-8'); ?>">Reject</button>
+                                <button class="btn btn-success btn_accept m-2" data-pass-value-clientprocessid="<?= $value->ClientProcessID; ?>" data-pass-value-clientid="<?= $value->ClientID; ?>" data-pass-value-processid="<?= $value->ProcessID; ?>">Accept</button>
+                                <button class="btn btn-danger btn_reject" data-pass-value-clientprocessid="<?= $value->ClientProcessID; ?>">Reject</button>
                             </div>
                         </div>
                     </div>

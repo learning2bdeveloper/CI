@@ -9,7 +9,7 @@ class Client_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('message_helper', 'pagination_helper');
+        $this->load->helper('message_helper', 'session_helper');
 
         $this->Table = json_decode(TABLE);
     }
@@ -29,7 +29,7 @@ class Client_model extends CI_Model
 
     public function get_single_client_info()
     {
-        $this->db->where('ClientID', $this->session->userdata("clientID"));
+        $this->db->where('ClientID', Get_Session_Data("client_session")["clientID"]);
         $query = $this->db->get($this->Table->client)->row();
         return $query;
     }

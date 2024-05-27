@@ -28,18 +28,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (response.ok) {
         const info = await response.json();
         if (info.has_error) {
-          toastr.error(info.message, "", {
-            timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-          });
+          showToastr(info.message, "error", 3000);
           return;
+        } else {
+          showToastr(info.message, "success", 3000);
+          defineProcessModal.hide();
         }
-        toastr.success(info.message, "", {
-          //diri kung wla na errors
-
-          timeOut: 2000, // Set the duration to 2000 milliseconds (2 seconds)
-        });
-        reloadTable();
-        defineProcessModal.hide();
       } else {
         throw new Error();
       }
@@ -111,6 +105,75 @@ document.addEventListener("DOMContentLoaded", async () => {
       throw new Error();
     }
   });
+
+  $(document)
+    .off("click", ".btnDelete")
+    .on("click", ".btnDelete", async function () {
+      try {
+        let processID = $(this).data("pass-value");
+        alert(processID);
+
+        let data = new FormData();
+        data.append("processID", processID);
+
+        const response = await fetch(
+          base_url + "/admin/services/Admin_service_controller/DeleteProcess",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (response.ok) {
+          const info = await response.json();
+          if (info.has_error) {
+            showToastr(info.message, "error", 3000);
+          } else {
+            showToastr(info.message, "success", 3000);
+            reloadTable();
+            return;
+          }
+        } else {
+          throw new Error("Failed to delete process!");
+        }
+      } catch (error) {
+        console.error("Error deleting process: " + error);
+      }
+    });
+
+  $(document)
+    .off("click", ".btnDeleteStep")
+    .on("click", ".btnDeleteStep", async function () {
+      try {
+        let stepID = $(this).data("pass-value");
+        alert(stepID);
+
+        let data = new FormData();
+        data.append("stepID", stepID);
+
+        const response = await fetch(
+          base_url + "/admin/services/Admin_service_controller/DeleteStep",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (response.ok) {
+          const info = await response.json();
+          if (info.has_error) {
+            showToastr(info.message, "error", 3000);
+          } else {
+            showToastr(info.message, "success", 3000);
+            return;
+          }
+        } else {
+          throw new Error("Failed to delete step!");
+        }
+      } catch (error) {
+        console.error("Error deleting step: " + error);
+      }
+    });
 });
 async function reloadTable() {
   let data = new FormData();

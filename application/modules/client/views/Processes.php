@@ -22,7 +22,7 @@
                                     <div class="col">
                                         <div class="card box hover-shadow" data-test="<?= $value->ProcessID; ?>" data-test2="<?= $value->ProcessName; ?>">
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $value->ProcessName; ?></h5>
+                                                <h5 class="card-title display-6"><strong><?= $value->ProcessName; ?></strong></h5>
                                                 <p class="card-text"><?= $value->Description; ?></p>
                                                 <p class="card-text">Expected Days: <strong><?= $value->ExpectedDays; ?></strong></p>
 

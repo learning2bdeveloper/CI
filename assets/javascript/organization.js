@@ -298,14 +298,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   $(document)
-    .off("click", ".btn_history")
-    .on("click", ".btn_history", async function () {
-      try {
-        historyModal.show();
-      } catch (error) {}
-    });
-
-  $(document)
     .off("click", ".btn_next_step")
     .on("click", ".btn_next_step", async function () {
       try {
@@ -315,7 +307,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           "clientprocessID",
           $(this).data("clientprocessid")
         );
-        $("#nextStepForm").data("clientid", $(this).data("clientid"));
+        $("#nextStepForm").data("clientid", $(this).data("clientid")); //sa pulaw ga talang2 man ko hahaha. rn plan ko is mapa gana lng danay haha dasun ko lng refactor sheesh. most of these wla plastar tadlong kay kulang tulog hahha!
 
         const response = await fetch(
           base_url + "/organization/Organization_controller/GetSteps",
@@ -325,20 +317,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         );
 
-        if (response.ok) {
-          const info = await response.json();
-          let options = "";
-          info.forEach((element) => {
-            options += `<option value="${element.StepID}">${element.SequenceNumber}. ${element.StepName}</option>`;
-          });
-
-          $("#nextStep").html(options);
-        } else {
-          throw new Error("Failed to get Steps");
-        }
-      } catch (error) {}
-
-      try {
         let clientprocessID = new FormData();
         clientprocessID.append(
           "clientprocessID",
@@ -353,11 +331,25 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         );
 
-        if (response2.ok) {
-          const info2 = await response2.json();
+        if (response.ok && response2.ok) {
+          const info = await response.json();
+          const info2 = await response2.json(); // diri ko lng butang
+          let options = "";
+          let finalSequenceNumber = parseInt(info2.SequenceNumber) + 1;
+          let selected;
+          info.forEach((element) => {
+            selected =
+              String(element.SequenceNumber) === String(finalSequenceNumber)
+                ? "selected"
+                : "";
+            options += `<option ${selected} value="${element.StepID}">${element.SequenceNumber}. ${element.StepName}</option>`;
+          });
 
+          $("#nextStep").html(options);
           $("#currentStep").val(info2.SequenceNumber + ". " + info2.StepName);
           $("#nextStepForm").data("clientID", info2.ClientID);
+        } else {
+          throw new Error("Failed to get Steps or Current Step!");
         }
       } catch (error) {}
     });
