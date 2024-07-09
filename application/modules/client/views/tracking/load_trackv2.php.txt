@@ -1,0 +1,88 @@
+<?php if (!empty($data)) { ?>
+    <link rel="stylesheet" href="<?= base_url('assets/css/Tracking_Terminal.css') ?>">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 hh-grayBox pt45 pb20">
+                <div class="steps">
+                    <?php foreach ($data as $value) : ?>
+                        <?php
+
+                        $completed = false;
+                        $in = "";
+                        $out = "";
+                        foreach ($data2 as $step) {
+                            if ($value->StepID == $step->StepID) {
+                                $completed = true;
+                                $in = $step->IN;
+                                $out = $step->OUT;
+                                break;
+                            }
+                        }
+                        ?>
+                        <div class="step <?= $completed ? 'completed' : '' ?>">
+                            <div class="in"><?= $in ?></div>
+                            <div class="step-name"><?= $value->SequenceNumber . "          " . $value->StepName ?></div>
+                            <div class="out"><?= $out ?></div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } else { ?>
+    <center style="color: red">
+        <h3>Error!</h3>
+    </center>
+<?php } ?>
+
+
+
+.hh-grayBox {
+    margin-bottom: 20px;
+    padding: 35px;
+    margin-top: 20px;
+}
+
+.pt45 {
+    padding-top: 45px;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.step {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 10px;
+}
+
+.step:last-child {
+    border-bottom: none;
+}
+
+.in {
+    margin-right: 50px;
+    font-size: 0.7rem;
+    color: #374250;
+}
+
+.out {
+    margin-left: 50px;
+    font-size: 0.7rem;
+    color: #374250;
+}
+
+.step-name {
+    font-size: 16px;
+    color: #606975;
+}
+
+.step.completed .step-name {
+    color: #057d09b4;
+}
