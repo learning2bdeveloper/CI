@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (response.ok) {
           const info = await response.json();
           if (info.has_error) {
-            showToastr(info.message, error, 3000);
+            showToastr(info.message, "error", 3000);
           } else {
             $("#form_login")[0].reset();
             window.location.href = base_url + "/client/dashboard";
@@ -228,9 +228,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
   let clickedProcessID;
+  let clickedProcessName;
   $(document).on("click", ".box", async function () {
     stepsModal.show();
-    $("#modal-title").html($(this).data("test2"));
+    clickedProcessName = $(this).data("test2");
+    $("#modal-title").text(clickedProcessName);
     clickedProcessID = $(this).data("test");
     console.log($(this).data("test"));
     let data = new FormData();
@@ -253,7 +255,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       stepsModal.hide();
       uploadDocumentModal.show();
-      $("#modal-title2").html($(".card").data("test2"));
+      $("#modal-title2").text(clickedProcessName);
     } catch (error) {
       console.error(error);
       return;
